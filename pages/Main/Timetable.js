@@ -1,4 +1,5 @@
 import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import {scale, verticalScale} from 'react-native-size-matters';
 
 const Timetable = ({ lessonSections }) => {
   const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
@@ -44,8 +45,8 @@ const styles = StyleSheet.create({
     textAlignVertical: "center",
     borderWidth: 1,
     borderColor: "black",
-    width: 50,
-    height: 50,
+    width: scale(40),
+    height: verticalScale(40),
     minWidth: "8%",
   },
 });
