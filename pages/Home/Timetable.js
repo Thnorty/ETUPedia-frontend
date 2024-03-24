@@ -23,9 +23,13 @@ const Timetable = ({ lessonSections }) => {
             </Text>
             <View style={styles.day}>
               {day.map((lessons, lessonsIndex) => (
-                <Text key={lessonsIndex} style={styles.lesson}>
-                  {lessons.join("\n")}
-                </Text>
+                <View key={lessonsIndex} style={styles.lessonCell}>
+                  {lessons.map((lesson, lessonIndex) => (
+                    <Text key={lessonIndex} style={styles.lesson}>
+                      {lesson}
+                    </Text>
+                  ))}
+                </View>
               ))}
             </View>
           </View>
@@ -40,14 +44,19 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
   },
-  lesson: {
-    textAlign: "center",
-    textAlignVertical: "center",
+  lessonCell: {
+    padding: 2,
     borderWidth: 1,
     borderColor: "black",
     width: scale(40),
     height: verticalScale(35),
-    minWidth: "8%",
+  },
+  lesson: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: "black",
+    textAlign: "center",
+    textAlignVertical: "center",
   },
 });
 

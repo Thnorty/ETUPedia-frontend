@@ -19,8 +19,8 @@ const StudentList = ({navigation}) => {
   }, []);
 
   const StudentItem = memo(({ item, navigation }) => (
-    <View style={styles.item}>
-      <TouchableOpacity onPress={() => navigation.navigate("StudentDetailIndex", {studentId: item.id})}>
+    <View>
+      <TouchableOpacity style={styles.item} onPress={() => navigation.navigate("StudentDetailIndex", {studentId: item.id})}>
         <Text>{item.name} {item.surname}</Text>
       </TouchableOpacity>
     </View>
@@ -49,8 +49,8 @@ const StudentList = ({navigation}) => {
 
 const styles = StyleSheet.create({
   item: {
-    padding: 20,
-    borderBottomWidth: 1,
+    padding: 10,
+    borderWidth: 1,
   },
 });
 
