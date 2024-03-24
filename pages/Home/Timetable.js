@@ -4,12 +4,12 @@ import {scale, verticalScale} from 'react-native-size-matters';
 const Timetable = ({ lessonSections }) => {
   const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
-  const timetable = Array(7).fill().map(() => Array(14).fill(""));  // Populate the timetable with the lesson sections
+  const timetable = Array(7).fill().map(() => Array(14).fill().map(() => []));  // Populate the timetable with the lesson sections
   lessonSections.forEach((lessonSection) => {
     lessonSection.classrooms_and_times.forEach((classroomAndTime) => {
       const day = classroomAndTime.time % 7;
       const hour = Math.floor(classroomAndTime.time / 7);
-      timetable[day][hour] = `${lessonSection.lesson_code}`;
+      timetable[day][hour].push(lessonSection.lesson_code);
     });
   });
 
@@ -22,9 +22,9 @@ const Timetable = ({ lessonSections }) => {
               {days[dayIndex]}
             </Text>
             <View style={styles.day}>
-              {day.map((lesson, lessonIndex) => (
-                <Text key={lessonIndex} style={styles.lesson}>
-                  {lesson}
+              {day.map((lessons, lessonsIndex) => (
+                <Text key={lessonsIndex} style={styles.lesson}>
+                  {lessons.join("\n")}
                 </Text>
               ))}
             </View>
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "black",
     width: scale(40),
-    height: verticalScale(40),
+    height: verticalScale(35),
     minWidth: "8%",
   },
 });

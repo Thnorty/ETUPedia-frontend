@@ -1,20 +1,23 @@
 import {useState} from "react";
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, } from 'react-native';
+import {StatusBar} from 'expo-status-bar';
+import {StyleSheet} from 'react-native';
 import LoginIndex from './pages/Login/Index';
-import MainIndex from './pages/Main/Index';
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import HomeIndex from './pages/Home/Index';
+import StudentsListIndex from './pages/StudentList/Index';
+import {NavigationContainer} from "@react-navigation/native";
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function App() {
   const Stack = createNativeStackNavigator();
+  const Tab = createBottomTabNavigator();
   const [initialRouteName, setInitialRouteName] = useState("");
 
   AsyncStorage.getItem('studentId')
     .then((value) => {
       if (value !== null)
-        setInitialRouteName("MainIndex");
+        setInitialRouteName("HomeIndex");
       else
         setInitialRouteName("LoginIndex");
     })
@@ -25,9 +28,16 @@ export default function App() {
   return (
     <NavigationContainer>
       {initialRouteName &&
-        <Stack.Navigator initialRouteName={initialRouteName}>
-          <Stack.Screen name="LoginIndex" component={LoginIndex}/>
-          <Stack.Screen name="MainIndex" component={MainIndex}/>
+        <Stack.Navigator initialRouteName={initialRouteName} screenOptions={{headerShown: false}}>
+          <Stack.Screen name="LoginIndex" component={LoginIndex} />
+          <Stack.Screen name="Home">
+            {() => (
+              <Tab.Navigator initialRouteName="HomeIndex">
+                <Tab.Screen name="HomeIndex" component={HomeIndex} />
+                <Tab.Screen name="StudentsListIndex" component={StudentsListIndex} />
+              </Tab.Navigator>
+            )}
+          </Stack.Screen>
         </Stack.Navigator>
       }
       <StatusBar style="auto" />

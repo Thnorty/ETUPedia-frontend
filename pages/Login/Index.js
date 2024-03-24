@@ -12,7 +12,7 @@ const Index = ({navigation}) => {
       .then(() => {
         navigation.reset({
           index: 0,
-          routes: [{ name: 'MainIndex' }],
+          routes: [{ name: 'Home' }],
         });
       }).catch((error) => {
         console.error(error);

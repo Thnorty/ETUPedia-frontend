@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "EtuX",
-    "slug": "EtuX",
+    "slug": "etux",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -21,10 +21,17 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.thnorty.etux"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "3f9a6446-772d-48e6-8c75-573b8f07787b"
+      }
+    },
+    "owner": "thnorty"
   }
 }

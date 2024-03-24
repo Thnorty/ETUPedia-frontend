@@ -4,10 +4,10 @@ import {useEffect, useState} from "react";
 import api from "../../utils/api";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Timetable from "./Timetable";
+import Loading from "../../components/Loading";
 
 const Index = ({navigation}) => {
-  const [studentId, setStudentId] = useState("");
-
+  const [loading, setLoading] = useState(true);
   const [studentInfo, setStudentInfo] = useState({
     id: "",
     name: "",
@@ -33,6 +33,7 @@ const Index = ({navigation}) => {
     api.post("get-student-info/", payload)
       .then((response) => {
         setStudentInfo(response.data);
+        setLoading(false);
       })
       .catch((error) => {
         console.error(error);
@@ -43,7 +44,6 @@ const Index = ({navigation}) => {
     AsyncStorage.getItem('studentId')
       .then((value) => {
         if (value !== null) {
-          setStudentId(value);
           getStudentInfo(value);
         }
       })
@@ -61,7 +61,6 @@ const Index = ({navigation}) => {
   const logout = () => {
     AsyncStorage.removeItem('studentId')
       .then(() => {
-        setStudentId("");
         setStudentInfo({
           id: "",
           name: "",
@@ -89,9 +88,15 @@ const Index = ({navigation}) => {
       });
   }
 
+  if (loading) {
+    return (
+      <Loading />
+    );
+  }
+
   return (
     <View style={styles.container}>
-      <Text>Student ID: {studentId}</Text>
+      <Text>Student ID: {studentInfo.id}</Text>
       <Text>Hello, {studentInfo.name} {studentInfo.surname}</Text>
       <Text>Department: {studentInfo.department}</Text>
       <Text>Mail: {studentInfo.mail}</Text>
