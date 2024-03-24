@@ -40,6 +40,7 @@ export default function App() {
           </Stack.Screen>
         </Stack.Navigator>
       }
+      <StatusBar style="dark" />
     </NavigationContainer>
   );
 }
