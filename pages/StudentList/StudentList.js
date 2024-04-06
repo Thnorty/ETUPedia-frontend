@@ -1,11 +1,14 @@
-import {FlatList, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import {memo, useEffect, useState} from "react";
 import api from "../../utils/api";
 import Loading from "../../components/Loading";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 const StudentList = ({navigation}) => {
   const [loading, setLoading] = useState(true);
   const [studentList, setStudentList] = useState([]);
+  const [search, setSearch] = useState('');
+  const [filteredStudentList, setFilteredStudentList] = useState([]);
 
   useEffect(() => {
     api.get("get-students/")
@@ -18,6 +21,14 @@ const StudentList = ({navigation}) => {
       });
   }, []);
 
+  useEffect(() => {
+    setFilteredStudentList(
+      studentList.filter(student =>
+        `${student.name} ${student.surname}`.toLowerCase().includes(search.toLowerCase())
+      )
+    );
+  }, [search, studentList]);
+
   const StudentItem = memo(({ item, navigation }) => (
     <View>
       <TouchableOpacity style={styles.item} onPress={() => navigation.navigate("StudentDetailIndex", {studentId: item.id})}>
@@ -25,10 +36,6 @@ const StudentList = ({navigation}) => {
       </TouchableOpacity>
     </View>
   ));
-
-  const renderItem = ({ item }) => (
-    <StudentItem item={item} navigation={navigation} />
-  );
 
   if (loading) {
     return (
@@ -38,9 +45,18 @@ const StudentList = ({navigation}) => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.searchBar}>
+        <Icon name="search" size={20} color="black" />
+        <TextInput
+          style={styles.input}
+          value={search}
+          onChangeText={setSearch}
+          placeholder="Search..."
+        />
+      </View>
       <FlatList
-        data={studentList}
-        renderItem={renderItem}
+        data={filteredStudentList}
+        renderItem={({ item }) => <StudentItem item={item} navigation={navigation} />}
         keyExtractor={item => item.id.toString()}
       />
     </View>
@@ -50,7 +66,20 @@ const StudentList = ({navigation}) => {
 const styles = StyleSheet.create({
   item: {
     padding: 10,
-    borderWidth: 1,
+    borderBottomWidth: 1,
+  },
+  searchBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 40,
+    borderColor: 'gray',
+    borderBottomWidth: 1,
+    paddingLeft: 10,
+    marginHorizontal: 10,
+  },
+  input: {
+    marginLeft: 10,
+    flex: 1,
   },
 });
 
