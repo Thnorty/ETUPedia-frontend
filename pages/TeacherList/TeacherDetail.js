@@ -4,15 +4,10 @@ import api from "../../utils/api";
 import Timetable from "../Home/Timetable";
 import Loading from "../../components/Loading";
 
-const StudentDetail = ({navigation, route}) => {
+const TeacherDetail = ({navigation, route}) => {
   const [loading, setLoading] = useState(true);
-  const [studentInfo, setStudentInfo] = useState({
-    id: "",
+  const [teacherInfo, setTeacherInfo] = useState({
     name: "",
-    surname: "",
-    department: "",
-    mail: "",
-    year: "",
     lesson_sections: [{
       lesson_code: "",
       lesson_name: "",
@@ -26,11 +21,11 @@ const StudentDetail = ({navigation, route}) => {
 
   useEffect(() => {
     const payload = {
-      student_id: route.params.studentId,
+      teacher_name: route.params.teacherName,
     };
-    api.post("get-student-info/", payload)
+    api.post("get-teacher-info/", payload)
       .then((response) => {
-        setStudentInfo(response.data);
+        setTeacherInfo(response.data);
         setLoading(false);
       })
       .catch((error) => {
@@ -42,12 +37,8 @@ const StudentDetail = ({navigation, route}) => {
 
   return (
     <View style={styles.container}>
-      <Text>Student ID: {studentInfo.id}</Text>
-      <Text>{studentInfo.name} {studentInfo.surname}</Text>
-      <Text>Department: {studentInfo.department}</Text>
-      <Text>Mail: {studentInfo.mail}</Text>
-      <Text>Year: {studentInfo.year}</Text>
-      <Timetable lessonSections={studentInfo.lesson_sections} />
+      <Text>{teacherInfo.name}</Text>
+      <Timetable lessonSections={teacherInfo.lesson_sections} />
     </View>
   );
 }
@@ -61,4 +52,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default StudentDetail;
+export default TeacherDetail;

@@ -1,19 +1,19 @@
 import {FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
-import {memo, useEffect, useState} from "react";
+import React, {memo, useEffect, useState} from "react";
 import api from "../../utils/api";
-import Loading from "../../components/Loading";
 import Icon from "react-native-vector-icons/FontAwesome";
+import Loading from "../../components/Loading";
 
-const StudentList = ({navigation}) => {
+const TeacherList = ({navigation}) => {
   const [loading, setLoading] = useState(true);
-  const [studentList, setStudentList] = useState([]);
+  const [teacherList, setTeacherList] = useState([]);
   const [search, setSearch] = useState('');
-  const [filteredStudentList, setFilteredStudentList] = useState([]);
+  const [filteredTeacherList, setFilteredTeacherList] = useState([]);
 
   useEffect(() => {
-    api.get("get-students/")
+    api.get("get-teachers/")
       .then((response) => {
-        setStudentList(response.data);
+        setTeacherList(response.data);
         setLoading(false);
       })
       .catch((error) => {
@@ -22,16 +22,16 @@ const StudentList = ({navigation}) => {
   }, []);
 
   useEffect(() => {
-    setFilteredStudentList(
-      studentList.filter(student =>
-        `${student.name} ${student.surname}`.toLowerCase().includes(search.toLowerCase())
+    setFilteredTeacherList(
+      teacherList.filter(teacher =>
+        `${teacher.name} ${teacher.surname}`.toLowerCase().includes(search.toLowerCase())
       )
     );
-  }, [search, studentList]);
+  }, [search, teacherList]);
 
-  const StudentItem = memo(({ item, navigation }) => (
+  const TeacherItem = memo(({ item, navigation }) => (
     <View>
-      <TouchableOpacity style={styles.item} onPress={() => navigation.navigate("StudentDetailIndex", {studentId: item.id})}>
+      <TouchableOpacity style={styles.item} onPress={() => navigation.navigate("TeacherDetailIndex", {teacherName: item.name})}>
         <Text>{item.name} {item.surname}</Text>
       </TouchableOpacity>
     </View>
@@ -55,9 +55,9 @@ const StudentList = ({navigation}) => {
         />
       </View>
       <FlatList
-        data={filteredStudentList}
-        renderItem={({ item }) => <StudentItem item={item} navigation={navigation} />}
-        keyExtractor={item => item.id.toString()}
+        data={filteredTeacherList}
+        renderItem={({ item }) => <TeacherItem item={item} navigation={navigation} />}
+        keyExtractor={item => item.name.toString()}
       />
     </View>
   );
@@ -86,4 +86,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default StudentList;
+export default TeacherList;
