@@ -2,12 +2,18 @@ import {StyleSheet, Text, View} from "react-native";
 import {Button} from "../../components/Components";
 import {useEffect, useState} from "react";
 import api from "../../utils/api";
+import Storage from "react-native-storage";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Timetable from "./Timetable";
 import Loading from "../../components/Loading";
 
 const Index = ({navigation}) => {
   const [loading, setLoading] = useState(true);
+  const storage = new Storage({
+    size: 1000,
+    storageBackend: AsyncStorage,
+    defaultExpires: 1000 * 3600 * 24
+  });
   const [studentInfo, setStudentInfo] = useState({
     id: "",
     name: "",
@@ -41,11 +47,9 @@ const Index = ({navigation}) => {
   }
 
   useEffect(() => {
-    AsyncStorage.getItem('studentId')
+    storage.load({key: 'studentId'})
       .then((value) => {
-        if (value !== null) {
-          getStudentInfo(value);
-        }
+        getStudentInfo(value);
       })
       .catch((error) => {
         console.error(error);

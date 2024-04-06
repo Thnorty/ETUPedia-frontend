@@ -1,28 +1,30 @@
 import {useState} from "react";
 import {StatusBar} from 'expo-status-bar';
-import {StyleSheet} from 'react-native';
 import LoginIndex from './pages/Login/Index';
 import HomeIndex from './pages/Home/Index';
 import StudentsListIndex from './pages/StudentList/Index';
 import {NavigationContainer} from "@react-navigation/native";
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import Storage from "react-native-storage";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function App() {
   const Stack = createNativeStackNavigator();
   const Tab = createBottomTabNavigator();
   const [initialRouteName, setInitialRouteName] = useState("");
+  const storage = new Storage({
+    size: 1000,
+    storageBackend: AsyncStorage,
+    defaultExpires: 1000 * 3600 * 24
+  });
 
-  AsyncStorage.getItem('studentId')
-    .then((value) => {
-      if (value !== null)
-        setInitialRouteName("HomeIndex");
-      else
-        setInitialRouteName("LoginIndex");
+  storage.load({key: 'studentId'})
+    .then(() => {
+      setInitialRouteName("Home");
     })
-    .catch((error) => {
-      console.error(error);
+    .catch(() => {
+      setInitialRouteName("LoginIndex");
     });
 
   return (
