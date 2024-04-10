@@ -1,19 +1,19 @@
-import {FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
-import {memo, useEffect, useState} from "react";
 import api from "../../utils/api";
+import {memo, useEffect, useState} from "react";
+import {FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import Loading from "../../components/Loading";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-const StudentList = ({navigation}) => {
+const LessonList = ({navigation}) => {
   const [loading, setLoading] = useState(true);
-  const [studentList, setStudentList] = useState([]);
+  const [lessonList, setLessonList] = useState([]);
   const [search, setSearch] = useState('');
-  const [filteredStudentList, setFilteredStudentList] = useState([]);
+  const [filteredLessonList, setFilteredLessonList] = useState([]);
 
   useEffect(() => {
-    api.get("get-students/")
+    api.get("get-lessons/")
       .then((response) => {
-        setStudentList(response.data);
+        setLessonList(response.data);
         setLoading(false);
       })
       .catch((error) => {
@@ -22,18 +22,18 @@ const StudentList = ({navigation}) => {
   }, []);
 
   useEffect(() => {
-    setFilteredStudentList(
-      studentList.filter(student =>
-        `${student.name} ${student.surname}`.toLowerCase().includes(search.toLowerCase()) ||
-        student.id.toString().toLowerCase().includes(search.toLowerCase())
+    setFilteredLessonList(
+      lessonList.filter(lesson =>
+        lesson.name.toLowerCase().includes(search.toLowerCase()) ||
+        lesson.lesson_code.toString().toLowerCase().includes(search.toLowerCase())
       )
     );
-  }, [search, studentList]);
+  }, [search, lessonList]);
 
-  const StudentItem = memo(({ item, navigation }) => (
+  const LessonItem = memo(({ item, navigation }) => (
     <View>
-      <TouchableOpacity style={styles.item} onPress={() => navigation.navigate("StudentDetailIndex", {studentId: item.id})}>
-        <Text>{item.name} {item.surname}</Text>
+      <TouchableOpacity style={styles.item} onPress={() => navigation.navigate("LessonDetailIndex", {lessonCode: item.lesson_code})}>
+        <Text>{item.lesson_code} {item.name}</Text>
       </TouchableOpacity>
     </View>
   ));
@@ -52,9 +52,9 @@ const StudentList = ({navigation}) => {
         />
       </View>
       <FlatList
-        data={filteredStudentList}
-        renderItem={({ item }) => <StudentItem item={item} navigation={navigation} />}
-        keyExtractor={item => item.id.toString()}
+        data={filteredLessonList}
+        renderItem={({ item }) => <LessonItem item={item} navigation={navigation} />}
+        keyExtractor={item => item.lesson_code.toString()}
       />
     </View>
   );
@@ -83,4 +83,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default StudentList;
+export default LessonList;

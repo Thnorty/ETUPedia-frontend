@@ -3,6 +3,7 @@ import {StatusBar} from 'expo-status-bar';
 import LoginIndex from './pages/Login/Index';
 import HomeIndex from './pages/Home/Index';
 import TeacherListIndex from './pages/TeacherList/Index';
+import LessonListIndex from './pages/LessonList/Index';
 import StudentsListIndex from './pages/StudentList/Index';
 import {NavigationContainer} from "@react-navigation/native";
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -38,6 +39,7 @@ export default function App() {
               <Tab.Navigator initialRouteName="HomeIndex">
                 <Tab.Screen name="HomeIndex" component={HomeIndex} />
                 <Tab.Screen name="TeacherListIndex" component={TeacherListIndex} />
+                <Tab.Screen name="LessonListIndex" component={LessonListIndex} />
                 <Tab.Screen name="StudentsListIndex" component={StudentsListIndex} />
               </Tab.Navigator>
             )}
