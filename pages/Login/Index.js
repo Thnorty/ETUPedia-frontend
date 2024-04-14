@@ -1,9 +1,10 @@
-import {StyleSheet, View, TextInput} from "react-native";
+import {StyleSheet, View, TextInput, Image} from "react-native";
 import {useState, useRef} from "react";
 import {Button} from "../../components/Components";
 import Storage from 'react-native-storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from "../../utils/api";
+import icon from "../../assets/icon.png";
 
 const Index = ({navigation}) => {
   const [email, setEmail] = useState("");
@@ -32,6 +33,7 @@ const Index = ({navigation}) => {
 
   return (
     <View style={styles.container}>
+      <Image source={icon} style={{width: 100, height: 100, marginBottom: 40, borderRadius: 16}} />
       <TextInput
         placeholder="Email"
         value={email}
