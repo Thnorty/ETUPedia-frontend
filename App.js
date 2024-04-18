@@ -1,3 +1,5 @@
+import "intl-pluralrules";
+import "./components/i18n";
 import {useState} from "react";
 import {StatusBar} from 'expo-status-bar';
 import LoginIndex from './pages/Login/Index';
@@ -10,12 +12,8 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Storage from "react-native-storage";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import "./components/i18n";
-import {useTranslation} from "react-i18next";
-import {Text} from "react-native";
 
 export default function App() {
-  const {t} = useTranslation()
   const Stack = createNativeStackNavigator();
   const Tab = createBottomTabNavigator();
   const [initialRouteName, setInitialRouteName] = useState("");
@@ -35,7 +33,6 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Text>{t("Welcome to React")}</Text>
       {initialRouteName &&
         <Stack.Navigator initialRouteName={initialRouteName} screenOptions={{headerShown: false}}>
           <Stack.Screen name="LoginIndex" component={LoginIndex} />

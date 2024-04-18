@@ -1,27 +1,19 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-
-const resources = {
-  en: {
-    translation: {
-      "Welcome to React": "Welcome to React and react-i18next",
-    },
-  },
-  tr: {
-    translation: {
-      "Welcome to React": "React ve react-i18next'a hoş geldiniz",
-    },
-  },
-};
+import enTranslation from "../locales/en.json";
+import trTranslation from "../locales/tr.json";
 
 i18n
   .use(initReactI18next)
   .init({
-    resources,
+    resources: {
+      en: {translation: enTranslation},
+      tr: {translation: trTranslation},
+    },
     lng: "en",
+    fallbackLng: "en",
     interpolation: {
       escapeValue: false,
     },
-  });
-
-export default i18n;
+  })
+  .then(() => console.log("i18n initialized"));

@@ -1,3 +1,4 @@
+import {useTranslation} from "react-i18next";
 import {StyleSheet, Text, View} from "react-native";
 import {Button} from "../../components/Components";
 import {useEffect, useState} from "react";
@@ -8,6 +9,7 @@ import Timetable from "./Timetable";
 import Loading from "../../components/Loading";
 
 const Index = ({navigation}) => {
+  const {t} = useTranslation();
   const [loading, setLoading] = useState(true);
   const storage = new Storage({
     size: 1000,
@@ -96,7 +98,7 @@ const Index = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <Text>Student ID: {studentInfo.id}</Text>
+      <Text>{t("studentID")}: {studentInfo.id}</Text>
       <Text>Hello, {studentInfo.name} {studentInfo.surname}</Text>
       <Text>Department: {studentInfo.department}</Text>
       <Text>Mail: {studentInfo.mail}</Text>
