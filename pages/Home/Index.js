@@ -9,7 +9,7 @@ import Timetable from "./Timetable";
 import Loading from "../../components/Loading";
 
 const Index = ({navigation}) => {
-  const {t} = useTranslation();
+  const {t, i18n} = useTranslation();
   const [loading, setLoading] = useState(true);
   const storage = new Storage({
     size: 1000,
@@ -59,7 +59,10 @@ const Index = ({navigation}) => {
 
     navigation.setOptions({
       headerRight: () => (
-        <Button title="Log Out" onPress={logout} style={styles.logoutButton} textStyle={styles.logoutText} />
+        <View style={{display: "flex", flexDirection: "row"}}>
+          <Button title={i18n.language.toUpperCase()} onPress={changeLanguage} style={styles.logoutButton} textStyle={styles.logoutText} />
+          <Button title={t("logOut")} onPress={logout} style={styles.logoutButton} textStyle={styles.logoutText} />
+        </View>
       ),
     });
   }, []);
@@ -94,15 +97,30 @@ const Index = ({navigation}) => {
       });
   }
 
+  const changeLanguage = () => {
+    i18n.changeLanguage(i18n.language === "en" ? "tr" : "en").then(r => {});
+  }
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <View style={{display: "flex", flexDirection: "row"}}>
+          <Button title={i18n.language.toUpperCase()} onPress={changeLanguage} style={styles.logoutButton} textStyle={styles.logoutText} />
+          <Button title={t("logOut")} onPress={logout} style={styles.logoutButton} textStyle={styles.logoutText} />
+        </View>
+      ),
+    });
+  }, [i18n.language]);
+
   if (loading) return <Loading />
 
   return (
     <View style={styles.container}>
       <Text>{t("studentID")}: {studentInfo.id}</Text>
-      <Text>Hello, {studentInfo.name} {studentInfo.surname}</Text>
-      <Text>Department: {studentInfo.department}</Text>
-      <Text>Mail: {studentInfo.mail}</Text>
-      <Text>Year: {studentInfo.year}</Text>
+      <Text>{t("hello")}, {studentInfo.name} {studentInfo.surname}</Text>
+      <Text>{t("department")}: {studentInfo.department}</Text>
+      <Text>{t("email")}: {studentInfo.mail}</Text>
+      <Text>{t("year")}: {studentInfo.year}</Text>
       <Timetable lessonSections={studentInfo.lesson_sections} />
     </View>
   );

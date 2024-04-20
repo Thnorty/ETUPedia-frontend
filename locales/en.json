@@ -1,3 +1,24 @@
 {
-  "studentID": "Student ID"
+  "hello": "Hello",
+  "studentID": "Student ID",
+  "department": "Department",
+  "email": "Email",
+  "year": "Year",
+  "logOut": "Log Out",
+  "logIn": "Log In",
+  "password": "Password",
+  "invalidLogin": "Invalid email or password!",
+  "home": "Home",
+  "teacherList": "Teacher List",
+  "lessonList": "Lesson List",
+  "studentList": "Student List",
+  "search...": "Search...",
+  "lessonCode": "Lesson Code",
+  "mon": "Mon",
+  "tue": "Tue",
+  "wed": "Wed",
+  "thu": "Thu",
+  "fri": "Fri",
+  "sat": "Sat",
+  "sun": "Sun"
 }

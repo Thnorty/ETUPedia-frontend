@@ -1,3 +1,4 @@
+import {useTranslation} from "react-i18next";
 import api from "../../utils/api";
 import {memo, useEffect, useState} from "react";
 import {FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
@@ -5,6 +6,7 @@ import Loading from "../../components/Loading";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 const LessonList = ({navigation}) => {
+  const {t} = useTranslation();
   const [loading, setLoading] = useState(true);
   const [lessonList, setLessonList] = useState([]);
   const [search, setSearch] = useState('');
@@ -48,7 +50,7 @@ const LessonList = ({navigation}) => {
           style={styles.input}
           value={search}
           onChangeText={setSearch}
-          placeholder="Search..."
+          placeholder={t("search...")}
         />
       </View>
       <FlatList

@@ -1,3 +1,4 @@
+import {useTranslation} from "react-i18next";
 import "intl-pluralrules";
 import "./components/i18n";
 import {useState} from "react";
@@ -14,6 +15,7 @@ import Storage from "react-native-storage";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function App() {
+  const {t} = useTranslation();
   const Stack = createNativeStackNavigator();
   const Tab = createBottomTabNavigator();
   const [initialRouteName, setInitialRouteName] = useState("");
@@ -39,10 +41,10 @@ export default function App() {
           <Stack.Screen name="Home">
             {() => (
               <Tab.Navigator initialRouteName="HomeIndex">
-                <Tab.Screen name="HomeIndex" component={HomeIndex} />
-                <Tab.Screen name="TeacherListIndex" component={TeacherListIndex} />
-                <Tab.Screen name="LessonListIndex" component={LessonListIndex} />
-                <Tab.Screen name="StudentsListIndex" component={StudentsListIndex} />
+                <Tab.Screen name="HomeIndex" component={HomeIndex} options={{title: t("home")}} />
+                <Tab.Screen name="TeacherListIndex" component={TeacherListIndex} options={{title: t("teacherList")}} />
+                <Tab.Screen name="LessonListIndex" component={LessonListIndex} options={{title: t("lessonList")}} />
+                <Tab.Screen name="StudentsListIndex" component={StudentsListIndex} options={{title: t("studentList")}} />
               </Tab.Navigator>
             )}
           </Stack.Screen>

@@ -1,3 +1,24 @@
 {
-  "studentID": "Öğrenci Numarası"
+  "hello": "Merhaba",
+  "studentID": "Öğrenci Numarası",
+  "department": "Bölüm",
+  "email": "E-posta",
+  "year": "Sınıf",
+  "logOut": "Çıkış Yap",
+  "logIn": "Giriş Yap",
+  "password": "Şifre",
+  "invalidLogin": "Geçersiz e-posta veya şifre!",
+  "home": "Ana Sayfa",
+  "teacherList": "Öğretmen Listesi",
+  "lessonList": "Ders Listesi",
+  "studentList": "Öğrenci Listesi",
+  "search...": "Ara...",
+  "lessonCode": "Ders Kodu",
+  "mon": "Pzt",
+  "tue": "Sal",
+  "wed": "Çar",
+  "thu": "Per",
+  "fri": "Cum",
+  "sat": "Cmt",
+  "sun": "Paz"
 }

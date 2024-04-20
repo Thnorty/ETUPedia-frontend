@@ -1,8 +1,10 @@
+import {useTranslation} from "react-i18next";
 import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import {scale, verticalScale} from 'react-native-size-matters';
 
 const Timetable = ({ lessonSections }) => {
-  const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  const {t} = useTranslation();
+  const days = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"].map((day) => t(day));
 
   const timetable = Array(7).fill().map(() => Array(14).fill().map(() => []));  // Populate the timetable with the lesson sections
   lessonSections.forEach((lessonSection) => {

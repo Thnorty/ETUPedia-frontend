@@ -1,3 +1,4 @@
+import {useTranslation} from "react-i18next";
 import {StyleSheet, View, TextInput, Image} from "react-native";
 import {useState, useRef} from "react";
 import {Button} from "../../components/Components";
@@ -7,6 +8,7 @@ import api from "../../utils/api";
 import icon from "../../assets/icon.png";
 
 const Index = ({navigation}) => {
+  const {t} = useTranslation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const passwordRef = useRef(null);
@@ -27,7 +29,7 @@ const Index = ({navigation}) => {
       }).catch((error) => console.error(error));
     }).catch((error) => {
       console.error(error);
-      alert("Invalid email or password");
+      alert(t("invalidLogin"));
     });
   }
 
@@ -35,7 +37,7 @@ const Index = ({navigation}) => {
     <View style={styles.container}>
       <Image source={icon} style={{width: 100, height: 100, marginBottom: 40, borderRadius: 16}} />
       <TextInput
-        placeholder="Email"
+        placeholder={t("email")}
         value={email}
         onChangeText={setEmail}
         onSubmitEditing={() => passwordRef.current.focus()}
@@ -43,14 +45,14 @@ const Index = ({navigation}) => {
       />
       <TextInput
         ref={passwordRef}
-        placeholder="Password"
+        placeholder={t("password")}
         value={password}
         onChangeText={setPassword}
         secureTextEntry={true}
         onSubmitEditing={handleLogin}
         style={styles.input}
       />
-      <Button title="Login" onPress={handleLogin} />
+      <Button title={t("logIn")} onPress={handleLogin} />
     </View>
   );
 }

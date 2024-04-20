@@ -16,4 +16,4 @@ i18n
       escapeValue: false,
     },
   })
-  .then(() => console.log("i18n initialized"));
+  .then();

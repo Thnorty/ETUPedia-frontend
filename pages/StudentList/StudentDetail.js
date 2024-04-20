@@ -1,3 +1,4 @@
+import {useTranslation} from "react-i18next";
 import {View, Text, StyleSheet} from "react-native";
 import {useEffect, useState} from "react";
 import api from "../../utils/api";
@@ -5,6 +6,7 @@ import Timetable from "../Home/Timetable";
 import Loading from "../../components/Loading";
 
 const StudentDetail = ({navigation, route}) => {
+  const {t} = useTranslation();
   const [loading, setLoading] = useState(true);
   const [studentInfo, setStudentInfo] = useState({
     id: "",
@@ -42,11 +44,11 @@ const StudentDetail = ({navigation, route}) => {
 
   return (
     <View style={styles.container}>
-      <Text>Student ID: {studentInfo.id}</Text>
+      <Text>{t("studentID")}: {studentInfo.id}</Text>
       <Text>{studentInfo.name} {studentInfo.surname}</Text>
-      <Text>Department: {studentInfo.department}</Text>
-      <Text>Mail: {studentInfo.mail}</Text>
-      <Text>Year: {studentInfo.year}</Text>
+      <Text>{t("department")}: {studentInfo.department}</Text>
+      <Text>{t("email")}: {studentInfo.mail}</Text>
+      <Text>{t("year")}: {studentInfo.year}</Text>
       <Timetable lessonSections={studentInfo.lesson_sections} />
     </View>
   );

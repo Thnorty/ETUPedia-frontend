@@ -1,9 +1,11 @@
+import {useTranslation} from "react-i18next";
 import {View, Text} from "react-native";
 import {useEffect, useState} from "react";
 import api from "../../utils/api";
 import Loading from "../../components/Loading";
 
 const LessonDetail = ({navigation, route}) => {
+  const {t} = useTranslation();
   const [loading, setLoading] = useState(true);
   const [lessonInfo, setLessonInfo] = useState({
     lesson_name: "",
@@ -30,8 +32,8 @@ const LessonDetail = ({navigation, route}) => {
   return (
     <View>
       <Text>{lessonInfo.lesson_name}</Text>
-      <Text>Lesson Code: {lessonInfo.lesson_code}</Text>
-      <Text>Student Count: {lessonInfo.student_count}</Text>
+      <Text>{t("lessonCode")}: {lessonInfo.lesson_code}</Text>
+      <Text>{t("studentCount")}: {lessonInfo.student_count}</Text>
     </View>
   );
 }
