@@ -38,7 +38,7 @@ const Index = ({navigation}) => {
     const payload = {
       student_id: studentId,
     };
-    api.post("get-student-info/", payload)
+    api.post("api/get-student-info/", payload)
       .then((response) => {
         setStudentInfo(response.data);
         setLoading(false);

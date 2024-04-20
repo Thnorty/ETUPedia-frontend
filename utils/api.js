@@ -3,7 +3,7 @@ import Storage from 'react-native-storage';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const api = axios.create({
-  baseURL: 'https://bass-flexible-freely.ngrok-free.app/api/',
+  baseURL: 'https://bass-flexible-freely.ngrok-free.app/',
 });
 
 const storage = new Storage({

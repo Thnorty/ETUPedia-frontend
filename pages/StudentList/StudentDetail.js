@@ -30,7 +30,7 @@ const StudentDetail = ({navigation, route}) => {
     const payload = {
       student_id: route.params.studentId,
     };
-    api.post("get-student-info/", payload)
+    api.post("api/get-student-info/", payload)
       .then((response) => {
         setStudentInfo(response.data);
         setLoading(false);

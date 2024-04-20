@@ -13,7 +13,7 @@ const LessonList = ({navigation}) => {
   const [filteredLessonList, setFilteredLessonList] = useState([]);
 
   useEffect(() => {
-    api.get("get-lessons/")
+    api.get("api/get-lessons/")
       .then((response) => {
         setLessonList(response.data);
         setLoading(false);

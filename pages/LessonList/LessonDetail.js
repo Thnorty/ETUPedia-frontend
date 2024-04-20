@@ -17,7 +17,7 @@ const LessonDetail = ({navigation, route}) => {
     const payload = {
       lesson_code: route.params.lessonCode,
     };
-    api.post("get-lesson-info/", payload)
+    api.post("api/get-lesson-info/", payload)
       .then((response) => {
         setLessonInfo(response.data);
         setLoading(false);

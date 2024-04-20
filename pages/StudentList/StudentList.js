@@ -13,7 +13,7 @@ const StudentList = ({navigation}) => {
   const [filteredStudentList, setFilteredStudentList] = useState([]);
 
   useEffect(() => {
-    api.get("get-students/")
+    api.get("api/get-students/")
       .then((response) => {
         setStudentList(response.data);
         setLoading(false);

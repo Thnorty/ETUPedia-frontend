@@ -23,7 +23,7 @@ const TeacherDetail = ({navigation, route}) => {
     const payload = {
       teacher_name: route.params.teacherName,
     };
-    api.post("get-teacher-info/", payload)
+    api.post("api/get-teacher-info/", payload)
       .then((response) => {
         setTeacherInfo(response.data);
         setLoading(false);
