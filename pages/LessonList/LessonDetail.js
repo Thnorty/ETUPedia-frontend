@@ -25,7 +25,7 @@ const LessonDetail = ({navigation, route}) => {
       .catch((error) => {
         console.error(error);
       });
-  });
+  }, []);
 
   if (loading) return <Loading />
 

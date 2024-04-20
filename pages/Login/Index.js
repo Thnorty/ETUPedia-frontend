@@ -24,7 +24,8 @@ const Index = ({navigation}) => {
       password: password
     }
     api.post("login/", payload).then((response) => {
-      storage.save({key: 'studentId', data: response.data.student_id}).then(() => {
+      storage.save({key: 'studentId', data: response.data.student_id}).then().catch((error) => console.error(error));
+      storage.save({key: 'token', data: response.data.token}).then(() => {
         navigation.reset({index: 0, routes: [{ name: 'Home' }]});
       }).catch((error) => console.error(error));
     }).catch((error) => {

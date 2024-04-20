@@ -68,7 +68,8 @@ const Index = ({navigation}) => {
   }, []);
 
   const logout = () => {
-    AsyncStorage.removeItem('studentId')
+    storage.remove({key: 'studentId'}).then().catch((error) => console.error(error));
+    storage.remove({key: 'token'})
       .then(() => {
         setStudentInfo({
           id: "",

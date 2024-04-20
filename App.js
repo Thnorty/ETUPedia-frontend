@@ -1,6 +1,6 @@
 import {useTranslation} from "react-i18next";
 import "intl-pluralrules";
-import "./components/i18n";
+import "./utils/i18n";
 import {useState} from "react";
 import {StatusBar} from 'expo-status-bar';
 import LoginIndex from './pages/Login/Index';
