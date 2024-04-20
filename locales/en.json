@@ -9,6 +9,7 @@
   "password": "Password",
   "invalidLogin": "Invalid email or password!",
   "home": "Home",
+  "posts": "Posts",
   "teacherList": "Teacher List",
   "lessonList": "Lesson List",
   "studentList": "Student List",

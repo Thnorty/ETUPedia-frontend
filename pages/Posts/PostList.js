@@ -2,20 +2,20 @@ import {useTranslation} from "react-i18next";
 import api from "../../utils/api";
 import {memo, useEffect, useState} from "react";
 import {FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
-import Loading from "../../components/Loading";
 import Icon from "react-native-vector-icons/FontAwesome";
+import Loading from "../../components/Loading";
 
-const LessonList = ({navigation}) => {
+const PostList = ({navigation}) => {
   const {t} = useTranslation();
   const [loading, setLoading] = useState(true);
-  const [lessonList, setLessonList] = useState([]);
+  const [postList, setPostList] = useState([]);
   const [search, setSearch] = useState('');
-  const [filteredLessonList, setFilteredLessonList] = useState([]);
+  const [filteredPostList, setFilteredPostList] = useState([]);
 
   useEffect(() => {
-    api.get("api/get-lessons/")
+    api.get("posts/get-posts/")
       .then((response) => {
-        setLessonList(response.data);
+        setPostList(response.data);
         setLoading(false);
       })
       .catch((error) => {
@@ -24,18 +24,21 @@ const LessonList = ({navigation}) => {
   }, []);
 
   useEffect(() => {
-    setFilteredLessonList(
-      lessonList.filter(lesson =>
-        lesson.name.toLowerCase().includes(search.toLowerCase()) ||
-        lesson.lesson_code.toString().toLowerCase().includes(search.toLowerCase())
+    setFilteredPostList(
+      postList.filter(post =>
+        post.title.toLowerCase().includes(search.toLowerCase()) ||
+        post.content.toLowerCase().includes(search.toLowerCase())
       )
     );
-  }, [search, lessonList]);
+  }, [search, postList]);
 
-  const LessonItem = memo(({ item, navigation }) => (
+  const PostItem = memo(({ item, navigation }) => (
     <View>
-      <TouchableOpacity style={styles.item} onPress={() => navigation.navigate("LessonDetailIndex", {lessonCode: item.lesson_code})}>
-        <Text>{item.lesson_code} {item.name}</Text>
+      <TouchableOpacity style={styles.item} onPress={() => navigation.navigate("PostDetailIndex", {postId: item.id})}>
+        <Text>{item.author_name}</Text>
+        <Text>{item.title}</Text>
+        <Text>{item.content}</Text>
+        <Text>{item.created_at}</Text>
       </TouchableOpacity>
     </View>
   ));
@@ -54,9 +57,9 @@ const LessonList = ({navigation}) => {
         />
       </View>
       <FlatList
-        data={filteredLessonList}
-        renderItem={({ item }) => <LessonItem item={item} navigation={navigation} />}
-        keyExtractor={item => item.lesson_code.toString()}
+        data={filteredPostList}
+        renderItem={({ item }) => <PostItem item={item} navigation={navigation} />}
+        keyExtractor={item => item.id.toString()}
       />
     </View>
   );
@@ -81,9 +84,11 @@ const styles = StyleSheet.create({
   },
   item: {
     padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ddd",
+    marginVertical: 8,
+    marginHorizontal: 16,
+    borderRadius: 5,
+    backgroundColor: "#f9c2ff",
   },
 });
 
-export default LessonList;
+export default PostList;

@@ -74,12 +74,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     padding: 10,
-    backgroundColor: "#f9f9f9",
+    margin: 10,
+    borderRadius: 5,
+    backgroundColor: "#f0f0f0",
   },
   input: {
     flex: 1,
     marginLeft: 10,
-    fontSize: 16,
   },
   item: {
     padding: 10,
