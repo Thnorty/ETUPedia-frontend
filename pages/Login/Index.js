@@ -4,7 +4,7 @@ import {useState, useRef} from "react";
 import {Button} from "../../components/Components";
 import Storage from 'react-native-storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import api from "../../utils/api";
+import backend from "../../utils/backend";
 import icon from "../../assets/icon.png";
 
 const Index = ({navigation}) => {
@@ -23,7 +23,7 @@ const Index = ({navigation}) => {
       email: email,
       password: password
     }
-    api.post("api/login/", payload).then((response) => {
+    backend.post("api/login/", payload).then((response) => {
       storage.save({key: 'studentId', data: response.data.student_id}).then().catch((error) => console.error(error));
       storage.save({key: 'token', data: response.data.token}).then(() => {
         navigation.reset({index: 0, routes: [{ name: 'Home' }]});

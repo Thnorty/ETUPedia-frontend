@@ -1,7 +1,7 @@
 import {useTranslation} from "react-i18next";
 import {View, Text} from "react-native";
 import {useEffect, useState} from "react";
-import api from "../../utils/api";
+import backend from "../../utils/backend";
 import Loading from "../../components/Loading";
 
 const LessonDetail = ({navigation, route}) => {
@@ -14,10 +14,12 @@ const LessonDetail = ({navigation, route}) => {
   });
 
   useEffect(() => {
+    navigation.setOptions({title: `${route.params.lessonCode} ${route.params.lessonName}`});
+
     const payload = {
       lesson_code: route.params.lessonCode,
     };
-    api.post("api/get-lesson-info/", payload)
+    backend.post("api/get-lesson-info/", payload)
       .then((response) => {
         setLessonInfo(response.data);
         setLoading(false);

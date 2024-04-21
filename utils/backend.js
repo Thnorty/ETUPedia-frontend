@@ -2,7 +2,7 @@ import axios from 'axios';
 import Storage from 'react-native-storage';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const api = axios.create({
+const backend = axios.create({
   baseURL: 'https://bass-flexible-freely.ngrok-free.app/',
 });
 
@@ -13,7 +13,7 @@ const storage = new Storage({
 });
 
 storage.load({key: 'token'}).then((token) => {
-  api.defaults.headers.common['Authorization'] = `Token ${token}`;
+  backend.defaults.headers.common['Authorization'] = `Token ${token}`;
 });
 
-export default api;
+export default backend;

@@ -6,9 +6,9 @@ import {StatusBar} from 'expo-status-bar';
 import LoginIndex from './pages/Login/Index';
 import HomeIndex from './pages/Home/Index';
 import PostsIndex from './pages/Posts/Index';
-import TeacherListIndex from './pages/TeacherList/Index';
-import LessonListIndex from './pages/LessonList/Index';
-import StudentsListIndex from './pages/StudentList/Index';
+import TeachersIndex from './pages/Teachers/Index';
+import LessonsIndex from './pages/Lessons/Index';
+import StudentsIndex from './pages/Students/Index';
 import {NavigationContainer} from "@react-navigation/native";
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -51,16 +51,16 @@ export default function App() {
                   options={{title: t("posts"), tabBarIcon: ({color, size}) => (
                     <Icon name="list" color={color} size={size} />
                   )}} />
-                <Tab.Screen name="TeacherListIndex" component={TeacherListIndex}
-                  options={{title: t("teacherList"), tabBarIcon: ({color, size}) => (
+                <Tab.Screen name="TeacherListIndex" component={TeachersIndex}
+                  options={{title: t("teachers"), headerShown: false, tabBarIcon: ({color, size}) => (
                     <Icon name="user" color={color} size={size} />
                   )}} />
-                <Tab.Screen name="LessonListIndex" component={LessonListIndex}
-                  options={{title: t("lessonList"), tabBarIcon: ({color, size}) => (
+                <Tab.Screen name="LessonListIndex" component={LessonsIndex}
+                  options={{title: t("lessons"), headerShown: false, tabBarIcon: ({color, size}) => (
                     <Icon name="book" color={color} size={size} />
                   )}} />
-                <Tab.Screen name="StudentsListIndex" component={StudentsListIndex}
-                  options={{title: t("studentList"), tabBarIcon: ({color, size}) => (
+                <Tab.Screen name="StudentsListIndex" component={StudentsIndex}
+                  options={{title: t("students"), headerShown: false, tabBarIcon: ({color, size}) => (
                     <Icon name="users" color={color} size={size} />
                   )}} />
               </Tab.Navigator>

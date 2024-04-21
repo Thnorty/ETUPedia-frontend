@@ -1,7 +1,7 @@
 import {useTranslation} from "react-i18next";
 import {View, Text, StyleSheet} from "react-native";
 import {useEffect, useState} from "react";
-import api from "../../utils/api";
+import backend from "../../utils/backend";
 import Timetable from "../Home/Timetable";
 import Loading from "../../components/Loading";
 
@@ -27,10 +27,12 @@ const StudentDetail = ({navigation, route}) => {
   });
 
   useEffect(() => {
+    navigation.setOptions({title: route.params.studentName});
+
     const payload = {
       student_id: route.params.studentId,
     };
-    api.post("api/get-student-info/", payload)
+    backend.post("api/get-student-info/", payload)
       .then((response) => {
         setStudentInfo(response.data);
         setLoading(false);

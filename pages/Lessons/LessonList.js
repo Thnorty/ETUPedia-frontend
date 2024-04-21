@@ -1,21 +1,21 @@
 import {useTranslation} from "react-i18next";
+import backend from "../../utils/backend";
+import {memo, useEffect, useState} from "react";
 import {FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
-import React, {memo, useEffect, useState} from "react";
-import api from "../../utils/api";
-import Icon from "react-native-vector-icons/FontAwesome";
 import Loading from "../../components/Loading";
+import Icon from "react-native-vector-icons/FontAwesome";
 
-const TeacherList = ({navigation}) => {
+const LessonList = ({navigation}) => {
   const {t} = useTranslation();
   const [loading, setLoading] = useState(true);
-  const [teacherList, setTeacherList] = useState([]);
+  const [lessonList, setLessonList] = useState([]);
   const [search, setSearch] = useState('');
-  const [filteredTeacherList, setFilteredTeacherList] = useState([]);
+  const [filteredLessonList, setFilteredLessonList] = useState([]);
 
   useEffect(() => {
-    api.get("api/get-teachers/")
+    backend.get("api/get-lessons/")
       .then((response) => {
-        setTeacherList(response.data);
+        setLessonList(response.data);
         setLoading(false);
       })
       .catch((error) => {
@@ -24,26 +24,26 @@ const TeacherList = ({navigation}) => {
   }, []);
 
   useEffect(() => {
-    setFilteredTeacherList(
-      teacherList.filter(teacher =>
-        `${teacher.name} ${teacher.surname}`.toLowerCase().includes(search.toLowerCase())
+    setFilteredLessonList(
+      lessonList.filter(lesson =>
+        lesson.name.toLowerCase().includes(search.toLowerCase()) ||
+        lesson.lesson_code.toString().toLowerCase().includes(search.toLowerCase())
       )
     );
-  }, [search, teacherList]);
+  }, [search, lessonList]);
 
-  const TeacherItem = memo(({ item, navigation }) => (
+  const LessonItem = memo(({ item, navigation }) => (
     <View>
-      <TouchableOpacity style={styles.item} onPress={() => navigation.navigate("TeacherDetailIndex", {teacherName: item.name})}>
-        <Text>{item.name} {item.surname}</Text>
+      <TouchableOpacity style={styles.item} onPress={() => navigation.navigate("LessonDetailIndex", {
+        lessonCode: item.lesson_code,
+        lessonName: item.name,
+      })}>
+        <Text>{item.lesson_code} {item.name}</Text>
       </TouchableOpacity>
     </View>
   ));
 
-  if (loading) {
-    return (
-      <Loading />
-    );
-  }
+  if (loading) return <Loading />
 
   return (
     <View style={styles.container}>
@@ -57,9 +57,9 @@ const TeacherList = ({navigation}) => {
         />
       </View>
       <FlatList
-        data={filteredTeacherList}
-        renderItem={({ item }) => <TeacherItem item={item} navigation={navigation} />}
-        keyExtractor={item => item.name.toString()}
+        data={filteredLessonList}
+        renderItem={({ item }) => <LessonItem item={item} navigation={navigation} />}
+        keyExtractor={item => item.lesson_code.toString()}
       />
     </View>
   );
@@ -89,4 +89,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TeacherList;
+export default LessonList;

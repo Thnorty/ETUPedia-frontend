@@ -1,6 +1,6 @@
 import {View, Text, StyleSheet} from "react-native";
 import {useEffect, useState} from "react";
-import api from "../../utils/api";
+import backend from "../../utils/backend";
 import Timetable from "../Home/Timetable";
 import Loading from "../../components/Loading";
 
@@ -20,10 +20,11 @@ const TeacherDetail = ({navigation, route}) => {
   });
 
   useEffect(() => {
+    navigation.setOptions({title: route.params.teacherName});
     const payload = {
       teacher_name: route.params.teacherName,
     };
-    api.post("api/get-teacher-info/", payload)
+    backend.post("api/get-teacher-info/", payload)
       .then((response) => {
         setTeacherInfo(response.data);
         setLoading(false);

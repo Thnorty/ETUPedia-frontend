@@ -1,5 +1,5 @@
 import {useTranslation} from "react-i18next";
-import api from "../../utils/api";
+import backend from "../../utils/backend";
 import {memo, useEffect, useState} from "react";
 import {FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -13,7 +13,7 @@ const PostList = ({navigation}) => {
   const [filteredPostList, setFilteredPostList] = useState([]);
 
   useEffect(() => {
-    api.get("posts/get-posts/")
+    backend.get("posts/get-posts/")
       .then((response) => {
         setPostList(response.data);
         setLoading(false);

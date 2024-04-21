@@ -2,7 +2,7 @@ import {useTranslation} from "react-i18next";
 import {StyleSheet, Text, View} from "react-native";
 import {Button} from "../../components/Components";
 import {useEffect, useState} from "react";
-import api from "../../utils/api";
+import backend from "../../utils/backend";
 import Storage from "react-native-storage";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Timetable from "./Timetable";
@@ -38,7 +38,7 @@ const Index = ({navigation}) => {
     const payload = {
       student_id: studentId,
     };
-    api.post("api/get-student-info/", payload)
+    backend.post("api/get-student-info/", payload)
       .then((response) => {
         setStudentInfo(response.data);
         setLoading(false);
