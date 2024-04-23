@@ -1,17 +1,29 @@
 import {useTranslation} from "react-i18next";
-import {View, Text} from "react-native";
 import {useEffect, useState} from "react";
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import LessonInfo from "./LessonInfo";
+import LessonStudents from "./LessonStudents";
 import backend from "../../utils/backend";
 import Loading from "../../components/Loading";
+import LessonStudentNavigator from "./LessonStudents";
 
 const LessonDetail = ({navigation, route}) => {
   const {t} = useTranslation();
   const [loading, setLoading] = useState(true);
   const [lessonInfo, setLessonInfo] = useState({
-    lesson_name: "",
     lesson_code: "",
+    lesson_name: "",
     student_count: "",
+    students: [
+      {
+        id: "",
+        name: "",
+        surname: "",
+      }
+    ],
   });
+
+  const Tab = createMaterialTopTabNavigator();
 
   useEffect(() => {
     navigation.setOptions({title: `${route.params.lessonCode} ${route.params.lessonName}`});
@@ -32,11 +44,14 @@ const LessonDetail = ({navigation, route}) => {
   if (loading) return <Loading />
 
   return (
-    <View>
-      <Text>{lessonInfo.lesson_name}</Text>
-      <Text>{t("lessonCode")}: {lessonInfo.lesson_code}</Text>
-      <Text>{t("studentCount")}: {lessonInfo.student_count}</Text>
-    </View>
+    <Tab.Navigator>
+      <Tab.Screen name="LessonInfo" options={{title: t("info")}}>
+        {() => <LessonInfo studentCount={lessonInfo.student_count} />}
+      </Tab.Screen>
+      <Tab.Screen name="LessonStudents" options={{title: t("students")}}>
+        {() => <LessonStudentNavigator students={lessonInfo.students} navigation={navigation} route={route}/>}
+      </Tab.Screen>
+    </Tab.Navigator>
   );
 }
 
