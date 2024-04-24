@@ -23,5 +23,10 @@
   "fri": "Cum",
   "sat": "Cmt",
   "sun": "Paz",
-  "info": "Bilgi"
+  "info": "Bilgi",
+  "cancel": "İptal",
+  "submit": "Gönder",
+  "title": "Başlık",
+  "content": "İçerik",
+  "createPost": "Gönderi Oluştur"
 }

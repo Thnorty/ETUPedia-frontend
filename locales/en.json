@@ -23,5 +23,10 @@
   "fri": "Fri",
   "sat": "Sat",
   "sun": "Sun",
-  "info": "Info"
+  "info": "Info",
+  "cancel": "Cancel",
+  "submit": "Submit",
+  "title": "Title",
+  "content": "Content",
+  "createPost": "Create Post"
 }

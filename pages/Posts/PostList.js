@@ -4,6 +4,7 @@ import {memo, useEffect, useState} from "react";
 import {FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Loading from "../../components/Loading";
+import TopBar from "./TopBar";
 
 const PostList = ({navigation}) => {
   const {t} = useTranslation();
@@ -32,6 +33,17 @@ const PostList = ({navigation}) => {
     );
   }, [search, postList]);
 
+  const refreshPostList = () => {
+    backend.get("posts/get-posts/")
+      .then((response) => {
+        setPostList(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
   const PostItem = memo(({ item, navigation }) => (
     <View>
       <TouchableOpacity style={styles.item} onPress={() => navigation.navigate("PostDetailIndex", {postId: item.id})}>
@@ -47,6 +59,7 @@ const PostList = ({navigation}) => {
 
   return (
     <View style={styles.container}>
+      <TopBar setLoading={setLoading} refreshPostList={refreshPostList} />
       <View style={styles.searchBar}>
         <Icon name="search" size={20} color="black" />
         <TextInput
