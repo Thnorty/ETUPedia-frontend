@@ -12,22 +12,16 @@ import StudentsIndex from './pages/Students/Index';
 import {NavigationContainer} from "@react-navigation/native";
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Storage from "react-native-storage";
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from "react-native-vector-icons/FontAwesome";
+import {localStorage} from "./utils/LocalStorage";
 
 export default function App() {
   const {t} = useTranslation();
   const Stack = createNativeStackNavigator();
   const Tab = createBottomTabNavigator();
   const [initialRouteName, setInitialRouteName] = useState("");
-  const storage = new Storage({
-    size: 1000,
-    storageBackend: AsyncStorage,
-    defaultExpires: 1000 * 3600 * 24
-  });
 
-  storage.load({key: 'studentId'})
+  localStorage.load({key: 'studentId'})
     .then(() => {
       setInitialRouteName("Home");
     })

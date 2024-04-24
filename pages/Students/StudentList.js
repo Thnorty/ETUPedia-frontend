@@ -1,7 +1,7 @@
 import {useTranslation} from "react-i18next";
 import {FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import {memo, useEffect, useState} from "react";
-import backend from "../../utils/backend";
+import backend from "../../utils/Backend";
 import Loading from "../../components/Loading";
 import Icon from "react-native-vector-icons/FontAwesome";
 

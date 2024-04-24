@@ -2,21 +2,15 @@ import {useTranslation} from "react-i18next";
 import {StyleSheet, View, TextInput, Image} from "react-native";
 import {useState, useRef} from "react";
 import {Button} from "../../components/Components";
-import Storage from 'react-native-storage';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import backend from "../../utils/backend";
+import backend, {setAxiosToken} from "../../utils/Backend";
 import icon from "../../assets/icon.png";
+import {localStorage} from "../../utils/LocalStorage";
 
 const Index = ({navigation}) => {
   const {t} = useTranslation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const passwordRef = useRef(null);
-  const storage = new Storage({
-    size: 1000,
-    storageBackend: AsyncStorage,
-    defaultExpires: 1000 * 3600 * 24
-  })
 
   const handleLogin = () => {
     const payload = {
@@ -24,8 +18,9 @@ const Index = ({navigation}) => {
       password: password
     }
     backend.post("api/login/", payload).then((response) => {
-      storage.save({key: 'studentId', data: response.data.student_id}).then().catch((error) => console.error(error));
-      storage.save({key: 'token', data: response.data.token}).then(() => {
+      localStorage.save({key: 'studentId', data: response.data.student_id}).then().catch((error) => console.error(error));
+      localStorage.save({key: 'token', data: response.data.token}).then(() => {
+        setAxiosToken(response.data.token);
         navigation.reset({index: 0, routes: [{ name: 'Home' }]});
       }).catch((error) => console.error(error));
     }).catch((error) => {
@@ -42,6 +37,8 @@ const Index = ({navigation}) => {
         value={email}
         onChangeText={setEmail}
         onSubmitEditing={() => passwordRef.current.focus()}
+        autoCapitalize={"none"}
+        autoComplete={"email"}
         style={styles.input}
       />
       <TextInput
@@ -51,6 +48,8 @@ const Index = ({navigation}) => {
         onChangeText={setPassword}
         secureTextEntry={true}
         onSubmitEditing={handleLogin}
+        autoCapitalize={"none"}
+        autoComplete={"current-password"}
         style={styles.input}
       />
       <Button title={t("logIn")} onPress={handleLogin} />

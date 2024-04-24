@@ -1,7 +1,7 @@
 import {useTranslation} from "react-i18next";
 import {View, Text, StyleSheet} from "react-native";
 import {useEffect, useState} from "react";
-import backend from "../../utils/backend";
+import backend from "../../utils/Backend";
 import Timetable from "../Home/Timetable";
 import Loading from "../../components/Loading";
 

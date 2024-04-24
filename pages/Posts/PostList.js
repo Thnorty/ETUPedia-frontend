@@ -1,5 +1,5 @@
 import {useTranslation} from "react-i18next";
-import backend from "../../utils/backend";
+import backend from "../../utils/Backend";
 import {memo, useEffect, useState} from "react";
 import {FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";

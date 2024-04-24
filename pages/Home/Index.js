@@ -2,20 +2,14 @@ import {useTranslation} from "react-i18next";
 import {StyleSheet, Text, View} from "react-native";
 import {Button} from "../../components/Components";
 import {useEffect, useState} from "react";
-import backend from "../../utils/backend";
-import Storage from "react-native-storage";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import backend, {setAxiosToken} from "../../utils/Backend";
 import Timetable from "./Timetable";
 import Loading from "../../components/Loading";
+import {localStorage} from "../../utils/LocalStorage";
 
 const Index = ({navigation}) => {
   const {t, i18n} = useTranslation();
   const [loading, setLoading] = useState(true);
-  const storage = new Storage({
-    size: 1000,
-    storageBackend: AsyncStorage,
-    defaultExpires: 1000 * 3600 * 24
-  });
   const [studentInfo, setStudentInfo] = useState({
     id: "",
     name: "",
@@ -49,7 +43,7 @@ const Index = ({navigation}) => {
   }
 
   useEffect(() => {
-    storage.load({key: 'studentId'})
+    localStorage.load({key: 'studentId'})
       .then((value) => {
         getStudentInfo(value);
       })
@@ -68,9 +62,10 @@ const Index = ({navigation}) => {
   }, []);
 
   const logout = () => {
-    storage.remove({key: 'studentId'}).then().catch((error) => console.error(error));
-    storage.remove({key: 'token'})
+    localStorage.remove({key: 'studentId'}).then().catch((error) => console.error(error));
+    localStorage.remove({key: 'token'})
       .then(() => {
+        setAxiosToken("");
         setStudentInfo({
           id: "",
           name: "",
@@ -99,7 +94,8 @@ const Index = ({navigation}) => {
   }
 
   const changeLanguage = () => {
-    i18n.changeLanguage(i18n.language === "en" ? "tr" : "en").then(r => {});
+    i18n.changeLanguage(i18n.language === "en" ? "tr" : "en").then(r => {}).catch((error) => console.error(error));
+    localStorage.save({key: 'language', data: i18n.language}).then().catch((error) => console.error(error));
   }
 
   useEffect(() => {

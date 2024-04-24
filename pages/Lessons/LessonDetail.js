@@ -2,8 +2,7 @@ import {useTranslation} from "react-i18next";
 import {useEffect, useState} from "react";
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import LessonInfo from "./LessonInfo";
-import LessonStudents from "./LessonStudents";
-import backend from "../../utils/backend";
+import backend from "../../utils/Backend";
 import Loading from "../../components/Loading";
 import LessonStudentNavigator from "./LessonStudents";
 

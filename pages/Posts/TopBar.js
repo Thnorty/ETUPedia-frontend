@@ -2,7 +2,7 @@ import {useTranslation} from "react-i18next";
 import {StyleSheet, View, Button, Modal, TextInput, TouchableWithoutFeedback, Text} from "react-native";
 import {useState} from 'react';
 import CreatePostModal from "./CreatePostModal";
-import backend from "../../utils/backend";
+import backend from "../../utils/Backend";
 
 const TopBar = ({ setLoading, refreshPostList }) => {
   const {t} = useTranslation();
