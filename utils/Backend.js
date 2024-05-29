@@ -1,8 +1,9 @@
 import axios from 'axios';
 import {localStorage} from "./LocalStorage";
+require('dotenv').config();
 
 const backend = axios.create({
-  baseURL: 'https://bass-flexible-freely.ngrok-free.app/',
+  baseURL: process.env.BASE_URL,
 });
 
 export const setAxiosToken = (token) => {
