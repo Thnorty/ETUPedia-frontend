@@ -4,5 +4,5 @@ import Storage from "react-native-storage";
 export const localStorage = new Storage({
   size: 1000,
   storageBackend: AsyncStorage,
-  defaultExpires: 1000 * 3600 * 24
+  defaultExpires: null,
 });

@@ -5,6 +5,7 @@ import {Button} from "../../components/Components";
 import backend, {setAxiosToken} from "../../utils/Backend";
 import icon from "../../assets/icon.png";
 import {localStorage} from "../../utils/LocalStorage";
+import axios from "axios";
 
 const Index = ({navigation}) => {
   const {t} = useTranslation();
@@ -13,19 +14,37 @@ const Index = ({navigation}) => {
   const passwordRef = useRef(null);
 
   const handleLogin = () => {
-    const payload = {
-      email: email,
-      password: password
+    const loginURL = "https://ubs.etu.edu.tr/login.aspx?lang=tr-TR";
+    const loginData = {
+      '__VIEWSTATE': '/wEPDwUKLTkzNDk1ODgzOA9kFgICAw9kFgwCCQ8PFgIeCEltYWdlVXJsBRR+L011c3RlcmlMb2dvLzYxLnBuZ2RkAhU' +
+                      'PD2QWAh4MYXV0b2NvbXBsZXRlBQJvbmQCGQ8PZBYCHwEFAm9uZAInDw8WAh4HRW5hYmxlZGhkZAIrDxYCHgdWaXNpYm' +
+                      'xlaGQCLQ9kFgICAQ8PFgIeBFRleHRlZGQYAQUeX19Db250cm9sc1JlcXVpcmVQb3N0QmFja0tleV9fFgIFDUltYWdlQ' +
+                      'nV0dG9uVFIFDUltYWdlQnV0dG9uRU6G8CXMQsZDt5IZGuMgTsIlSy3kDg==',
+      '__EVENTVALIDATION': '/wEWBgKjkPDYBALvqPO+AgLjqJ+WBQKG87HkBgK1qbSRCwKC3IeGDOWeHvaR4DQVjutZAzChsKm4TchX',
+      'txtLogin': email,
+      'txtPassword': password,
+      'btnLogin': 'Giriş'
     }
-    backend.post("api/login/", payload).then((response) => {
-      localStorage.save({key: 'studentId', data: response.data.student_id}).then().catch((error) => console.error(error));
-      localStorage.save({key: 'token', data: response.data.token}).then(() => {
-        setAxiosToken(response.data.token);
-        navigation.reset({index: 0, routes: [{ name: 'Home' }]});
-      }).catch((error) => console.error(error));
-    }).catch((error) => {
-      console.error(error);
-      alert(t("invalidLogin"));
+
+    axios.post(loginURL, new URLSearchParams(loginData)).then((response) => {
+      const responseURL = response.request.responseURL;
+      if (responseURL === loginURL) {
+        alert(t("invalidLogin"));
+      } else {
+        const payload = {
+          email: email
+        }
+        backend.post("api/login/", payload).then((response) => {
+          localStorage.save({key: 'studentId', data: response.data.student_id}).then().catch((error) => console.error(error));
+          localStorage.save({key: 'token', data: response.data.token}).then(() => {
+            setAxiosToken(response.data.token);
+            navigation.reset({index: 0, routes: [{ name: 'Home' }]});
+          }).catch((error) => console.error(error));
+        }).catch((error) => {
+          console.error(error);
+          alert(t("invalidLogin"));
+        });
+      }
     });
   }
 
