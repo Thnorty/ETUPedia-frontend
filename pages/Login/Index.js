@@ -40,11 +40,11 @@ const Index = ({navigation}) => {
             setAxiosToken(response.data.token);
             navigation.reset({index: 0, routes: [{ name: 'Home' }]});
           }).catch((error) => console.error(error));
-        }).catch((error) => {
-          console.error(error);
-          alert(t("invalidLogin"));
         });
       }
+    }).catch((error) => {
+      console.error(error);
+      alert(t("invalidLogin"));
     });
   }
 

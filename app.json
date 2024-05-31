@@ -32,6 +32,16 @@
         "projectId": "3f9a6446-772d-48e6-8c75-573b8f07787b"
       }
     },
-    "owner": "thnorty"
+    "owner": "thnorty",
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": true
+          }
+        }
+      ]
+    ]
   }
 }
