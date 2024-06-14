@@ -28,5 +28,6 @@
   "submit": "Submit",
   "title": "Title",
   "content": "Content",
-  "createPost": "Create Post"
+  "createPost": "Create Post",
+  "section": "Section"
 }

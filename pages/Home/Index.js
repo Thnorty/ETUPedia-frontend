@@ -94,7 +94,7 @@ const Index = ({navigation}) => {
   }
 
   const changeLanguage = () => {
-    i18n.changeLanguage(i18n.language === "en" ? "tr" : "en").then(r => {}).catch((error) => console.error(error));
+    i18n.changeLanguage(i18n.language === "en" ? "tr" : "en").then(() => {}).catch((error) => console.error(error));
     localStorage.save({key: 'language', data: i18n.language}).then().catch((error) => console.error(error));
   }
 
@@ -113,11 +113,7 @@ const Index = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <Text>{t("studentID")}: {studentInfo.id}</Text>
-      <Text>{t("hello")}, {studentInfo.name} {studentInfo.surname}</Text>
-      <Text>{t("department")}: {studentInfo.department}</Text>
-      <Text>{t("email")}: {studentInfo.mail}</Text>
-      <Text>{t("year")}: {studentInfo.year}</Text>
+      <Text style={styles.greeting}>{t("hello")}, {studentInfo.name} {studentInfo.surname}!</Text>
       <Timetable lessonSections={studentInfo.lesson_sections} />
     </View>
   );
@@ -127,14 +123,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   logoutButton: {
     backgroundColor: "transparent",
   },
   logoutText: {
     color: "black",
+  },
+  greeting: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
   },
 });
 
