@@ -109,11 +109,21 @@ const Index = ({navigation}) => {
     });
   }, [i18n.language]);
 
+  const getCurrentGreeting = () => {
+    const currentHour = new Date().getHours();
+    if (currentHour < 12)
+      return t("goodMorning");
+    else if (currentHour < 18)
+      return t("goodAfternoon");
+    else
+      return t("goodEvening");
+  }
+
   if (loading) return <Loading />
 
   return (
     <View style={styles.container}>
-      <Text style={styles.greeting}>{t("hello")}, {studentInfo.name} {studentInfo.surname}!</Text>
+      <Text style={styles.greeting}>{getCurrentGreeting()}, {studentInfo.name} {studentInfo.surname}!</Text>
       <Timetable lessonSections={studentInfo.lesson_sections} />
     </View>
   );

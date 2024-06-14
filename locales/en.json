@@ -29,5 +29,8 @@
   "title": "Title",
   "content": "Content",
   "createPost": "Create Post",
-  "section": "Section"
+  "section": "Section",
+  "goodMorning": "Good Morning",
+  "goodAfternoon": "Good Afternoon",
+  "goodEvening": "Good Evening"
 }

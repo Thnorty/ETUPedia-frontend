@@ -29,5 +29,8 @@
   "title": "Başlık",
   "content": "İçerik",
   "createPost": "Gönderi Oluştur",
-  "section": "Şube"
+  "section": "Şube",
+  "goodMorning": "Günaydın",
+  "goodAfternoon": "İyi Günler",
+  "goodEvening": "İyi Akşamlar"
 }
