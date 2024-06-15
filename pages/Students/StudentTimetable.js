@@ -1,6 +1,6 @@
 import {useTranslation} from "react-i18next";
 import {StyleSheet, View} from "react-native";
-import Timetable from "../Home/Timetable";
+import Timetable from "../../components/Timetable";
 
 const StudentTimetable = (props) => {
   const {t} = useTranslation();

@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "EtuX",
-    "slug": "etux",
+    "name": "ETUPedia",
+    "slug": "etupedia",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -22,14 +22,14 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.thnorty.etux"
+      "package": "com.thnorty.etupedia"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "3f9a6446-772d-48e6-8c75-573b8f07787b"
+        "projectId": "118cce41-3d77-495a-81dc-60087ca50cc7"
       }
     },
     "owner": "thnorty",

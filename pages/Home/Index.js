@@ -3,7 +3,7 @@ import {StyleSheet, Text, View} from "react-native";
 import {Button} from "../../components/Components";
 import {useEffect, useState} from "react";
 import backend, {setAxiosToken} from "../../utils/Backend";
-import Timetable from "./Timetable";
+import Timetable from "../../components/Timetable";
 import Loading from "../../components/Loading";
 import {localStorage} from "../../utils/LocalStorage";
 
@@ -111,19 +111,17 @@ const Index = ({navigation}) => {
 
   const getCurrentGreeting = () => {
     const currentHour = new Date().getHours();
-    if (currentHour < 12)
-      return t("goodMorning");
-    else if (currentHour < 18)
-      return t("goodAfternoon");
-    else
-      return t("goodEvening");
+    if (currentHour >= 23 || currentHour < 5) return t("goodNight");
+    if (currentHour < 12) return t("goodMorning");
+    if (currentHour < 18) return t("goodAfternoon");
+    return t("goodEvening");
   }
 
   if (loading) return <Loading />
 
   return (
     <View style={styles.container}>
-      <Text style={styles.greeting}>{getCurrentGreeting()}, {studentInfo.name} {studentInfo.surname}!</Text>
+      <Text style={styles.greeting}>{getCurrentGreeting()} {studentInfo.name}!</Text>
       <Timetable lessonSections={studentInfo.lesson_sections} />
     </View>
   );

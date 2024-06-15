@@ -1,7 +1,7 @@
 import {View, Text, StyleSheet} from "react-native";
 import {useEffect, useState} from "react";
 import backend from "../../utils/Backend";
-import Timetable from "../Home/Timetable";
+import Timetable from "../../components/Timetable";
 import Loading from "../../components/Loading";
 
 const TeacherDetail = ({navigation, route}) => {

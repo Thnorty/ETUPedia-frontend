@@ -2,7 +2,7 @@
   "hello": "Hello",
   "studentID": "Student ID",
   "department": "Department",
-  "email": "Email",
+  "email": "E-mail",
   "year": "Year",
   "logOut": "Log Out",
   "logIn": "Log In",
@@ -32,5 +32,7 @@
   "section": "Section",
   "goodMorning": "Good Morning",
   "goodAfternoon": "Good Afternoon",
-  "goodEvening": "Good Evening"
+  "goodEvening": "Good Evening",
+  "goodNight": "Good Night",
+  "timetable": "Timetable"
 }
