@@ -14,7 +14,11 @@ const Timetable = ({ lessonSections }) => {
     lessonSection.classrooms_and_times.forEach((classroomAndTime) => {
       const day = classroomAndTime.time % day_count;
       const hour = Math.floor(classroomAndTime.time / day_count);
-      timetable[day+1][hour].push(lessonSection.lesson_code + "\n" + classroomAndTime.classroom);
+      timetable[day+1][hour].push({
+        lessonCode: lessonSection.lesson_code,
+        classroom: classroomAndTime.classroom,
+        color: lessonSection.color,
+      })
     });
   });
 
@@ -27,20 +31,26 @@ const Timetable = ({ lessonSections }) => {
         {timetable.map((day, dayIndex) => (
           <View key={dayIndex}>
             <View>
-              <View style={styles.cell}>
-                <Text style={styles.dayName}>
+              <View style={styles.outerCell}>
+                <Text style={styles.outerCellText}>
                   {days[dayIndex]}
                 </Text>
               </View>
               <View>
                 {day.map((lessons, lessonsIndex) => (
-                  <View key={lessonsIndex} style={styles.cell}>
-                    {lessons.map((lesson, lessonIndex) => (
-                      <Text key={lessonIndex} style={styles.lesson}>
-                        {lesson}
-                      </Text>
-                    ))}
-                  </View>
+                  dayIndex === 0 ? (
+                    <View key={lessonsIndex} style={styles.outerCell}>
+                      <Text style={styles.outerCellText}>{lessons[0]}</Text>
+                    </View>
+                    ) : (
+                      <View key={lessonsIndex} style={styles.cell}>
+                        {lessons.map((lesson, lessonIndex) => (
+                          <Text key={lessonIndex} style={[styles.lesson, {backgroundColor: lesson.color}]}>
+                            {lesson.lessonCode}{"\n"}{lesson.classroom}
+                          </Text>
+                        ))}
+                      </View>
+                    )
                 ))}
               </View>
             </View>
@@ -68,11 +78,19 @@ const styles = StyleSheet.create({
     width: scale(40),
     height: 50,
   },
-  dayName: {
+  outerCell: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: "black",
+    width: scale(40),
+    height: 50,
+    backgroundColor: "#b5dfe6",
+  },
+  outerCellText: {
     flex: 1,
     textAlign: "center",
     textAlignVertical: "center",
-    fontSize: 10,
+    fontSize: 13,
   },
   lesson: {
     flex: 1,
