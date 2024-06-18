@@ -14,6 +14,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from "react-native-vector-icons/FontAwesome";
 import {localStorage} from "./utils/LocalStorage";
+import {ActionSheetProvider} from "@expo/react-native-action-sheet";
 
 export default function App() {
   const {t} = useTranslation();
@@ -30,39 +31,41 @@ export default function App() {
     });
 
   return (
-    <NavigationContainer>
-      {initialRouteName &&
-        <Stack.Navigator initialRouteName={initialRouteName} screenOptions={{headerShown: false}}>
-          <Stack.Screen name="LoginIndex" component={LoginIndex} />
-          <Stack.Screen name="Home">
-            {() => (
-              <Tab.Navigator initialRouteName="HomeIndex">
-                <Tab.Screen name="HomeIndex" component={HomeIndex}
-                  options={{title: t("home"), tabBarIcon: ({color, size}) => (
-                    <Icon name="home" color={color} size={size} />
-                  )}} />
-                <Tab.Screen name="PostListIndex" component={PostsIndex}
-                  options={{title: t("posts"), tabBarIcon: ({color, size}) => (
-                    <Icon name="list" color={color} size={size} />
-                  )}} />
-                <Tab.Screen name="TeacherListIndex" component={TeachersIndex}
-                  options={{title: t("teachers"), headerShown: false, tabBarIcon: ({color, size}) => (
-                    <Icon name="user" color={color} size={size} />
-                  )}} />
-                <Tab.Screen name="LessonListIndex" component={LessonsIndex}
-                  options={{title: t("lessons"), headerShown: false, tabBarIcon: ({color, size}) => (
-                    <Icon name="book" color={color} size={size} />
-                  )}} />
-                <Tab.Screen name="StudentsListIndex" component={StudentsIndex}
-                  options={{title: t("students"), headerShown: false, tabBarIcon: ({color, size}) => (
-                    <Icon name="users" color={color} size={size} />
-                  )}} />
-              </Tab.Navigator>
-            )}
-          </Stack.Screen>
-        </Stack.Navigator>
-      }
-      <StatusBar style="dark" />
-    </NavigationContainer>
+    <ActionSheetProvider>
+      <NavigationContainer>
+        {initialRouteName &&
+          <Stack.Navigator initialRouteName={initialRouteName} screenOptions={{headerShown: false}}>
+            <Stack.Screen name="LoginIndex" component={LoginIndex} />
+            <Stack.Screen name="Home">
+              {() => (
+                <Tab.Navigator initialRouteName="HomeIndex">
+                  <Tab.Screen name="HomeIndex" component={HomeIndex}
+                    options={{title: t("home"), tabBarIcon: ({color, size}) => (
+                      <Icon name="home" color={color} size={size} />
+                    )}} />
+                  <Tab.Screen name="PostListIndex" component={PostsIndex}
+                    options={{title: t("posts"), tabBarIcon: ({color, size}) => (
+                      <Icon name="list" color={color} size={size} />
+                    )}} />
+                  <Tab.Screen name="TeacherListIndex" component={TeachersIndex}
+                    options={{title: t("teachers"), headerShown: false, tabBarIcon: ({color, size}) => (
+                      <Icon name="user" color={color} size={size} />
+                    )}} />
+                  <Tab.Screen name="LessonListIndex" component={LessonsIndex}
+                    options={{title: t("lessons"), headerShown: false, tabBarIcon: ({color, size}) => (
+                      <Icon name="book" color={color} size={size} />
+                    )}} />
+                  <Tab.Screen name="StudentsListIndex" component={StudentsIndex}
+                    options={{title: t("students"), headerShown: false, tabBarIcon: ({color, size}) => (
+                      <Icon name="users" color={color} size={size} />
+                    )}} />
+                </Tab.Navigator>
+              )}
+            </Stack.Screen>
+          </Stack.Navigator>
+        }
+        <StatusBar style="dark" />
+      </NavigationContainer>
+    </ActionSheetProvider>
   );
 }

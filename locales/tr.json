@@ -34,5 +34,10 @@
   "goodAfternoon": "İyi Günler",
   "goodEvening": "İyi Akşamlar",
   "goodNight": "İyi Geceler",
-  "timetable": "Ders Programı"
+  "timetable": "Ders Programı",
+  "changeLanguage": "Dili Değiştir",
+  "selectLanguage": "Dil Seçin",
+  "tr": "Türkçe",
+  "en": "İngilizce",
+  "de": "Almanca"
 }

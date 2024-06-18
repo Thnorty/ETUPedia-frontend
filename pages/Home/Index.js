@@ -1,14 +1,16 @@
 import {useTranslation} from "react-i18next";
-import {StyleSheet, Text, View} from "react-native";
-import {Button} from "../../components/Components";
+import {languages} from "../../utils/i18n";
+import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {useEffect, useState} from "react";
 import backend, {setAxiosToken} from "../../utils/Backend";
 import Timetable from "../../components/Timetable";
 import Loading from "../../components/Loading";
 import {localStorage} from "../../utils/LocalStorage";
+import {useActionSheet} from "@expo/react-native-action-sheet";
 
 const Index = ({navigation}) => {
   const {t, i18n} = useTranslation();
+  const {showActionSheetWithOptions} = useActionSheet();
   const [loading, setLoading] = useState(true);
   const [studentInfo, setStudentInfo] = useState({
     id: "",
@@ -50,39 +52,26 @@ const Index = ({navigation}) => {
       .catch((error) => {
         console.error(error);
       });
+  }, []);
 
+  useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <View style={{display: "flex", flexDirection: "row"}}>
-          <Button title={i18n.language.toUpperCase()} onPress={changeLanguage} style={styles.logoutButton} textStyle={styles.logoutText} />
-          <Button title={t("logOut")} onPress={logout} style={styles.logoutButton} textStyle={styles.logoutText} />
+        loading ? null :
+        <View style={styles.topBar}>
+          <TouchableOpacity onPress={showSettingsOptions} style={styles.optionsButton}>
+            <Text style={styles.optionsText}>{studentInfo.name.slice(0, 1)+studentInfo.surname.slice(0, 1)}</Text>
+          </TouchableOpacity>
         </View>
       ),
     });
-  }, []);
+  }, [i18n.language, studentInfo, loading]);
 
-  const logout = () => {
+  const logOut = () => {
     localStorage.remove({key: 'studentId'}).then().catch((error) => console.error(error));
     localStorage.remove({key: 'token'})
       .then(() => {
         setAxiosToken("");
-        setStudentInfo({
-          id: "",
-          name: "",
-          surname: "",
-          department: "",
-          mail: "",
-          year: "",
-          lesson_sections: [{
-            lesson_code: "",
-            lesson_name: "",
-            lesson_section_number: "",
-            classrooms_and_times: [{
-              classroom: "",
-              time: "",
-            }],
-          }],
-        });
         navigation.reset({
           index: 0,
           routes: [{ name: 'LoginIndex' }],
@@ -93,21 +82,49 @@ const Index = ({navigation}) => {
       });
   }
 
-  const changeLanguage = () => {
-    i18n.changeLanguage(i18n.language === "en" ? "tr" : "en").then(() => {}).catch((error) => console.error(error));
-    localStorage.save({key: 'language', data: i18n.language}).then().catch((error) => console.error(error));
+  const showSettingsOptions = () => {
+    const options = [
+      t("changeLanguage"),
+      t("logOut"),
+    ];
+    const cancelButtonIndex = 2;
+    showActionSheetWithOptions({
+      options,
+      cancelButtonIndex,
+    }, (buttonIndex) => {
+      switch (buttonIndex) {
+        case 0:
+          showLanguageOptions();
+          break;
+        case 1:
+          logOut();
+          break;
+        default:
+          break;
+      }
+    });
   }
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <View style={{display: "flex", flexDirection: "row"}}>
-          <Button title={i18n.language.toUpperCase()} onPress={changeLanguage} style={styles.logoutButton} textStyle={styles.logoutText} />
-          <Button title={t("logOut")} onPress={logout} style={styles.logoutButton} textStyle={styles.logoutText} />
-        </View>
-      ),
+  const showLanguageOptions = () => {
+    const options = languages.map(language => t(language.code));
+    const cancelButtonIndex = languages.length;
+    const title = t("selectLanguage");
+    const disabledButtonIndices = [languages.findIndex(lang => lang.code === i18n.language)];
+    showActionSheetWithOptions({
+      options,
+      cancelButtonIndex,
+      title,
+      disabledButtonIndices,
+    }, (buttonIndex) => {
+      if (buttonIndex !== cancelButtonIndex) {
+        i18n.changeLanguage(languages[buttonIndex].code).then().catch(e => console.error(e));
+        localStorage.save({
+          key: 'language',
+          data: languages[buttonIndex].code,
+        }).then().catch(e => console.error(e));
+      }
     });
-  }, [i18n.language]);
+  }
 
   const getCurrentGreeting = () => {
     const currentHour = new Date().getHours();
@@ -132,11 +149,33 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
-  logoutButton: {
-    backgroundColor: "transparent",
+  topBar: {
+    display: "flex",
+    flexDirection: "row",
+    paddingRight: 10,
+    alignItems: "center",
   },
-  logoutText: {
-    color: "black",
+  optionsButton: {
+    borderRadius: 100,
+    backgroundColor: '#fba023',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1.5,
+    borderColor: '#9e9e9e',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 1,
+    shadowRadius: 3.84,
+    elevation: 5,
+    width: 40,
+    height: 40,
+  },
+  optionsText: {
+    fontSize: 14,
+    textAlign: 'center',
+    fontWeight: '500',
+    borderWidth: 1,
+    borderColor: 'transparent',
   },
   greeting: {
     fontSize: 20,

@@ -34,5 +34,10 @@
   "goodAfternoon": "Good Afternoon",
   "goodEvening": "Good Evening",
   "goodNight": "Good Night",
-  "timetable": "Timetable"
+  "timetable": "Timetable",
+  "changeLanguage": "Change Language",
+  "selectLanguage": "Select Language",
+  "tr": "Turkish",
+  "en": "English",
+  "de": "German"
 }
