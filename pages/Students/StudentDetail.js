@@ -4,7 +4,7 @@ import backend from "../../utils/Backend";
 import Loading from "../../components/Loading";
 import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs";
 import StudentInfo from "./StudentInfo";
-import StudentLessons from "./StudentLessons";
+import StudentLessonSections from "./StudentLessonSections";
 import StudentTimetable from "./StudentTimetable";
 
 const StudentDetail = ({navigation, route}) => {
@@ -21,6 +21,7 @@ const StudentDetail = ({navigation, route}) => {
       lesson_code: "",
       lesson_name: "",
       lesson_section_number: "",
+      color: "",
       classrooms_and_times: [{
         classroom: "",
         time: "",
@@ -31,6 +32,7 @@ const StudentDetail = ({navigation, route}) => {
   const Tab = createMaterialTopTabNavigator();
 
   useEffect(() => {
+    setLoading(true);
     navigation.setOptions({title: route.params.studentName});
 
     const payload = {
@@ -44,7 +46,7 @@ const StudentDetail = ({navigation, route}) => {
       .catch((error) => {
         console.error(error);
       });
-  }, []);
+  }, [route.params.studentId, route.params.studentName]);
 
   if (loading) return <Loading />
 
@@ -54,7 +56,7 @@ const StudentDetail = ({navigation, route}) => {
         {() => <StudentInfo studentInfo={studentInfo} />}
       </Tab.Screen>
       <Tab.Screen name="StudentLessons" options={{title: t("lessons")}}>
-        {() => <StudentLessons lesson_sections={studentInfo.lesson_sections} navigation={navigation} route={route}/>}
+        {() => <StudentLessonSections lesson_sections={studentInfo.lesson_sections} navigation={navigation} route={route}/>}
       </Tab.Screen>
       <Tab.Screen name="TimeTable" options={{title: t("timetable")}}>
         {() => <StudentTimetable lessonSections={studentInfo.lesson_sections} />}

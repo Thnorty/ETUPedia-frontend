@@ -1,9 +1,10 @@
 import {useTranslation} from "react-i18next";
 import {useEffect, useState} from "react";
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import LessonInfo from "./LessonInfo";
 import backend from "../../utils/Backend";
 import Loading from "../../components/Loading";
+import LessonInfo from "./LessonInfo";
+import LessonSections from "./LessonSections";
 import LessonStudentNavigator from "./LessonStudents";
 
 const LessonDetail = ({navigation, route}) => {
@@ -12,6 +13,7 @@ const LessonDetail = ({navigation, route}) => {
   const [lessonInfo, setLessonInfo] = useState({
     lesson_code: "",
     lesson_name: "",
+    lesson_section_count: "",
     student_count: "",
     students: [
       {
@@ -21,6 +23,12 @@ const LessonDetail = ({navigation, route}) => {
       }
     ],
   });
+  const [lessonSections, setLessonSections] = useState([
+    {
+      section_teacher: "",
+      section_number: "",
+    }
+  ]);
 
   const Tab = createMaterialTopTabNavigator();
 
@@ -30,14 +38,16 @@ const LessonDetail = ({navigation, route}) => {
     const payload = {
       lesson_code: route.params.lessonCode,
     };
-    backend.post("api/get-lesson-info/", payload)
-      .then((response) => {
-        setLessonInfo(response.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    Promise.all([
+      backend.post("api/get-lesson-info/", payload),
+      backend.post("api/get-sections-of-lesson/", payload)
+    ]).then(([lessonInfoResponse, lessonSectionsResponse]) => {
+      setLessonInfo(lessonInfoResponse.data);
+      setLessonSections(lessonSectionsResponse.data);
+      setLoading(false);
+    }).catch((error) => {
+      console.error(error);
+    });
   }, []);
 
   if (loading) return <Loading />
@@ -46,6 +56,9 @@ const LessonDetail = ({navigation, route}) => {
     <Tab.Navigator>
       <Tab.Screen name="LessonInfo" options={{title: t("info")}}>
         {() => <LessonInfo studentCount={lessonInfo.student_count} />}
+      </Tab.Screen>
+      <Tab.Screen name="LessonSections" options={{title: t("sections")}}>
+        {() => <LessonSections lessonSections={lessonSections} lessonInfo={lessonInfo} navigation={navigation}/>}
       </Tab.Screen>
       <Tab.Screen name="LessonStudents" options={{title: t("students")}}>
         {() => <LessonStudentNavigator students={lessonInfo.students} navigation={navigation} route={route}/>}

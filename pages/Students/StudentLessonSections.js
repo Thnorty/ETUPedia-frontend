@@ -3,7 +3,7 @@ import {FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View} from "rea
 import {memo, useState, useEffect} from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-const StudentLessons = (props) => {
+const StudentLessonSections = (props) => {
   const {t} = useTranslation();
   const [search, setSearch] = useState('');
   const [filteredLessonList, setFilteredLessonList] = useState([]);
@@ -20,12 +20,6 @@ const StudentLessons = (props) => {
 
   const LessonItem = memo(({ item, navigation }) => (
     <View>
-      {/*<TouchableOpacity style={styles.item} onPress={() => props.navigation.navigate("StudentsListIndex", {*/}
-      {/*  screen: "StudentDetailIndex",*/}
-      {/*  params: { studentId: item.id, studentName: `${item.name} ${item.surname}` }*/}
-      {/*})}>*/}
-      {/*  <Text>{item.name} {item.surname}</Text>*/}
-      {/*</TouchableOpacity>*/}
       <TouchableOpacity style={styles.item}>
         <Text style={styles.mainText}>{item.lesson_code} {item.lesson_name}</Text>
         <Text style={styles.smallText}>{t("section")}: {item.lesson_section_number}</Text>
@@ -85,4 +79,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default StudentLessons;
+export default StudentLessonSections;

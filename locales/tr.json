@@ -39,5 +39,6 @@
   "selectLanguage": "Dil Seçin",
   "tr": "Türkçe",
   "en": "İngilizce",
-  "de": "Almanca"
+  "de": "Almanca",
+  "numberOfLessonsTaught": "Verilen Ders Sayısı"
 }

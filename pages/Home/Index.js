@@ -19,6 +19,7 @@ const Index = ({navigation}) => {
     department: "",
     mail: "",
     year: "",
+    color: "",
     lesson_sections: [{
       lesson_code: "",
       lesson_name: "",
@@ -59,7 +60,7 @@ const Index = ({navigation}) => {
       headerRight: () => (
         loading ? null :
         <View style={styles.topBar}>
-          <TouchableOpacity onPress={showSettingsOptions} style={styles.optionsButton}>
+          <TouchableOpacity onPress={showSettingsOptions} style={[styles.optionsButton, {backgroundColor: studentInfo.color}]}>
             <Text style={styles.optionsText}>{studentInfo.name.slice(0, 1)+studentInfo.surname.slice(0, 1)}</Text>
           </TouchableOpacity>
         </View>

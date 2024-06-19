@@ -39,5 +39,6 @@
   "selectLanguage": "Sprache auswählen",
   "tr": "Türkisch",
   "en": "Englisch",
-  "de": "Deutsch"
+  "de": "Deutsch",
+  "numberOfLessonsTaught": "Anzahl der erteilten Lektionen"
 }

@@ -39,5 +39,6 @@
   "selectLanguage": "Select Language",
   "tr": "Turkish",
   "en": "English",
-  "de": "German"
+  "de": "German",
+  "numberOfLessonsTaught": "Number of Lessons Taught",
 }
