@@ -1,10 +1,11 @@
 import {useTranslation} from "react-i18next";
 import backend from "../../utils/Backend";
 import {memo, useEffect, useState} from "react";
-import {FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Loading from "../../components/Loading";
 import TopBar from "./TopBar";
+import {FlashList} from "@shopify/flash-list";
 
 const PostList = ({navigation}) => {
   const {t} = useTranslation();
@@ -69,10 +70,10 @@ const PostList = ({navigation}) => {
           placeholder={t("search...")}
         />
       </View>
-      <FlatList
+      <FlashList
         data={filteredPostList}
         renderItem={({ item }) => <PostItem item={item} navigation={navigation} />}
-        keyExtractor={item => item.id.toString()}
+        estimatedItemSize={120}
       />
     </View>
   );

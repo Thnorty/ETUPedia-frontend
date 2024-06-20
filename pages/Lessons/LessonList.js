@@ -1,9 +1,10 @@
 import {useTranslation} from "react-i18next";
 import backend from "../../utils/Backend";
 import {memo, useEffect, useState} from "react";
-import {FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import Loading from "../../components/Loading";
 import Icon from "react-native-vector-icons/FontAwesome";
+import {FlashList} from "@shopify/flash-list";
 
 const LessonList = ({navigation}) => {
   const {t} = useTranslation();
@@ -56,10 +57,10 @@ const LessonList = ({navigation}) => {
           placeholder={t("search...")}
         />
       </View>
-      <FlatList
+      <FlashList
         data={filteredLessonList}
         renderItem={({ item }) => <LessonItem item={item} navigation={navigation} />}
-        keyExtractor={item => item.lesson_code.toString()}
+        estimatedItemSize={40}
       />
     </View>
   );
