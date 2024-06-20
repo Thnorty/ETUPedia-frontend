@@ -39,8 +39,12 @@ const StudentList = ({navigation}) => {
         studentName: `${item.name} ${item.surname}`,
       })}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <View style={[styles.profileButton, {backgroundColor: item.color}]}>
-            <Text style={[styles.profileText, {color: item.color.charAt(1).toLowerCase() > 'd' ? 'black' : 'white'}]}>{item.name.slice(0, 1)+item.surname.slice(0, 1)}</Text>
+          <View style={[styles.profileButton, {backgroundColor: item.color || "white"}]}>
+            <Text
+              style={[styles.profileText, {color: item.color ? (item.color.charAt(1).toLowerCase() > 'd' ? 'black' : 'white') : 'black'}]}
+            >
+              {item.name.slice(0, 1)+item.surname.slice(0, 1)}
+            </Text>
           </View>
           <Text>{item.name} {item.surname}</Text>
         </View>

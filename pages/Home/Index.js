@@ -67,8 +67,12 @@ const Index = ({navigation}) => {
       headerRight: () => (
         loading ? null :
         <View style={styles.topBar}>
-          <TouchableOpacity onPress={showSettingsOptions} style={[styles.optionsButton, {backgroundColor: studentInfo.color}]}>
-            <Text style={[styles.optionsText, {color: studentInfo.color.charAt(1).toLowerCase() > 'd' ? 'black' : 'white'}]}>{studentInfo.name.slice(0, 1)+studentInfo.surname.slice(0, 1)}</Text>
+          <TouchableOpacity onPress={showSettingsOptions} style={[styles.optionsButton, {backgroundColor: studentInfo.color || "white"}]}>
+            <Text
+              style={[styles.optionsText, {color: studentInfo.color ? (studentInfo.color.charAt(1).toLowerCase() > 'd' ? 'black' : 'white') : 'black'}]}
+            >
+              {studentInfo.name.slice(0, 1)+studentInfo.surname.slice(0, 1)}
+            </Text>
           </TouchableOpacity>
         </View>
       ),
