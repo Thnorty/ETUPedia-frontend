@@ -38,7 +38,12 @@ const StudentList = ({navigation}) => {
         studentId: item.id,
         studentName: `${item.name} ${item.surname}`,
       })}>
-        <Text>{item.name} {item.surname}</Text>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <View style={[styles.profileButton, {backgroundColor: item.color}]}>
+            <Text style={[styles.profileText, {color: item.color.charAt(1).toLowerCase() > 'd' ? 'black' : 'white'}]}>{item.name.slice(0, 1)+item.surname.slice(0, 1)}</Text>
+          </View>
+          <Text>{item.name} {item.surname}</Text>
+        </View>
       </TouchableOpacity>
     </View>
   ));
@@ -86,6 +91,28 @@ const styles = StyleSheet.create({
     padding: 10,
     borderBottomWidth: 1,
     borderBottomColor: "#ddd",
+  },
+  profileButton: {
+    borderRadius: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1.5,
+    borderColor: '#9e9e9e',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 1,
+    shadowRadius: 3.84,
+    elevation: 5,
+    width: 40,
+    height: 40,
+    marginRight: 10,
+  },
+  profileText: {
+    fontSize: 14,
+    textAlign: 'center',
+    fontWeight: '500',
+    borderWidth: 1,
+    borderColor: 'transparent',
   },
 });
 
