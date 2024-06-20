@@ -6,91 +6,46 @@ import Modal from "react-native-modal";
 import {useEffect, useState} from "react";
 import backend, {setAxiosToken} from "../../utils/Backend";
 import Timetable from "../../components/Timetable";
-import Loading from "../../components/Loading";
 import {localStorage} from "../../utils/LocalStorage";
 import {useActionSheet} from "@expo/react-native-action-sheet";
 import ColorPicker, { Panel1, Preview, HueSlider } from 'reanimated-color-picker';
 import {Shadow} from "react-native-shadow-2";
 
-const Index = ({navigation}) => {
+const Index = (props) => {
   const {t, i18n} = useTranslation();
   const {showActionSheetWithOptions} = useActionSheet();
   const [colorPickerVisible, setColorPickerVisible] = useState(false);
   const [colorPickerColor, setColorPickerColor] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [studentInfo, setStudentInfo] = useState({
-    id: "",
-    name: "",
-    surname: "",
-    department: "",
-    mail: "",
-    year: "",
-    color: "",
-    lesson_sections: [{
-      lesson_code: "",
-      lesson_name: "",
-      lesson_section_number: "",
-      classrooms_and_times: [{
-        classroom: "",
-        time: "",
-      }],
-    }],
-  });
 
   const deviceHeight = StatusBar.currentHeight + Dimensions.get('window').height;
 
-  const getStudentInfo = (studentId) => {
-    const payload = {
-      student_id: studentId,
-    };
-    backend.post("api/get-student-info/", payload)
-      .then((response) => {
-        setStudentInfo(response.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
-
   useEffect(() => {
-    localStorage.load({key: 'studentId'})
-      .then((value) => {
-        getStudentInfo(value);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
-
-  useEffect(() => {
-    navigation.setOptions({
+    props.navigation.setOptions({
       headerRight: () => (
-        loading ? null :
         <View style={styles.topBar}>
           <Shadow distance={5}>
-            <TouchableOpacity onPress={showSettingsOptions} style={[styles.optionsButton, {backgroundColor: studentInfo.color || "white"}]}>
+            <TouchableOpacity onPress={showSettingsOptions} style={[styles.optionsButton, {backgroundColor: props.studentInfo.color || "white"}]}>
               <Text
-                style={[styles.optionsText, {color: studentInfo.color ? (studentInfo.color.charAt(1).toLowerCase() > 'd' ? 'black' : 'white') : 'black'}]}
+                style={[styles.optionsText, {color: props.studentInfo.color ? (props.studentInfo.color.charAt(1).toLowerCase() > 'd' ? 'black' : 'white') : 'black'}]}
               >
-                {studentInfo.name.slice(0, 1)+studentInfo.surname.slice(0, 1)}
+                {props.studentInfo.name.slice(0, 1)+props.studentInfo.surname.slice(0, 1)}
               </Text>
             </TouchableOpacity>
           </Shadow>
         </View>
       ),
     });
-  }, [i18n.language, studentInfo, loading]);
+  }, [i18n.language, props.studentInfo]);
 
   const changeProfileColor = (color) => {
-    setStudentInfo({...studentInfo, color: color})
+    props.setStudentInfo({...props.studentInfo, color: color})
     const payload = {
-      student_id: studentInfo.id,
+      student_id: props.studentInfo.id,
       color: color,
     };
     backend.post("api/change-profile-color/", payload)
       .then(() => {
-        setStudentInfo({...studentInfo, color: color});
+        props.setStudentInfo({...props.studentInfo, color: color});
       })
       .catch((error) => {
         console.error(error);
@@ -123,7 +78,7 @@ const Index = ({navigation}) => {
     localStorage.remove({key: 'token'})
       .then(() => {
         setAxiosToken("");
-        navigation.reset({
+        props.navigation.reset({
           index: 0,
           routes: [{ name: 'LoginIndex' }],
         });
@@ -168,12 +123,10 @@ const Index = ({navigation}) => {
     return t("goodEvening");
   }
 
-  if (loading) return <Loading />
-
   return (
     <View style={styles.container}>
-      <Text style={styles.greeting}>{getCurrentGreeting()} {studentInfo.name}!</Text>
-      <Timetable lessonSections={studentInfo.lesson_sections} />
+      <Text style={styles.greeting}>{getCurrentGreeting()} {props.studentInfo.name}!</Text>
+      <Timetable lessonSections={props.studentInfo.lesson_sections} />
       <Modal
         isVisible={colorPickerVisible}
         onBackdropPress={() => setColorPickerVisible(false)}
@@ -183,7 +136,7 @@ const Index = ({navigation}) => {
         deviceHeight={deviceHeight}
       >
         <View style={styles.modal}>
-          <ColorPicker value={studentInfo.color} onComplete={({hex}) => setColorPickerColor(hex)}>
+          <ColorPicker value={props.studentInfo.color} onComplete={({hex}) => setColorPickerColor(hex)}>
             <Preview style={{marginVertical: 10}} />
             <Panel1 style={{marginVertical: 10}} thumbShape={"ring"} />
             <HueSlider style={{marginVertical: 10}} thumbSize={25} thumbShape={"pill"} />

@@ -7,7 +7,7 @@ import etupediaIcon from "../../assets/etupedia.png";
 import {localStorage} from "../../utils/LocalStorage";
 import axios from "axios";
 
-const Index = ({navigation}) => {
+const Index = (props) => {
   const {t} = useTranslation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -38,7 +38,7 @@ const Index = ({navigation}) => {
           localStorage.save({key: 'studentId', data: response.data.student_id}).then().catch((error) => console.error(error));
           localStorage.save({key: 'token', data: response.data.token}).then(() => {
             setAxiosToken(response.data.token);
-            navigation.reset({index: 0, routes: [{ name: 'Home' }]});
+            props.getStudentInfo(response.data.student_id, props.navigation);
           }).catch((error) => console.error(error));
         });
       }
