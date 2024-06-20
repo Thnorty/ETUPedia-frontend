@@ -25,7 +25,6 @@ const Timetable = ({ lessonSections }) => {
   timetable[0] = timeSlots;
 
   return (
-    <View style={{flex: 1}}>
     <ScrollView>
       <View style={styles.timetable}>
         {timetable.map((day, dayIndex) => (
@@ -58,7 +57,6 @@ const Timetable = ({ lessonSections }) => {
         ))}
       </View>
     </ScrollView>
-    </View>
   );
 };
 
@@ -99,6 +97,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     textAlignVertical: "center",
     fontSize: 10,
+    borderRadius: 5,
   },
 });
 
