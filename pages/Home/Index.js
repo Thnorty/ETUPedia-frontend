@@ -10,6 +10,7 @@ import Loading from "../../components/Loading";
 import {localStorage} from "../../utils/LocalStorage";
 import {useActionSheet} from "@expo/react-native-action-sheet";
 import ColorPicker, { Panel1, Preview, HueSlider } from 'reanimated-color-picker';
+import {Shadow} from "react-native-shadow-2";
 
 const Index = ({navigation}) => {
   const {t, i18n} = useTranslation();
@@ -67,13 +68,15 @@ const Index = ({navigation}) => {
       headerRight: () => (
         loading ? null :
         <View style={styles.topBar}>
-          <TouchableOpacity onPress={showSettingsOptions} style={[styles.optionsButton, {backgroundColor: studentInfo.color || "white"}]}>
-            <Text
-              style={[styles.optionsText, {color: studentInfo.color ? (studentInfo.color.charAt(1).toLowerCase() > 'd' ? 'black' : 'white') : 'black'}]}
-            >
-              {studentInfo.name.slice(0, 1)+studentInfo.surname.slice(0, 1)}
-            </Text>
-          </TouchableOpacity>
+          <Shadow distance={5}>
+            <TouchableOpacity onPress={showSettingsOptions} style={[styles.optionsButton, {backgroundColor: studentInfo.color || "white"}]}>
+              <Text
+                style={[styles.optionsText, {color: studentInfo.color ? (studentInfo.color.charAt(1).toLowerCase() > 'd' ? 'black' : 'white') : 'black'}]}
+              >
+                {studentInfo.name.slice(0, 1)+studentInfo.surname.slice(0, 1)}
+              </Text>
+            </TouchableOpacity>
+          </Shadow>
         </View>
       ),
     });
@@ -217,11 +220,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderWidth: 1.5,
     borderColor: '#9e9e9e',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 1,
-    shadowRadius: 3.84,
-    elevation: 5,
     width: 40,
     height: 40,
   },

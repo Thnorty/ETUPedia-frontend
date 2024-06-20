@@ -3,6 +3,7 @@ import {StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native"
 import {memo, useState, useEffect} from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
 import {FlashList} from "@shopify/flash-list";
+import {Shadow} from "react-native-shadow-2";
 
 const LessonStudents = (props) => {
   const {t} = useTranslation();
@@ -25,13 +26,15 @@ const LessonStudents = (props) => {
         params: { studentId: item.id, studentName: `${item.name} ${item.surname}` }
       })}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <View style={[styles.profileButton, {backgroundColor: item.color || "white"}]}>
-            <Text
-              style={[styles.profileText, {color: item.color ? (item.color.charAt(1).toLowerCase() > 'd' ? 'black' : 'white') : 'black'}]}
-            >
-              {item.name.slice(0, 1)+item.surname.slice(0, 1)}
-            </Text>
-          </View>
+          <Shadow distance={5}>
+            <View style={[styles.profileButton, {backgroundColor: item.color || "white"}]}>
+              <Text
+                style={[styles.profileText, {color: item.color ? (item.color.charAt(1).toLowerCase() > 'd' ? 'black' : 'white') : 'black'}]}
+              >
+                {item.name.slice(0, 1)+item.surname.slice(0, 1)}
+              </Text>
+            </View>
+          </Shadow>
           <Text>{item.name} {item.surname}</Text>
         </View>
       </TouchableOpacity>
@@ -86,11 +89,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderWidth: 1.5,
     borderColor: '#9e9e9e',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 1,
-    shadowRadius: 3.84,
-    elevation: 5,
     width: 40,
     height: 40,
     marginRight: 10,

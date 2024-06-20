@@ -1,11 +1,15 @@
 import {useTranslation} from "react-i18next";
-import {Button, Modal, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View} from "react-native";
+import {Dimensions, StatusBar, StyleSheet, Text, TextInput, View} from "react-native";
+import Button from "../../components/Button";
 import {useState} from 'react';
+import Modal from "react-native-modal";
 
 const CreatePostModal = ({ isOpen, setIsOpen, onSubmit }) => {
   const {t} = useTranslation();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+
+  const deviceHeight = StatusBar.currentHeight + Dimensions.get('window').height;
 
   const clearFields = () => {
     setTitle("");
@@ -14,84 +18,66 @@ const CreatePostModal = ({ isOpen, setIsOpen, onSubmit }) => {
 
   return (
     <Modal
-      animationType="fade"
-      transparent={true}
-      visible={isOpen}
-      onRequestClose={() => {
+      isVisible={isOpen}
+      animationIn={"fadeIn"}
+      animationOut={"fadeOut"}
+      animationOutTiming={500}
+      backdropOpacity={0.5}
+      statusBarTranslucent={true}
+      deviceHeight={deviceHeight}
+      onBackdropPress={() => {
         setIsOpen(!isOpen);
+        clearFields();
       }}
     >
-      <TouchableWithoutFeedback onPress={() => {
-        setIsOpen(false);
-        clearFields();
-      }}>
-        <View style={styles.centeredView}>
-          <TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
-            <View style={styles.modalView}>
-              <Text style={styles.modalTitle}>{t("createPost")}</Text>
-              <TextInput
-                style={styles.input}
-                placeholder={t("title")}
-                maxLength={100}
-                value={title}
-                onChangeText={setTitle}
-              />
-              <TextInput
-                style={styles.contentInput}
-                placeholder={t("content")}
-                maxLength={500}
-                multiline={true}
-                value={content}
-                onChangeText={setContent}
-              />
-              <View style={styles.buttonContainer}>
-                <View style={styles.cancelButton}>
-                  <Button
-                    title={t("cancel")}
-                    color={"#b1274e"}
-                    onPress={() => {
-                      setIsOpen(!isOpen);
-                      clearFields();
-                    }}
-                  />
-                </View>
-                <Button
-                  title={t("submit")}
-                  onPress={() => {
-                    onSubmit(title, content);
-                    clearFields();
-                  }}
-                />
-              </View>
-            </View>
-          </TouchableWithoutFeedback>
+      <View style={styles.modal}>
+        <Text style={styles.modalTitle}>{t("createPost")}</Text>
+        <TextInput
+          style={styles.input}
+          placeholder={t("title")}
+          maxLength={100}
+          value={title}
+          onChangeText={setTitle}
+        />
+        <TextInput
+          style={styles.contentInput}
+          placeholder={t("content")}
+          maxLength={500}
+          multiline={true}
+          value={content}
+          onChangeText={setContent}
+        />
+        <View style={styles.buttonContainer}>
+          <Button
+            title={t("cancel")}
+            style={styles.modalButton}
+            textStyle={{color: "black"}}
+            onPress={() => {
+              setIsOpen(!isOpen);
+              clearFields();
+            }}
+          />
+          <Button
+            title={t("submit")}
+            style={styles.modalButton}
+            textStyle={{color: "black"}}
+            onPress={() => {
+              onSubmit(title, content);
+              clearFields();
+            }}
+          />
         </View>
-      </TouchableWithoutFeedback>
+      </View>
     </Modal>
   )
 };
 
 const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0,0,0,0.5)"
-  },
-  modalView: {
-    margin: 20,
+  modal: {
     backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
+    borderRadius: 10,
+    padding: 20,
     alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5
   },
   modalTitle: {
     fontSize: 20,
@@ -100,7 +86,7 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    width: 350,
+    width: "100%",
     borderColor: 'gray',
     borderWidth: 1,
     borderRadius: 6,
@@ -109,7 +95,7 @@ const styles = StyleSheet.create({
   },
   contentInput: {
     height: 100,
-    width: 350,
+    width: "100%",
     borderColor: 'gray',
     borderWidth: 1,
     borderRadius: 6,
@@ -122,9 +108,14 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     width: '100%',
   },
-  cancelButton: {
-    marginRight: 10,
-  }
+  modalButton: {
+    flex: 1,
+    marginVertical: 10,
+    marginHorizontal: 5,
+    backgroundColor: '#e1dede',
+    borderColor: '#9e9e9e',
+    borderWidth: 1.5,
+  },
 });
 
 export default CreatePostModal;
