@@ -113,6 +113,7 @@ const PostList = ({navigation}) => {
         renderItem={({ item }) => <PostItem item={item} navigation={navigation} />}
         keyExtractor={(item) => item.id.toString()}
         contentContainerStyle={styles.postsList}
+        estimatedItemSize={100}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
         ListHeaderComponent={
           <View style={styles.searchBar}>

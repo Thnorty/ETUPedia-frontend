@@ -1,10 +1,11 @@
 import {useTranslation} from "react-i18next";
-import {View, Text, StyleSheet, FlatList, TouchableOpacity, RefreshControl, ScrollView} from "react-native";
+import {View, Text, StyleSheet, TouchableOpacity, RefreshControl} from "react-native";
 import {useEffect, useState} from "react";
 import backend from "../../utils/Backend";
 import Loading from "../../components/Loading";
 import Icon from "react-native-vector-icons/FontAwesome";
 import CreateCommentModal from "./CreateCommentModal";
+import {FlashList} from "@shopify/flash-list";
 
 const PostDetail = ({navigation, route}) => {
   const {t} = useTranslation();
@@ -111,24 +112,29 @@ const PostDetail = ({navigation, route}) => {
 
   return (
     <View style={styles.container}>
-      <FlatList
+      <FlashList
         data={comments}
         renderItem={renderComment}
         keyExtractor={(item) => item.id.toString()}
         contentContainerStyle={styles.commentsList}
+        estimatedItemSize={100}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
         ListHeaderComponent={
-          <View style={styles.postContainer}>
-            <Text style={styles.postTopic}>{postInfo.topic} • {postInfo.author_name}</Text>
-            <Text style={styles.postTitle}>{postInfo.title}</Text>
-            <Text style={styles.postContent}>{postInfo.content}</Text>
-            <View style={styles.bottomContainer}>
-              <TouchableOpacity onPress={likePost} style={styles.likeButton}>
-                <Icon name={postInfo.liked ? "heart": "heart-o"} size={20} color={postInfo.liked ? "#c30000": "#000000"} />
-                <Text style={styles.likeText}>{postInfo.likes}</Text>
-              </TouchableOpacity>
-              <Text style={styles.postDate}>{postInfo.created_at}</Text>
+          <View>
+            <View style={styles.postContainer}>
+              <Text style={styles.postTopic}>{postInfo.topic} • {postInfo.author_name}</Text>
+              <Text style={styles.postTitle}>{postInfo.title}</Text>
+              <Text style={styles.postContent}>{postInfo.content}</Text>
+              <View style={styles.bottomContainer}>
+                <TouchableOpacity onPress={likePost} style={styles.likeButton}>
+                  <Icon name={postInfo.liked ? "heart": "heart-o"} size={20} color={postInfo.liked ? "#c30000": "#000000"} />
+                  <Text style={styles.likeText}>{postInfo.likes}</Text>
+                </TouchableOpacity>
+                <Text style={styles.postDate}>{postInfo.created_at}</Text>
+              </View>
             </View>
+            <Text style={styles.commentsHeader}>{t("comments")}</Text>
+            <View style={styles.separator} />
           </View>
         }
       />
@@ -171,6 +177,18 @@ const styles = StyleSheet.create({
   postDate: {
     fontSize: 12,
     color: "#aaa",
+  },
+  commentsHeader: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginVertical: 10,
+    marginHorizontal: 10,
+  },
+  separator: {
+    borderBottomWidth: 1,
+    borderBottomColor: "#ddd",
+    marginHorizontal: 10,
+    marginBottom: 10,
   },
   bottomContainer: {
     flexDirection: "row",
