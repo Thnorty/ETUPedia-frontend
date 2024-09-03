@@ -10,6 +10,7 @@
   "invalidLogin": "Ungültige E-Mail oder ungültiges Passwort!",
   "home": "Startseite",
   "posts": "Beiträge",
+  "forums": "Foren",
   "teachers": "Lehrer",
   "lessons": "Lektionen",
   "students": "Studenten",
@@ -30,6 +31,7 @@
   "title": "Titel",
   "content": "Inhalt",
   "createPost": "Beitrag erstellen",
+  "writeComment": "Kommentar schreiben",
   "section": "Abschnitt",
   "goodMorning": "Guten Morgen",
   "goodAfternoon": "Guten Tag",
@@ -42,5 +44,13 @@
   "tr": "Türkisch",
   "en": "Englisch",
   "de": "Deutsch",
-  "numberOfLessonsTaught": "Anzahl der erteilten Lektionen"
+  "numberOfLessonsTaught": "Anzahl der erteilten Lektionen",
+  "topic": "Thema",
+  "selectTopic": "Thema auswählen",
+  "Off Topic": "Off Topic",
+  "Lesson Discussions": "Lektionsdiskussionen",
+  "Lost and Found": "Verloren und Gefunden",
+  "comment": "Kommentar",
+  "post": "Post",
+  "required": "Erforderlich"
 }

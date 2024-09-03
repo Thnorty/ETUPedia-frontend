@@ -10,6 +10,7 @@
   "invalidLogin": "Geçersiz e-posta veya şifre!",
   "home": "Ana Sayfa",
   "posts": "Gönderiler",
+  "forums": "Forumlar",
   "teachers": "Öğretmenler",
   "lessons": "Dersler",
   "students": "Öğrenciler",
@@ -30,6 +31,7 @@
   "title": "Başlık",
   "content": "İçerik",
   "createPost": "Gönderi Oluştur",
+  "writeComment": "Yorum Yaz",
   "section": "Şube",
   "goodMorning": "Günaydın",
   "goodAfternoon": "İyi Günler",
@@ -42,5 +44,13 @@
   "tr": "Türkçe",
   "en": "İngilizce",
   "de": "Almanca",
-  "numberOfLessonsTaught": "Verilen Ders Sayısı"
+  "numberOfLessonsTaught": "Verilen Ders Sayısı",
+  "topic": "Konu",
+  "selectTopic": "Konu Seç",
+  "Off Topic": "Konu Dışı",
+  "Lesson Discussions": "Ders Sohbetleri",
+  "Lost and Found": "Kayıp Eşya",
+  "comment": "Yorum",
+  "post": "Gönderi",
+  "required": "Gerekli"
 }

@@ -5,7 +5,7 @@ import {useEffect, useState} from "react";
 import {StatusBar} from 'expo-status-bar';
 import LoginIndex from './pages/Login/Index';
 import HomeIndex from './pages/Home/Index';
-import PostsIndex from './pages/Posts/Index';
+import PostsIndex from './pages/Forums/Index';
 import TeachersIndex from './pages/Teachers/Index';
 import LessonsIndex from './pages/Lessons/Index';
 import StudentsIndex from './pages/Students/Index';
@@ -102,8 +102,8 @@ export default function App() {
                   >
                     {(props) => <HomeIndex {...props} studentInfo={studentInfo} setStudentInfo={setStudentInfo} />}
                   </Tab.Screen>
-                  <Tab.Screen name="PostListIndex" component={PostsIndex}
-                    options={{title: t("posts"), tabBarIcon: ({color, size}) => (
+                  <Tab.Screen name="ForumIndex" component={PostsIndex}
+                    options={{title: t("forums"), headerShown: false, tabBarIcon: ({color, size}) => (
                       <Icon name="list" color={color} size={size} />
                     )}} />
                   <Tab.Screen name="TeacherListIndex" component={TeachersIndex}

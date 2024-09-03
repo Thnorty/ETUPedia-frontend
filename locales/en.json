@@ -10,6 +10,7 @@
   "invalidLogin": "Invalid email or password!",
   "home": "Home",
   "posts": "Posts",
+  "forums": "Forums",
   "teachers": "Teachers",
   "lessons": "Lessons",
   "students": "Students",
@@ -30,6 +31,7 @@
   "title": "Title",
   "content": "Content",
   "createPost": "Create Post",
+  "writeComment": "Write Comment",
   "section": "Section",
   "goodMorning": "Good Morning",
   "goodAfternoon": "Good Afternoon",
@@ -42,5 +44,13 @@
   "tr": "Turkish",
   "en": "English",
   "de": "German",
-  "numberOfLessonsTaught": "Number of Lessons Taught"
+  "numberOfLessonsTaught": "Number of Lessons Taught",
+  "topic": "Topic",
+  "selectTopic": "Select Topic",
+  "Off Topic": "Off Topic",
+  "Lesson Discussions": "Lesson Discussions",
+  "Lost and Found": "Lost and Found",
+  "comment": "Comment",
+  "post": "Post",
+  "required": "Required"
 }

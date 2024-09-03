@@ -1,20 +1,47 @@
 import {useTranslation} from "react-i18next";
-import {Dimensions, StatusBar, StyleSheet, Text, TextInput, View} from "react-native";
+import {
+  Dimensions,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TextInput,
+  View
+} from "react-native";
 import Button from "../../components/Button";
 import {useState} from 'react';
 import Modal from "react-native-modal";
 
-const CreatePostModal = ({ isOpen, setIsOpen, onSubmit }) => {
+const CreateCommentModal = ({ isOpen, setIsOpen, onSubmit }) => {
   const {t} = useTranslation();
-  const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [errors, setErrors] = useState([]);
+  const [isClosing, setIsClosing] = useState(false);
 
   const deviceHeight = StatusBar.currentHeight + Dimensions.get('window').height;
 
+  const closeModal = () => {
+    if (!isClosing) {
+      setIsClosing(true);
+      setIsOpen(false);
+    }
+  }
+
   const clearFields = () => {
-    setTitle("");
     setContent("");
+    setErrors([]);
   };
+
+  const handleSubmit = () => {
+    let errors = [];
+    if (!content)
+      errors.push(t("content") + " " + t("required").toLowerCase() + ".");
+
+    setErrors(errors);
+    if (errors.length) return;
+
+    onSubmit(content);
+    closeModal();
+  }
 
   return (
     <Modal
@@ -25,20 +52,14 @@ const CreatePostModal = ({ isOpen, setIsOpen, onSubmit }) => {
       backdropOpacity={0.5}
       statusBarTranslucent={true}
       deviceHeight={deviceHeight}
-      onBackdropPress={() => {
-        setIsOpen(!isOpen);
+      onBackdropPress={() => closeModal()}
+      onModalHide={() => {
+        setIsClosing(false);
         clearFields();
       }}
     >
       <View style={styles.modal}>
-        <Text style={styles.modalTitle}>{t("createPost")}</Text>
-        <TextInput
-          style={styles.input}
-          placeholder={t("title")}
-          maxLength={100}
-          value={title}
-          onChangeText={setTitle}
-        />
+        <Text style={styles.modalTitle}>{t("writeComment")}</Text>
         <TextInput
           style={styles.contentInput}
           placeholder={t("content")}
@@ -47,24 +68,25 @@ const CreatePostModal = ({ isOpen, setIsOpen, onSubmit }) => {
           value={content}
           onChangeText={setContent}
         />
+        {errors.length > 0 &&
+          <View style={styles.errorContainer}>
+            {errors.map((error, index) => (
+              <Text key={index} style={styles.errorText}>{error}</Text>
+            ))}
+          </View>
+        }
         <View style={styles.buttonContainer}>
           <Button
             title={t("cancel")}
             style={styles.modalButton}
             textStyle={{color: "black"}}
-            onPress={() => {
-              setIsOpen(!isOpen);
-              clearFields();
-            }}
+            onPress={() => closeModal()}
           />
           <Button
             title={t("submit")}
             style={styles.modalButton}
             textStyle={{color: "black"}}
-            onPress={() => {
-              onSubmit(title, content);
-              clearFields();
-            }}
+            onPress={() => handleSubmit()}
           />
         </View>
       </View>
@@ -84,15 +106,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 15,
   },
-  input: {
-    height: 40,
-    width: "100%",
-    borderColor: 'gray',
-    borderWidth: 1,
-    borderRadius: 6,
-    marginBottom: 12,
-    padding: 10,
-  },
   contentInput: {
     height: 100,
     width: "100%",
@@ -102,6 +115,14 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     padding: 10,
     textAlignVertical: 'top',
+  },
+  errorContainer: {
+    width: '100%',
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 14,
+    marginBottom: 5,
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -118,4 +139,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CreatePostModal;
+export default CreateCommentModal;
