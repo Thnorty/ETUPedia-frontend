@@ -1,7 +1,5 @@
 import {useTranslation} from "react-i18next";
 import {
-  Dimensions,
-  StatusBar,
   StyleSheet,
   Text,
   TextInput,
@@ -9,21 +7,15 @@ import {
 } from "react-native";
 import Button from "../../components/Button";
 import {useState} from 'react';
-import Modal from "react-native-modal";
+import Modal from "../../components/Modal";
 
 const CreateCommentModal = ({ isOpen, setIsOpen, onSubmit }) => {
   const {t} = useTranslation();
   const [content, setContent] = useState("");
   const [errors, setErrors] = useState([]);
-  const [isClosing, setIsClosing] = useState(false);
-
-  const deviceHeight = StatusBar.currentHeight + Dimensions.get('window').height;
 
   const closeModal = () => {
-    if (!isClosing) {
-      setIsClosing(true);
-      setIsOpen(false);
-    }
+    setIsOpen(false);
   }
 
   const clearFields = () => {
@@ -46,17 +38,8 @@ const CreateCommentModal = ({ isOpen, setIsOpen, onSubmit }) => {
   return (
     <Modal
       isVisible={isOpen}
-      animationIn={"fadeIn"}
-      animationOut={"fadeOut"}
-      animationOutTiming={500}
-      backdropOpacity={0.5}
-      statusBarTranslucent={true}
-      deviceHeight={deviceHeight}
       onBackdropPress={() => closeModal()}
-      onModalHide={() => {
-        setIsClosing(false);
-        clearFields();
-      }}
+      onModalHide={() => clearFields()}
     >
       <View style={styles.modal}>
         <Text style={styles.modalTitle}>{t("writeComment")}</Text>

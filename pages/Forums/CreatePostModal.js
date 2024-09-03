@@ -1,7 +1,5 @@
 import {useTranslation} from "react-i18next";
 import {
-  Dimensions,
-  StatusBar,
   StyleSheet,
   Text,
   TextInput,
@@ -10,7 +8,7 @@ import {
 } from "react-native";
 import Button from "../../components/Button";
 import {useEffect, useRef, useState} from 'react';
-import Modal from "react-native-modal";
+import Modal from "../../components/Modal";
 import backend from "../../utils/Backend";
 import {Picker} from "@react-native-picker/picker";
 
@@ -21,10 +19,7 @@ const CreatePostModal = ({ isOpen, setIsOpen, onSubmit }) => {
   const [topics, setTopics] = useState([]);
   const [selectedTopicOrder, setSelectedTopicOrder] = useState(0);
   const [errors, setErrors] = useState([]);
-  const [isClosing, setIsClosing] = useState(false);
   const pickerRef = useRef();
-
-  const deviceHeight = StatusBar.currentHeight + Dimensions.get('window').height;
 
   useEffect(() => {
     backend.get("posts/get-topics/")
@@ -37,10 +32,7 @@ const CreatePostModal = ({ isOpen, setIsOpen, onSubmit }) => {
   }, []);
 
   const closeModal = () => {
-    if (!isClosing) {
-      setIsClosing(true);
-      setIsOpen(false);
-    }
+    setIsOpen(false);
   }
 
   const clearFields = () => {
@@ -69,17 +61,8 @@ const CreatePostModal = ({ isOpen, setIsOpen, onSubmit }) => {
   return (
     <Modal
       isVisible={isOpen}
-      animationIn={"fadeIn"}
-      animationOut={"fadeOut"}
-      animationOutTiming={500}
-      backdropOpacity={0.5}
-      statusBarTranslucent={true}
-      deviceHeight={deviceHeight}
       onBackdropPress={() => closeModal()}
-      onModalHide={() => {
-        setIsClosing(false);
-        clearFields();
-      }}
+      onModalHide={() => clearFields()}
     >
       <View style={styles.modal}>
         <Text style={styles.modalTitle}>{t("createPost")}</Text>
