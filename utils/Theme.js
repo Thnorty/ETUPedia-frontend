@@ -33,7 +33,7 @@ const darkTheme = {
     success: "#34C759",
     warning: "#FFD60A",
     info: "#5AC8FA",
-    border: "#3A3A3C",
+    border: "#5b5b5e",
   },
 };
 

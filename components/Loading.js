@@ -7,7 +7,7 @@ const Loading = () => {
 
   return (
     <View style={[styles.container, {backgroundColor: theme.colors.background}]}>
-      <ActivityIndicator size="large" color="#0000ff" />
+      <ActivityIndicator size="large" color={theme.colors.primary} />
     </View>
   );
 }

@@ -11,8 +11,10 @@ const Modal = ({ isVisible, onBackdropPress = () => {}, onModalHide = () => {}, 
       isVisible={isVisible}
       animationIn={"fadeIn"}
       animationOut={"fadeOut"}
-      animationOutTiming={100}
       animationInTiming={100}
+      animationOutTiming={100}
+      backdropTransitionInTiming={0}
+      backdropTransitionOutTiming={0}
       backdropOpacity={0.5}
       statusBarTranslucent={true}
       deviceHeight={deviceHeight}

@@ -2,14 +2,13 @@ import {useTranslation} from "react-i18next";
 import {languages} from "../../utils/i18n";
 import {Dimensions, StatusBar, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import Button from "../../components/Button";
-import Modal from "react-native-modal";
+import Modal from "../../components/Modal";
 import {useEffect, useState} from "react";
 import backend, {setAxiosToken} from "../../utils/Backend";
 import Timetable from "../../components/Timetable";
 import {localStorage} from "../../utils/LocalStorage";
 import {useActionSheet} from "@expo/react-native-action-sheet";
 import ColorPicker, { Panel1, Preview, HueSlider } from 'reanimated-color-picker';
-import {Shadow} from "react-native-shadow-2";
 import {useTheme} from "../../utils/Theme";
 import ProfileIcon from "../../components/ProfileIcon";
 
@@ -48,11 +47,12 @@ const Index = (props) => {
   }
 
   const showThemeOptions = () => {
-    const options = [t("dark"), t("light")];
+    const colorSchemes = ["light", "dark", "systemDefault"];
+    const options = colorSchemes.map(colorScheme => t(colorScheme));
     const cancelButtonIndex = options.length;
     const tintColor = theme.colors.primaryText;
     const title = t("changeTheme");
-    const disabledButtonIndices = [theme.dark ? 0 : 1];
+    const disabledButtonIndices = [colorSchemes.findIndex(colorScheme => colorScheme === props.colorScheme)];
     const titleTextStyle = {color: theme.colors.secondaryText};
     const containerStyle = {backgroundColor: theme.colors.surface};
     showActionSheetWithOptions({
@@ -65,7 +65,11 @@ const Index = (props) => {
       containerStyle,
     }, (buttonIndex) => {
       if (buttonIndex !== cancelButtonIndex) {
-        props.setIsDarkTheme(buttonIndex === 0);
+        props.setColorScheme(colorSchemes[buttonIndex]);
+        localStorage.save({
+          key: 'colorScheme',
+          data: colorSchemes[buttonIndex],
+        }).then().catch(e => console.error(e));
       }
     });
   }
@@ -168,10 +172,6 @@ const Index = (props) => {
       <Modal
         isVisible={colorPickerVisible}
         onBackdropPress={() => setColorPickerVisible(false)}
-        backdropOpacity={0.5}
-        animationOutTiming={500}
-        statusBarTranslucent={true}
-        deviceHeight={deviceHeight}
       >
         <View style={[styles.modal, {backgroundColor: theme.colors.surface}]}>
           <ColorPicker value={props.studentInfo.color} onComplete={({hex}) => setColorPickerColor(hex)}>
@@ -179,14 +179,18 @@ const Index = (props) => {
             <Panel1 style={{marginVertical: 10}} thumbShape={"ring"} />
             <HueSlider style={{marginVertical: 10}} thumbSize={25} thumbShape={"pill"} />
           </ColorPicker>
-          <View style={{flexDirection: "row", justifyContent: "space-between"}}>
-            <Button title={t("cancel")} style={[styles.modalButton, {backgroundColor: "transparent"}]} onPress={() => {
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity style={{marginRight: 10}} onPress={() => {
               setColorPickerVisible(false);
-            }} />
-            <Button title={t("apply")} style={styles.modalButton} onPress={() => {
+            }}>
+              <Text style={{color: theme.colors.error}}>{t("cancel")}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => {
               setColorPickerVisible(false);
               changeProfileColor(colorPickerColor);
-            }} />
+            }}>
+              <Text style={{color: theme.colors.primary}}>{t("submit")}</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </Modal>
@@ -228,14 +232,14 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   modal: {
-    padding: 10,
     borderRadius: 10,
+    padding: 20,
   },
-  modalButton: {
-    flex: 1,
-    marginVertical: 10,
-    marginHorizontal: 5,
-    borderWidth: 1.5,
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    width: '100%',
+    marginTop: 10,
   },
 });
 

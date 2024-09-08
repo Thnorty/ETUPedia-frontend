@@ -19,7 +19,7 @@ import backend from "./utils/Backend";
 import Loading from "./components/Loading";
 import {useTheme} from "./utils/Theme";
 
-const Main = ({setIsDarkTheme}) => {
+const Main = ({colorScheme, setColorScheme}) => {
   const {t} = useTranslation();
   const theme = useTheme();
   const [initialRouteName, setInitialRouteName] = useState("");
@@ -122,7 +122,8 @@ const Main = ({setIsDarkTheme}) => {
                     {(props) => <HomeIndex {...props}
                                            studentInfo={studentInfo}
                                            setStudentInfo={setStudentInfo}
-                                           setIsDarkTheme={setIsDarkTheme}
+                                           colorScheme={colorScheme}
+                                           setColorScheme={setColorScheme}
                     />}
                   </Tab.Screen>
                   <Tab.Screen name="ForumIndex"

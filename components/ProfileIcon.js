@@ -1,10 +1,13 @@
 import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {Shadow} from "react-native-shadow-2";
 import {useTheme} from "../utils/Theme";
+import {getTextColor} from "../utils/colorUtils";
 
 const ProfileIcon = ({ user, onPress, size, fontSize, style }) => {
   const theme = useTheme();
   const isDisabled = !onPress;
+  const backgroundColor = user.color || "white";
+  const textColor = getTextColor(backgroundColor);
 
   return (
     <View style={[styles.container, style]}>
@@ -22,7 +25,7 @@ const ProfileIcon = ({ user, onPress, size, fontSize, style }) => {
           ]}
           disabled={isDisabled}
         >
-          <Text style={[styles.profileText, {color: user.color ? (user.color.charAt(1).toLowerCase() > 'd' ? 'black' : 'white') : 'black', fontSize: fontSize}]}>
+          <Text style={[styles.profileText, {color: textColor, fontSize: fontSize}]}>
             {user.name.slice(0, 1)+user.surname.slice(0, 1)}
           </Text>
         </TouchableOpacity>
@@ -41,6 +44,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 50,
     borderWidth: 1.5,
+    elevation: 5,
   },
   profileText: {
     textAlign: 'center',
