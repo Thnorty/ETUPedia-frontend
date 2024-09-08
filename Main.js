@@ -101,12 +101,10 @@ const Main = ({colorScheme, setColorScheme}) => {
       });
   }, []);
 
-  if (loading) return <Loading />
-
   return (
     <ActionSheetProvider>
       <NavigationContainer>
-        {initialRouteName &&
+        {initialRouteName ?
           <Stack.Navigator initialRouteName={initialRouteName} screenOptions={{headerShown: false}}>
             <Stack.Screen name="LoginIndex">
               {(props) => <LoginIndex {...props} getStudentInfo={getStudentInfo} />}
@@ -158,6 +156,8 @@ const Main = ({colorScheme, setColorScheme}) => {
               )}
             </Stack.Screen>
           </Stack.Navigator>
+        :
+          <Loading />
         }
         <StatusBar style={theme.dark ? "light" : "dark"} />
       </NavigationContainer>
