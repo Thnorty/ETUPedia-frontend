@@ -1,12 +1,12 @@
-import {useTranslation} from "react-i18next";
 import {StyleSheet, View} from "react-native";
 import Timetable from "../../components/Timetable";
+import {useTheme} from "../../utils/Theme";
 
 const TeacherTimetable = (props) => {
-  const {t} = useTranslation();
+  const theme = useTheme();
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {backgroundColor: theme.colors.background}]}>
       <Timetable lessonSections={props.lessonSections} />
     </View>
   );
@@ -15,9 +15,7 @@ const TeacherTimetable = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
+    paddingTop: 10,
   },
 });
 

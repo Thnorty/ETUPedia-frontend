@@ -30,6 +30,16 @@ const LessonDetail = ({navigation, route}) => {
     }
   ]);
 
+  const screenOptions = {
+    ...route.params.screenOptions,
+    tabBarStyle: {
+      ...route.params.screenOptions.tabBarStyle,
+      paddingBottom: undefined,
+      paddingTop: undefined,
+      height: undefined,
+    },
+  }
+
   const Tab = createMaterialTopTabNavigator();
 
   useEffect(() => {
@@ -53,7 +63,7 @@ const LessonDetail = ({navigation, route}) => {
   if (loading) return <Loading />
 
   return (
-    <Tab.Navigator>
+    <Tab.Navigator screenOptions={screenOptions}>
       <Tab.Screen name="LessonInfo" options={{title: t("info")}}>
         {() => <LessonInfo studentCount={lessonInfo.student_count} />}
       </Tab.Screen>

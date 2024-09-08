@@ -1,7 +1,6 @@
 import {View, Text, StyleSheet} from "react-native";
 import {useEffect, useState} from "react";
 import backend from "../../utils/Backend";
-import Timetable from "../../components/Timetable";
 import Loading from "../../components/Loading";
 import {useTranslation} from "react-i18next";
 import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs";
@@ -26,6 +25,16 @@ const TeacherDetail = ({navigation, route}) => {
     }],
   });
 
+  const screenOptions = {
+    ...route.params.screenOptions,
+    tabBarStyle: {
+      ...route.params.screenOptions.tabBarStyle,
+      paddingBottom: undefined,
+      paddingTop: undefined,
+      height: undefined,
+    },
+  }
+
   const Tab = createMaterialTopTabNavigator();
 
   useEffect(() => {
@@ -48,7 +57,7 @@ const TeacherDetail = ({navigation, route}) => {
   if (loading) return <Loading />
 
   return (
-    <Tab.Navigator>
+    <Tab.Navigator screenOptions={screenOptions}>
       <Tab.Screen name="TeacherInfo" options={{title: t("info")}}>
         {() => <TeacherInfo teacherInfo={teacherInfo} />}
       </Tab.Screen>
@@ -61,14 +70,5 @@ const TeacherDetail = ({navigation, route}) => {
     </Tab.Navigator>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
 
 export default TeacherDetail;

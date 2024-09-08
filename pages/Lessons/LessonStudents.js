@@ -1,12 +1,15 @@
 import {useTranslation} from "react-i18next";
-import {StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {memo, useState, useEffect} from "react";
-import Icon from "react-native-vector-icons/FontAwesome";
 import {FlashList} from "@shopify/flash-list";
 import {Shadow} from "react-native-shadow-2";
+import {useTheme} from "../../utils/Theme";
+import SearchBar from "../../components/SearchBar";
+import ProfileIcon from "../../components/ProfileIcon";
 
 const LessonStudents = (props) => {
   const {t} = useTranslation();
+  const theme = useTheme();
   const [search, setSearch] = useState('');
   const [filteredStudentList, setFilteredStudentList] = useState([]);
 
@@ -26,32 +29,16 @@ const LessonStudents = (props) => {
         params: { studentId: item.id, studentName: `${item.name} ${item.surname}` }
       })}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <Shadow distance={5}>
-            <View style={[styles.profileButton, {backgroundColor: item.color || "white"}]}>
-              <Text
-                style={[styles.profileText, {color: item.color ? (item.color.charAt(1).toLowerCase() > 'd' ? 'black' : 'white') : 'black'}]}
-              >
-                {item.name.slice(0, 1)+item.surname.slice(0, 1)}
-              </Text>
-            </View>
-          </Shadow>
-          <Text>{item.name} {item.surname}</Text>
+          <ProfileIcon user={item} size={40} fontSize={14} style={styles.profileIcon} />
+          <Text style={[{color: theme.colors.primaryText}]}>{item.name} {item.surname}</Text>
         </View>
       </TouchableOpacity>
     </View>
   ));
 
   return (
-    <View style={styles.container}>
-      <View style={styles.searchBar}>
-        <Icon name="search" size={20} color="black" />
-        <TextInput
-          style={styles.input}
-          value={search}
-          onChangeText={setSearch}
-          placeholder={t("search...")}
-        />
-      </View>
+    <View style={[styles.container, {backgroundColor: theme.colors.background}]}>
+      <SearchBar placeholder={t("search...")} value={search} onChangeText={setSearch} />
       <FlashList
         data={filteredStudentList}
         renderItem={({ item }) => <StudentItem item={item} navigation={props.navigation} />}
@@ -64,42 +51,16 @@ const LessonStudents = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-  },
-  searchBar: {
-    flexDirection: "row",
-    alignItems: "center",
-    padding: 10,
-    margin: 10,
-    borderRadius: 5,
-    backgroundColor: "#f0f0f0",
-  },
-  input: {
-    flex: 1,
-    marginLeft: 10,
+    paddingHorizontal: 10,
   },
   item: {
     padding: 10,
     borderBottomWidth: 1,
     borderBottomColor: "#ddd",
   },
-  profileButton: {
-    borderRadius: 100,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 1.5,
-    borderColor: '#9e9e9e',
-    width: 40,
-    height: 40,
+  profileIcon: {
     marginRight: 10,
-  },
-  profileText: {
-    fontSize: 14,
-    textAlign: 'center',
-    fontWeight: '500',
-    borderWidth: 1,
-    borderColor: 'transparent',
-  },
+  }
 });
 
 export default LessonStudents;

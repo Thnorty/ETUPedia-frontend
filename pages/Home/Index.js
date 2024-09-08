@@ -166,8 +166,8 @@ const Index = (props) => {
   }
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
-      <Text style={[styles.greeting, { color: theme.colors.primaryText }]}>{getCurrentGreeting()} {props.studentInfo.name}!</Text>
+    <View style={[styles.container, {backgroundColor: theme.colors.background}]}>
+      <Text style={[styles.greeting, {color: theme.colors.primaryText}]}>{getCurrentGreeting()} {props.studentInfo.name}!</Text>
       <Timetable lessonSections={props.studentInfo.lesson_sections} style={styles.timetable} />
       <Modal
         isVisible={colorPickerVisible}

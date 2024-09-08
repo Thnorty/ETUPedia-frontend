@@ -1,11 +1,13 @@
 import {useTranslation} from "react-i18next";
-import {StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {memo, useState, useEffect} from "react";
-import Icon from "react-native-vector-icons/FontAwesome";
 import {FlashList} from "@shopify/flash-list";
+import {useTheme} from "../../utils/Theme";
+import SearchBar from "../../components/SearchBar";
 
 const LessonSections = (props) => {
   const {t} = useTranslation();
+  const theme = useTheme();
   const [search, setSearch] = useState('');
   const [filteredSectionList, setFilteredSectionList] = useState([]);
 
@@ -23,22 +25,14 @@ const LessonSections = (props) => {
   const SectionItem = memo(({ item }) => (
     <View>
       <TouchableOpacity style={styles.item}>
-        <Text>{item.section_number} - {item.section_teacher}</Text>
+        <Text style={{color: theme.colors.primaryText}}>{item.section_number} - {item.section_teacher}</Text>
       </TouchableOpacity>
     </View>
   ));
 
   return (
-    <View style={styles.container}>
-      <View style={styles.searchBar}>
-        <Icon name="search" size={20} color="black" />
-        <TextInput
-          style={styles.input}
-          value={search}
-          onChangeText={setSearch}
-          placeholder={t("search...")}
-        />
-      </View>
+    <View style={[styles.container, {backgroundColor: theme.colors.background}]}>
+      <SearchBar placeholder={t("search")} value={search} onChangeText={setSearch} />
       <FlashList
         data={filteredSectionList}
         renderItem={({ item }) => <SectionItem item={item} />}
@@ -51,24 +45,11 @@ const LessonSections = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-  },
-  searchBar: {
-    flexDirection: "row",
-    alignItems: "center",
-    padding: 10,
-    margin: 10,
-    borderRadius: 5,
-    backgroundColor: "#f0f0f0",
-  },
-  input: {
-    flex: 1,
-    marginLeft: 10,
+    paddingHorizontal: 10,
   },
   item: {
     padding: 10,
     borderBottomWidth: 1,
-    borderBottomColor: "#ddd",
   },
 });
 

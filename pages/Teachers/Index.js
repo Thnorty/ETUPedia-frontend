@@ -10,7 +10,8 @@ const Index = (props) => {
   return (
     <Stack.Navigator initialRouteName="TeacherList" screenOptions={props.screenOptions}>
       <Stack.Screen name="TeacherList" component={TeacherList} options={{title: t("teachers")}} />
-      <Stack.Screen name="TeacherDetailIndex" component={TeacherDetail} options={{title: ""}} />
+      <Stack.Screen name="TeacherDetailIndex" component={TeacherDetail} options={{title: ""}}
+                    initialParams={{screenOptions: props.screenOptions}} />
     </Stack.Navigator>
   );
 }
