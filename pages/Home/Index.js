@@ -10,9 +10,12 @@ import {localStorage} from "../../utils/LocalStorage";
 import {useActionSheet} from "@expo/react-native-action-sheet";
 import ColorPicker, { Panel1, Preview, HueSlider } from 'reanimated-color-picker';
 import {Shadow} from "react-native-shadow-2";
+import {useTheme} from "../../utils/Theme";
+import ProfileIcon from "../../components/ProfileIcon";
 
 const Index = (props) => {
   const {t, i18n} = useTranslation();
+  const theme = useTheme();
   const {showActionSheetWithOptions} = useActionSheet();
   const [colorPickerVisible, setColorPickerVisible] = useState(false);
   const [colorPickerColor, setColorPickerColor] = useState("");
@@ -22,20 +25,12 @@ const Index = (props) => {
   useEffect(() => {
     props.navigation.setOptions({
       headerRight: () => (
-        <View style={styles.topBar}>
-          <Shadow distance={5}>
-            <TouchableOpacity onPress={showSettingsOptions} style={[styles.optionsButton, {backgroundColor: props.studentInfo.color || "white"}]}>
-              <Text
-                style={[styles.optionsText, {color: props.studentInfo.color ? (props.studentInfo.color.charAt(1).toLowerCase() > 'd' ? 'black' : 'white') : 'black'}]}
-              >
-                {props.studentInfo.name.slice(0, 1)+props.studentInfo.surname.slice(0, 1)}
-              </Text>
-            </TouchableOpacity>
-          </Shadow>
+        <View style={[styles.topBar]}>
+          <ProfileIcon user={props.studentInfo} onPress={showSettingsOptions} size={40} fontSize={14} style={styles.profileIcon} />
         </View>
       ),
     });
-  }, [i18n.language, props.studentInfo]);
+  }, [theme, i18n.language, props.studentInfo]);
 
   const changeProfileColor = (color) => {
     props.setStudentInfo({...props.studentInfo, color: color})
@@ -52,16 +47,45 @@ const Index = (props) => {
       });
   }
 
-  const showLanguageOptions = () => {
-    const options = languages.map(language => t(language.code));
-    const cancelButtonIndex = languages.length;
-    const title = t("selectLanguage");
-    const disabledButtonIndices = [languages.findIndex(lang => lang.code === i18n.language)];
+  const showThemeOptions = () => {
+    const options = [t("dark"), t("light")];
+    const cancelButtonIndex = options.length;
+    const tintColor = theme.colors.primaryText;
+    const title = t("changeTheme");
+    const disabledButtonIndices = [theme.dark ? 0 : 1];
+    const titleTextStyle = {color: theme.colors.secondaryText};
+    const containerStyle = {backgroundColor: theme.colors.surface};
     showActionSheetWithOptions({
       options,
       cancelButtonIndex,
+      tintColor,
       title,
       disabledButtonIndices,
+      titleTextStyle,
+      containerStyle,
+    }, (buttonIndex) => {
+      if (buttonIndex !== cancelButtonIndex) {
+        props.setIsDarkTheme(buttonIndex === 0);
+      }
+    });
+  }
+
+  const showLanguageOptions = () => {
+    const options = languages.map(language => t(language.code));
+    const cancelButtonIndex = options.length
+    const tintColor = theme.colors.primaryText;
+    const title = t("selectLanguage");
+    const disabledButtonIndices = [languages.findIndex(lang => lang.code === i18n.language)];
+    const titleTextStyle = {color: theme.colors.secondaryText};
+    const containerStyle = {backgroundColor: theme.colors.surface};
+    showActionSheetWithOptions({
+      options,
+      cancelButtonIndex,
+      tintColor,
+      title,
+      disabledButtonIndices,
+      titleTextStyle,
+      containerStyle,
     }, (buttonIndex) => {
       if (buttonIndex !== cancelButtonIndex) {
         i18n.changeLanguage(languages[buttonIndex].code).then().catch(e => console.error(e));
@@ -91,22 +115,36 @@ const Index = (props) => {
   const showSettingsOptions = () => {
     const options = [
       t("changeProfileColor"),
+      t("changeTheme"),
       t("changeLanguage"),
       t("logOut"),
     ];
     const cancelButtonIndex = options.length;
+    const tintColor = theme.colors.primaryText;
+    const title = t("settings");
+    const destructiveButtonIndex = 3;
+    const titleTextStyle = {color: theme.colors.secondaryText};
+    const containerStyle = {backgroundColor: theme.colors.surface};
     showActionSheetWithOptions({
       options,
       cancelButtonIndex,
+      tintColor,
+      title,
+      destructiveButtonIndex,
+      titleTextStyle,
+      containerStyle,
     }, (buttonIndex) => {
       switch (buttonIndex) {
         case 0:
           setColorPickerVisible(true);
           break;
         case 1:
-          showLanguageOptions();
+          showThemeOptions();
           break;
         case 2:
+          showLanguageOptions();
+          break;
+        case 3:
           logOut();
           break;
         default:
@@ -124,9 +162,9 @@ const Index = (props) => {
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.greeting}>{getCurrentGreeting()} {props.studentInfo.name}!</Text>
-      <Timetable lessonSections={props.studentInfo.lesson_sections} />
+    <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
+      <Text style={[styles.greeting, { color: theme.colors.primaryText }]}>{getCurrentGreeting()} {props.studentInfo.name}!</Text>
+      <Timetable lessonSections={props.studentInfo.lesson_sections} style={styles.timetable} />
       <Modal
         isVisible={colorPickerVisible}
         onBackdropPress={() => setColorPickerVisible(false)}
@@ -135,17 +173,17 @@ const Index = (props) => {
         statusBarTranslucent={true}
         deviceHeight={deviceHeight}
       >
-        <View style={styles.modal}>
+        <View style={[styles.modal, {backgroundColor: theme.colors.surface}]}>
           <ColorPicker value={props.studentInfo.color} onComplete={({hex}) => setColorPickerColor(hex)}>
             <Preview style={{marginVertical: 10}} />
             <Panel1 style={{marginVertical: 10}} thumbShape={"ring"} />
             <HueSlider style={{marginVertical: 10}} thumbSize={25} thumbShape={"pill"} />
           </ColorPicker>
           <View style={{flexDirection: "row", justifyContent: "space-between"}}>
-            <Button title={t("cancel")} style={styles.modalButton} textStyle={{color: "black"}} onPress={() => {
+            <Button title={t("cancel")} style={[styles.modalButton, {backgroundColor: "transparent"}]} onPress={() => {
               setColorPickerVisible(false);
             }} />
-            <Button title={t("apply")} style={styles.modalButton} textStyle={{color: "black"}} onPress={() => {
+            <Button title={t("apply")} style={styles.modalButton} onPress={() => {
               setColorPickerVisible(false);
               changeProfileColor(colorPickerColor);
             }} />
@@ -159,7 +197,6 @@ const Index = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
   },
   topBar: {
     display: "flex",
@@ -172,7 +209,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1.5,
-    borderColor: '#9e9e9e',
     width: 40,
     height: 40,
   },
@@ -188,17 +224,17 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     margin: 10,
   },
+  timetable: {
+    marginBottom: 10,
+  },
   modal: {
     padding: 10,
-    backgroundColor: "white",
     borderRadius: 10,
   },
   modalButton: {
     flex: 1,
     marginVertical: 10,
     marginHorizontal: 5,
-    backgroundColor: '#e1dede',
-    borderColor: '#9e9e9e',
     borderWidth: 1.5,
   },
 });

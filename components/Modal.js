@@ -2,7 +2,7 @@ import RNModal from "react-native-modal"
 import {Dimensions, StatusBar} from "react-native";
 import {useState} from "react";
 
-const Modal = ({ isVisible, onBackdropPress, onModalHide, children }) => {
+const Modal = ({ isVisible, onBackdropPress = () => {}, onModalHide = () => {}, children }) => {
   const [isClosing, setIsClosing] = useState(false);
 
   const deviceHeight = StatusBar.currentHeight + Dimensions.get('window').height;
@@ -11,11 +11,18 @@ const Modal = ({ isVisible, onBackdropPress, onModalHide, children }) => {
       isVisible={isVisible}
       animationIn={"fadeIn"}
       animationOut={"fadeOut"}
-      animationOutTiming={500}
+      animationOutTiming={100}
+      animationInTiming={100}
       backdropOpacity={0.5}
       statusBarTranslucent={true}
       deviceHeight={deviceHeight}
       onBackdropPress={() => {
+        if (!isClosing) {
+          setIsClosing(true);
+          onBackdropPress();
+        }
+      }}
+      onBackButtonPress={() => {
         if (!isClosing) {
           setIsClosing(true);
           onBackdropPress();

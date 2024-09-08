@@ -25,6 +25,7 @@
   "sat": "Sa",
   "sun": "So",
   "info": "Info",
+  "settings": "Einstellungen",
   "cancel": "Abbrechen",
   "submit": "Einreichen",
   "apply": "Anwenden",
@@ -53,5 +54,8 @@
   "comment": "Kommentar",
   "comments": "Kommentare",
   "post": "Post",
-  "required": "Erforderlich"
+  "required": "Erforderlich",
+  "changeTheme": "Thema ändern",
+  "dark": "Dunkel",
+  "light": "Licht"
 }

@@ -25,6 +25,7 @@
   "sat": "Sat",
   "sun": "Sun",
   "info": "Info",
+  "settings": "Settings",
   "cancel": "Cancel",
   "submit": "Submit",
   "apply": "Apply",
@@ -53,5 +54,8 @@
   "comment": "Comment",
   "comments": "Comments",
   "post": "Post",
-  "required": "Required"
+  "required": "Required",
+  "changeTheme": "Change Theme",
+  "dark": "Dark",
+  "light": "Light"
 }

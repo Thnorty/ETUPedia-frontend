@@ -1,14 +1,17 @@
 import {useTranslation} from "react-i18next";
 import backend from "../../utils/Backend";
 import {memo, useEffect, useState} from "react";
-import {StyleSheet, Text, TextInput, TouchableOpacity, View, RefreshControl} from "react-native";
+import {StyleSheet, Text, TouchableOpacity, View, RefreshControl} from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Loading from "../../components/Loading";
 import {FlashList} from "@shopify/flash-list";
 import CreatePostModal from "./CreatePostModal";
+import {useTheme} from "../../utils/Theme";
+import SearchBar from "../../components/SearchBar";
 
 const PostList = ({navigation}) => {
   const {t} = useTranslation();
+  const theme = useTheme();
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [postList, setPostList] = useState([]);
@@ -27,7 +30,7 @@ const PostList = ({navigation}) => {
         post.content.toLowerCase().includes(search.toLowerCase())
       )
     );
-  }, [search, postList]);
+  }, [theme, search, postList]);
 
   const onPostCreate = (topicOrder, title, content) => {
     backend.post("posts/create-post/", {
@@ -86,20 +89,20 @@ const PostList = ({navigation}) => {
   }
 
   const PostItem = memo(({ item, navigation }) => (
-    <TouchableOpacity style={styles.postContainer} onPress={() => navigation.navigate("ForumDetailIndex", {
+    <TouchableOpacity style={[styles.postContainer, {backgroundColor: theme.colors.surface}]} onPress={() => navigation.navigate("ForumDetailIndex", {
       forumTitle:item.title, forumID: item.id,
       handleRefreshPostList: handleRefresh,
       updatePostLikeStatus: updatePostLikeStatus,
     })}>
-      <Text style={styles.postTopic}>{item.topic} • {item.author_name}</Text>
-      <Text style={styles.postTitle}>{item.title}</Text>
-      <Text style={styles.postContent}>{item.content}</Text>
+      <Text style={[styles.postTopic, {color: theme.colors.secondaryText}]}>{item.topic} • {item.author_name}</Text>
+      <Text style={[styles.postTitle, {color: theme.colors.primaryText}]}>{item.title}</Text>
+      <Text style={[styles.postContent, {color: theme.colors.primaryText}]}>{item.content}</Text>
       <View style={styles.bottomContainer}>
         <TouchableOpacity style={styles.likeButton} onPress={() => likePost(item.id)}>
-          <Icon name={item.liked ? "heart": "heart-o"} size={20} color={item.liked ? "#c30000" : "#000000"} />
-          <Text style={styles.likeText}>{item.likes}</Text>
+          <Icon name={item.liked ? "heart": "heart-o"} size={20} color={item.liked ? "#c30000" : theme.colors.secondaryText} />
+          <Text style={[styles.likeText, {color: theme.colors.secondaryText}]}>{item.likes}</Text>
         </TouchableOpacity>
-        <Text style={styles.postDate}>{item.created_at}</Text>
+        <Text style={[styles.postDate, {color: theme.colors.secondaryText}]}>{item.created_at}</Text>
       </View>
     </TouchableOpacity>
   ));
@@ -107,7 +110,7 @@ const PostList = ({navigation}) => {
   if (loading) return <Loading />
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {backgroundColor: theme.colors.background}]}>
       <FlashList
         data={filteredPostList}
         renderItem={({ item }) => <PostItem item={item} navigation={navigation} />}
@@ -116,19 +119,11 @@ const PostList = ({navigation}) => {
         estimatedItemSize={100}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
         ListHeaderComponent={
-          <View style={styles.searchBar}>
-            <Icon name="search" size={20} color="black" />
-            <TextInput
-              style={styles.input}
-              value={search}
-              onChangeText={setSearch}
-              placeholder={t("search...")}
-            />
-          </View>
+          <SearchBar value={search} onChangeText={setSearch} placeholder={t("search...")} />
         }
       />
-      <TouchableOpacity style={styles.createPostButton} onPress={() => setIsPostCreateModalOpen(true)}>
-        <Text style={styles.createPostButtonText}>{'+ ' + t("post")}</Text>
+      <TouchableOpacity style={[styles.createPostButton, {backgroundColor: theme.colors.primary}]} onPress={() => setIsPostCreateModalOpen(true)}>
+        <Text style={[styles.createPostButtonText, {color: theme.colors.primaryText}]}>{'+ ' + t("post")}</Text>
       </TouchableOpacity>
       <CreatePostModal isOpen={isPostCreateModalOpen} setIsOpen={setIsPostCreateModalOpen} onSubmit={onPostCreate} />
     </View>
@@ -138,20 +133,7 @@ const PostList = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
     paddingHorizontal: 10,
-  },
-  searchBar: {
-    flexDirection: "row",
-    alignItems: "center",
-    padding: 10,
-    marginVertical: 10,
-    borderRadius: 5,
-    backgroundColor: "#f0f0f0",
-  },
-  input: {
-    flex: 1,
-    marginLeft: 10,
   },
   postContainer: {
     padding: 15,
@@ -159,12 +141,10 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     marginHorizontal: 10,
     borderRadius: 10,
-    backgroundColor: "#ededed",
     elevation: 5,
   },
   postTopic: {
     fontSize: 14,
-    color: "#888",
     marginBottom: 5,
   },
   postTitle: {
@@ -178,7 +158,6 @@ const styles = StyleSheet.create({
   },
   postDate: {
     fontSize: 12,
-    color: "#aaa",
   },
   bottomContainer: {
     flexDirection: "row",
@@ -200,13 +179,11 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 20,
     right: 20,
-    backgroundColor: "#007bff",
     padding: 15,
     borderRadius: 50,
     elevation: 5,
   },
   createPostButtonText: {
-    color: "#fff",
     fontSize: 16,
     fontWeight: "bold",
   },

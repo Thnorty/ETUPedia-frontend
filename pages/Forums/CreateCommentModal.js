@@ -2,15 +2,16 @@ import {useTranslation} from "react-i18next";
 import {
   StyleSheet,
   Text,
-  TextInput,
+  TextInput, TouchableOpacity,
   View
 } from "react-native";
-import Button from "../../components/Button";
 import {useState} from 'react';
 import Modal from "../../components/Modal";
+import {useTheme} from "../../utils/Theme";
 
 const CreateCommentModal = ({ isOpen, setIsOpen, onSubmit }) => {
   const {t} = useTranslation();
+  const theme = useTheme();
   const [content, setContent] = useState("");
   const [errors, setErrors] = useState([]);
 
@@ -41,10 +42,11 @@ const CreateCommentModal = ({ isOpen, setIsOpen, onSubmit }) => {
       onBackdropPress={() => closeModal()}
       onModalHide={() => clearFields()}
     >
-      <View style={styles.modal}>
-        <Text style={styles.modalTitle}>{t("writeComment")}</Text>
+      <View style={[styles.modal, {backgroundColor: theme.colors.surface}]}>
+        <Text style={[styles.modalTitle, {color: theme.colors.primaryText}]}>{t("writeComment")}</Text>
         <TextInput
-          style={styles.contentInput}
+          style={[styles.contentInput, {color: theme.colors.primaryText, borderColor: theme.colors.border}]}
+          placeholderTextColor={theme.colors.secondaryText}
           placeholder={t("content")}
           maxLength={500}
           multiline={true}
@@ -54,23 +56,17 @@ const CreateCommentModal = ({ isOpen, setIsOpen, onSubmit }) => {
         {errors.length > 0 &&
           <View style={styles.errorContainer}>
             {errors.map((error, index) => (
-              <Text key={index} style={styles.errorText}>{error}</Text>
+              <Text key={index} style={[styles.errorText, {color: theme.colors.error}]}>{error}</Text>
             ))}
           </View>
         }
         <View style={styles.buttonContainer}>
-          <Button
-            title={t("cancel")}
-            style={styles.modalButton}
-            textStyle={{color: "black"}}
-            onPress={() => closeModal()}
-          />
-          <Button
-            title={t("submit")}
-            style={styles.modalButton}
-            textStyle={{color: "black"}}
-            onPress={() => handleSubmit()}
-          />
+          <TouchableOpacity onPress={closeModal} style={{marginRight: 10}}>
+            <Text style={{color: theme.colors.error}}>{t("cancel")}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handleSubmit}>
+            <Text style={{color: theme.colors.primary}}>{t("submit")}</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </Modal>
@@ -79,10 +75,8 @@ const CreateCommentModal = ({ isOpen, setIsOpen, onSubmit }) => {
 
 const styles = StyleSheet.create({
   modal: {
-    backgroundColor: "white",
     borderRadius: 10,
     padding: 20,
-    alignItems: "center",
   },
   modalTitle: {
     fontSize: 20,
@@ -92,7 +86,6 @@ const styles = StyleSheet.create({
   contentInput: {
     height: 100,
     width: "100%",
-    borderColor: 'gray',
     borderWidth: 1,
     borderRadius: 6,
     marginBottom: 12,
@@ -103,7 +96,6 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   errorText: {
-    color: 'red',
     fontSize: 14,
     marginBottom: 5,
   },
@@ -111,14 +103,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
     width: '100%',
-  },
-  modalButton: {
-    flex: 1,
-    marginVertical: 10,
-    marginHorizontal: 5,
-    backgroundColor: '#e1dede',
-    borderColor: '#9e9e9e',
-    borderWidth: 1.5,
   },
 });
 

@@ -25,6 +25,7 @@
   "sat": "Cmt",
   "sun": "Paz",
   "info": "Bilgi",
+  "settings": "Ayarlar",
   "cancel": "İptal",
   "submit": "Gönder",
   "apply": "Uygula",
@@ -53,5 +54,8 @@
   "comment": "Yorum",
   "comments": "Yorumlar",
   "post": "Gönderi",
-  "required": "Gerekli"
+  "required": "Gerekli",
+  "changeTheme": "Tema Seç",
+  "dark": "Koyu",
+  "light": "Açık"
 }

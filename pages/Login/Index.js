@@ -1,7 +1,7 @@
 import {useTranslation} from "react-i18next";
 import {StyleSheet, View, TextInput, Image} from "react-native";
 import {useState, useRef} from "react";
-import {Button} from "../../components/Components";
+import Button from "../../components/Button";
 import backend, {setAxiosToken} from "../../utils/Backend";
 import etupediaIcon from "../../assets/etupedia.png";
 import {localStorage} from "../../utils/LocalStorage";

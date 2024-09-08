@@ -1,9 +1,11 @@
 import {useTranslation} from "react-i18next";
 import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import {scale, verticalScale} from 'react-native-size-matters';
+import {useTheme} from "../utils/Theme";
 
-const Timetable = ({ lessonSections }) => {
+const Timetable = ({ lessonSections, style }) => {
   const {t} = useTranslation();
+  const theme = useTheme();
   const day_count = 7;
   const hour_count = 14;
   const days = ["", "mon", "tue", "wed", "thu", "fri", "sat", "sun"].map((day) => t(day));
@@ -26,25 +28,25 @@ const Timetable = ({ lessonSections }) => {
 
   return (
     <ScrollView>
-      <View style={styles.timetable}>
+      <View style={[styles.timetable, style]}>
         {timetable.map((day, dayIndex) => (
           <View key={dayIndex}>
             <View>
-              <View style={styles.outerCell}>
-                <Text style={styles.outerCellText}>
+              <View style={[styles.outerCell, {backgroundColor: theme.colors.primary, borderColor: theme.colors.border}]}>
+                <Text style={[styles.outerCellText, {color: theme.colors.primaryText}]}>
                   {days[dayIndex]}
                 </Text>
               </View>
               <View>
                 {day.map((lessons, lessonsIndex) => (
                   dayIndex === 0 ? (
-                    <View key={lessonsIndex} style={styles.outerCell}>
-                      <Text style={styles.outerCellText}>{lessons[0]}</Text>
+                    <View key={lessonsIndex} style={[styles.outerCell, {backgroundColor: theme.colors.primary, borderColor: theme.colors.border}]}>
+                      <Text style={[styles.outerCellText, {color: theme.colors.primaryText}]}>{lessons[0]}</Text>
                     </View>
                     ) : (
-                      <View key={lessonsIndex} style={styles.cell}>
+                      <View key={lessonsIndex} style={[styles.cell, {borderColor: theme.colors.border}]}>
                         {lessons.map((lesson, lessonIndex) => (
-                          <Text key={lessonIndex} style={[styles.lesson, {backgroundColor: lesson.color}]}>
+                          <Text key={lessonIndex} style={[styles.lesson, {backgroundColor: lesson.color, borderColor: theme.colors.border}]}>
                             {lesson.lessonCode}{"\n"}{lesson.classroom}
                           </Text>
                         ))}
@@ -72,17 +74,14 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 2,
     borderWidth: 1,
-    borderColor: "black",
     width: scale(40),
     height: 50,
   },
   outerCell: {
     flex: 1,
     borderWidth: 1,
-    borderColor: "black",
     width: scale(40),
     height: 50,
-    backgroundColor: "#b5dfe6",
   },
   outerCellText: {
     flex: 1,
@@ -93,7 +92,6 @@ const styles = StyleSheet.create({
   lesson: {
     flex: 1,
     borderWidth: 1,
-    borderColor: "black",
     textAlign: "center",
     textAlignVertical: "center",
     fontSize: 10,

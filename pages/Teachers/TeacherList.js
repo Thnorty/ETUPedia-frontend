@@ -1,13 +1,15 @@
 import {useTranslation} from "react-i18next";
-import {StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import React, {memo, useEffect, useState} from "react";
 import backend from "../../utils/Backend";
-import Icon from "react-native-vector-icons/FontAwesome";
 import Loading from "../../components/Loading";
 import {FlashList} from "@shopify/flash-list";
+import {useTheme} from "../../utils/Theme";
+import SearchBar from "../../components/SearchBar";
 
 const TeacherList = ({navigation}) => {
   const {t} = useTranslation();
+  const theme = useTheme();
   const [loading, setLoading] = useState(true);
   const [teacherList, setTeacherList] = useState([]);
   const [search, setSearch] = useState('');
@@ -30,33 +32,23 @@ const TeacherList = ({navigation}) => {
         `${teacher.name} ${teacher.surname}`.toLowerCase().includes(search.toLowerCase())
       )
     );
-  }, [search, teacherList]);
+  }, [theme, search, teacherList]);
 
   const TeacherItem = memo(({ item, navigation }) => (
     <View>
-      <TouchableOpacity style={styles.item} onPress={() => navigation.navigate("TeacherDetailIndex", {teacherName: item.name})}>
-        <Text>{item.name} {item.surname}</Text>
+      <TouchableOpacity style={[styles.item, {borderBottomColor: theme.colors.border}]} onPress={() => navigation.navigate("TeacherDetailIndex", {
+        teacherName: item.name
+      })}>
+        <Text style={[{color: theme.colors.primaryText}]}>{item.name} {item.surname}</Text>
       </TouchableOpacity>
     </View>
   ));
 
-  if (loading) {
-    return (
-      <Loading />
-    );
-  }
+  if (loading) return <Loading />
 
   return (
-    <View style={styles.container}>
-      <View style={styles.searchBar}>
-        <Icon name="search" size={20} color="black" />
-        <TextInput
-          style={styles.input}
-          value={search}
-          onChangeText={setSearch}
-          placeholder={t("search...")}
-        />
-      </View>
+    <View style={[styles.container, {backgroundColor: theme.colors.background}]}>
+      <SearchBar value={search} onChangeText={setSearch} placeholder={t("search...")} />
       <FlashList
         data={filteredTeacherList}
         renderItem={({ item }) => <TeacherItem item={item} navigation={navigation} />}
@@ -69,24 +61,11 @@ const TeacherList = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-  },
-  searchBar: {
-    flexDirection: "row",
-    alignItems: "center",
-    padding: 10,
-    margin: 10,
-    borderRadius: 5,
-    backgroundColor: "#f0f0f0",
-  },
-  input: {
-    flex: 1,
-    marginLeft: 10,
+    paddingHorizontal: 10,
   },
   item: {
     padding: 10,
     borderBottomWidth: 1,
-    borderBottomColor: "#ddd",
   },
 });
 
