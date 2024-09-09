@@ -18,6 +18,7 @@ const PostList = ({navigation}) => {
   const [search, setSearch] = useState('');
   const [isPostCreateModalOpen, setIsPostCreateModalOpen] = useState(false);
   const [filteredPostList, setFilteredPostList] = useState([]);
+  const [loadingError, setLoadingError] = useState(false);
 
   useEffect(() => {
     handleRefresh();
@@ -77,6 +78,7 @@ const PostList = ({navigation}) => {
 
   const handleRefresh = () => {
     setRefreshing(true);
+    setLoadingError(false);
     backend.get("posts/get-posts/")
       .then((response) => {
         setPostList(response.data);
@@ -85,6 +87,8 @@ const PostList = ({navigation}) => {
       })
       .catch((error) => {
         console.error(error);
+        setLoadingError(true);
+        setRefreshing(false);
       });
   }
 
@@ -107,7 +111,7 @@ const PostList = ({navigation}) => {
     </TouchableOpacity>
   ));
 
-  if (loading) return <Loading />
+  if (loading) return <Loading loadingError={loadingError} onRetry={handleRefresh} />
 
   return (
     <View style={[styles.container, {backgroundColor: theme.colors.background}]}>

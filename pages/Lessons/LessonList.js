@@ -14,8 +14,10 @@ const LessonList = ({navigation}) => {
   const [lessonList, setLessonList] = useState([]);
   const [search, setSearch] = useState('');
   const [filteredLessonList, setFilteredLessonList] = useState([]);
+  const [loadingError, setLoadingError] = useState(false);
 
-  useEffect(() => {
+  const load = () => {
+    setLoadingError(false);
     backend.get("api/get-lessons/")
       .then((response) => {
         setLessonList(response.data);
@@ -23,7 +25,12 @@ const LessonList = ({navigation}) => {
       })
       .catch((error) => {
         console.error(error);
+        setLoadingError(true);
       });
+  }
+
+  useEffect(() => {
+    load();
   }, []);
 
   useEffect(() => {
@@ -45,7 +52,7 @@ const LessonList = ({navigation}) => {
     </View>
   ));
 
-  if (loading) return <Loading />
+  if (loading) return <Loading loadingError={loadingError} onRetry={() => load()} />
 
   return (
     <View style={[styles.container, {backgroundColor: theme.colors.background}]}>

@@ -24,6 +24,7 @@ const PostDetail = ({navigation, route}) => {
   });
   const [isCommentCreateModalOpen, setIsCommentCreateModalOpen] = useState(false);
   const [comments, setComments] = useState([]);
+  const [loadingError, setLoadingError] = useState(false);
 
   useEffect(() => {
     navigation.setOptions({title: route.params.forumTitle});
@@ -66,6 +67,7 @@ const PostDetail = ({navigation, route}) => {
 
   const handleLoad = () => {
     setLoading(true);
+    setLoadingError(false);
     const payload = {
       forum_id: route.params.forumID,
     }
@@ -77,6 +79,7 @@ const PostDetail = ({navigation, route}) => {
       })
       .catch((error) => {
         console.error(error);
+        setLoadingError(true);
       });
     route.params.handleRefreshPostList();
   }
@@ -94,6 +97,7 @@ const PostDetail = ({navigation, route}) => {
       })
       .catch((error) => {
         console.error(error);
+        setRefreshing(false);
       });
   }
 
@@ -122,7 +126,7 @@ const PostDetail = ({navigation, route}) => {
     </View>
   ));
 
-  if (loading) return <Loading />
+  if (loading) return <Loading loadingError={loadingError} onRetry={handleLoad} />
 
   return (
     <View style={[styles.container, {backgroundColor: theme.colors.background}]}>

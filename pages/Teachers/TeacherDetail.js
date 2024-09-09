@@ -24,6 +24,7 @@ const TeacherDetail = ({navigation, route}) => {
       }],
     }],
   });
+  const [loadingError, setLoadingError] = useState(false);
 
   const screenOptions = {
     ...route.params.screenOptions,
@@ -38,9 +39,11 @@ const TeacherDetail = ({navigation, route}) => {
   const Tab = createMaterialTopTabNavigator();
 
   useEffect(() => {
-    setLoading(true);
-    navigation.setOptions({title: route.params.teacherName});
+    load();
+  }, []);
 
+  const load = () => {
+    setLoadingError(false);
     const payload = {
       teacher_name: route.params.teacherName,
     };
@@ -51,10 +54,11 @@ const TeacherDetail = ({navigation, route}) => {
       })
       .catch((error) => {
         console.error(error);
+        setLoadingError(true);
       });
-  }, [route.params.teacherName]);
+  }
 
-  if (loading) return <Loading />
+  if (loading) return <Loading loadingError={loadingError} onRetry={() => load()} />
 
   return (
     <Tab.Navigator screenOptions={screenOptions}>

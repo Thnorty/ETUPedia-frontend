@@ -29,6 +29,7 @@ const LessonDetail = ({navigation, route}) => {
       section_number: "",
     }
   ]);
+  const [loadingError, setLoadingError] = useState(false);
 
   const screenOptions = {
     ...route.params.screenOptions,
@@ -43,8 +44,11 @@ const LessonDetail = ({navigation, route}) => {
   const Tab = createMaterialTopTabNavigator();
 
   useEffect(() => {
-    navigation.setOptions({title: `${route.params.lessonCode} ${route.params.lessonName}`});
+    load();
+  }, []);
 
+  const load = () => {
+    setLoadingError(false);
     const payload = {
       lesson_code: route.params.lessonCode,
     };
@@ -57,10 +61,11 @@ const LessonDetail = ({navigation, route}) => {
       setLoading(false);
     }).catch((error) => {
       console.error(error);
+      setLoadingError(true);
     });
-  }, []);
+  }
 
-  if (loading) return <Loading />
+  if (loading) return <Loading loadingError={loadingError} onRetry={() => load()} />
 
   return (
     <Tab.Navigator screenOptions={screenOptions}>

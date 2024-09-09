@@ -14,8 +14,10 @@ const TeacherList = ({navigation}) => {
   const [teacherList, setTeacherList] = useState([]);
   const [search, setSearch] = useState('');
   const [filteredTeacherList, setFilteredTeacherList] = useState([]);
+  const [loadingError, setLoadingError] = useState(false);
 
-  useEffect(() => {
+  const load = () => {
+    setLoadingError(false);
     backend.get("api/get-teachers/")
       .then((response) => {
         setTeacherList(response.data);
@@ -23,7 +25,12 @@ const TeacherList = ({navigation}) => {
       })
       .catch((error) => {
         console.error(error);
+        setLoadingError(true);
       });
+  }
+
+  useEffect(() => {
+    load();
   }, []);
 
   useEffect(() => {
@@ -44,7 +51,7 @@ const TeacherList = ({navigation}) => {
     </View>
   ));
 
-  if (loading) return <Loading />
+  if (loading) return <Loading loadingError={loadingError} onRetry={() => load()} />
 
   return (
     <View style={[styles.container, {backgroundColor: theme.colors.background}]}>

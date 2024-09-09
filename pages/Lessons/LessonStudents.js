@@ -24,7 +24,7 @@ const LessonStudents = (props) => {
 
   const StudentItem = memo(({ item, navigation }) => (
     <View>
-      <TouchableOpacity style={styles.item} onPress={() => props.navigation.navigate("StudentsListIndex", {
+      <TouchableOpacity style={[styles.item, {borderColor: theme.colors.border}]} onPress={() => props.navigation.navigate("StudentsListIndex", {
         screen: "StudentDetailIndex",
         params: { studentId: item.id, studentName: `${item.name} ${item.surname}` }
       })}>
@@ -56,7 +56,6 @@ const styles = StyleSheet.create({
   item: {
     padding: 10,
     borderBottomWidth: 1,
-    borderBottomColor: "#ddd",
   },
   profileIcon: {
     marginRight: 10,

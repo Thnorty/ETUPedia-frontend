@@ -41,7 +41,7 @@ const Main = ({colorScheme, setColorScheme}) => {
       }],
     }],
   });
-  const [loading, setLoading] = useState(true);
+  const [loadingError, setLoadingError] = useState(false);
 
   const Stack = createNativeStackNavigator();
   const Tab = createBottomTabNavigator();
@@ -64,13 +64,13 @@ const Main = ({colorScheme, setColorScheme}) => {
   };
 
   const getStudentInfo = (studentId, navigation) => {
+    setLoadingError(false);
     const payload = {
       student_id: studentId,
     };
     backend.post("api/get-student-info/", payload)
       .then((response) => {
         setStudentInfo(response.data);
-        setLoading(false);
         if (navigation)
           navigation.navigate("Home");
         else
@@ -86,6 +86,7 @@ const Main = ({colorScheme, setColorScheme}) => {
               console.error(error);
             });
         }
+        setLoadingError(true);
         console.error(error);
       });
   };
@@ -97,7 +98,6 @@ const Main = ({colorScheme, setColorScheme}) => {
       })
       .catch((error) => {
         setInitialRouteName("LoginIndex");
-        setLoading(false);
       });
   }, []);
 
@@ -157,7 +157,7 @@ const Main = ({colorScheme, setColorScheme}) => {
             </Stack.Screen>
           </Stack.Navigator>
         :
-          <Loading />
+          <Loading loadingError={loadingError} onRetry={() => getStudentInfo(localStorage.load({key: 'studentId'}))} />
         }
         <StatusBar style={theme.dark ? "light" : "dark"} />
       </NavigationContainer>

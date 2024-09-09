@@ -34,6 +34,7 @@
   "createPost": "Create Post",
   "writeComment": "Write Comment",
   "section": "Section",
+  "sections": "Sections",
   "goodMorning": "Good Morning",
   "goodAfternoon": "Good Afternoon",
   "goodEvening": "Good Evening",
@@ -58,5 +59,7 @@
   "changeTheme": "Change Theme",
   "light": "Light",
   "dark": "Dark",
-  "systemDefault": "System Default"
+  "systemDefault": "System Default",
+  "loadingError": "An error occurred while loading.",
+  "tapToRetry": "Tap to retry."
 }
