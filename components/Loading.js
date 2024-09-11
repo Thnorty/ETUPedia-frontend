@@ -12,7 +12,7 @@ const Loading = ({
   const theme = useTheme();
 
   return (
-    <TouchableOpacity style={[styles.container, {backgroundColor: theme.colors.background}]} onPress={onRetry} disabled={!onRetry}>
+    <TouchableOpacity style={[styles.container, {backgroundColor: theme.colors.background}]} onPress={onRetry} disabled={!(onRetry && loadingError)}>
       {loadingError ?
         <View>
           <Text style={[styles.error, {color: theme.colors.secondaryText}]}>{loadingErrorText}</Text>

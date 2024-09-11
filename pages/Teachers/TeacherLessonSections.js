@@ -19,7 +19,7 @@ const TeacherLessonSections = (props) => {
         lesson_section.lesson_section_number.toString().toLowerCase().includes(search.toLowerCase())
       )
     );
-  }, [search, props.lesson_sections]);
+  }, [theme, search, props.lesson_sections]);
 
   const LessonItem = memo(({ item, navigation }) => (
     <View>

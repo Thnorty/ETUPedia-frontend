@@ -49,6 +49,8 @@ const LessonDetail = ({navigation, route}) => {
 
   const load = () => {
     setLoadingError(false);
+    navigation.setOptions({title: `${route.params.lessonCode} ${route.params.lessonName}`});
+
     const payload = {
       lesson_code: route.params.lessonCode,
     };

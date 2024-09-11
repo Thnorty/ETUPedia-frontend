@@ -20,7 +20,7 @@ const LessonStudents = (props) => {
         student.id.toString().toLowerCase().includes(search.toLowerCase())
       )
     );
-  }, [search, props.students]);
+  }, [theme, search, props.students]);
 
   const StudentItem = memo(({ item, navigation }) => (
     <View>

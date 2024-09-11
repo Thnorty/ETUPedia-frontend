@@ -44,6 +44,8 @@ const TeacherDetail = ({navigation, route}) => {
 
   const load = () => {
     setLoadingError(false);
+    navigation.setOptions({title: route.params.teacherName});
+
     const payload = {
       teacher_name: route.params.teacherName,
     };
