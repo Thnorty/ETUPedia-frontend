@@ -5,30 +5,18 @@ import {
   TextInput, TouchableOpacity,
   View
 } from "react-native";
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import Modal from "../../components/Modal";
-import backend from "../../utils/Backend";
 import {useTheme} from "../../utils/Theme";
 import Picker from "../../components/Picker";
 
-const CreatePostModal = ({ isOpen, setIsOpen, onSubmit }) => {
+const CreatePostModal = ({ topics, isOpen, setIsOpen, onSubmit }) => {
   const {t} = useTranslation();
   const theme = useTheme();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [topics, setTopics] = useState([]);
   const [selectedTopicOrder, setSelectedTopicOrder] = useState(null);
   const [errors, setErrors] = useState([]);
-
-  useEffect(() => {
-    backend.get("posts/get-topics/")
-      .then((response) => {
-        setTopics(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
 
   const closeModal = () => {
     setIsOpen(false);

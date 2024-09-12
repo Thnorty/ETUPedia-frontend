@@ -8,6 +8,7 @@ import {FlashList} from "@shopify/flash-list";
 import CreatePostModal from "./CreatePostModal";
 import {useTheme} from "../../utils/Theme";
 import SearchBar from "../../components/SearchBar";
+import MultiSelect from "../../components/MultiSelect";
 
 const PostList = ({navigation}) => {
   const {t} = useTranslation();
@@ -18,6 +19,8 @@ const PostList = ({navigation}) => {
   const [search, setSearch] = useState('');
   const [isPostCreateModalOpen, setIsPostCreateModalOpen] = useState(false);
   const [filteredPostList, setFilteredPostList] = useState([]);
+  const [topics, setTopics] = useState([]);
+  const [selectedTopics, setSelectedTopics] = useState([]);
   const [loadingError, setLoadingError] = useState(false);
 
   useEffect(() => {
@@ -25,13 +28,24 @@ const PostList = ({navigation}) => {
   }, []);
 
   useEffect(() => {
+    backend.get("posts/get-topics/")
+      .then((response) => {
+        setTopics(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
+  useEffect(() => {
     setFilteredPostList(
       postList.filter(post =>
-        post.title.toLowerCase().includes(search.toLowerCase()) ||
-        post.content.toLowerCase().includes(search.toLowerCase())
+        (post.title.toLowerCase().includes(search.toLowerCase()) ||
+        post.content.toLowerCase().includes(search.toLowerCase())) &&
+        (selectedTopics.length === 0 || selectedTopics.includes(post.topic))
       )
     );
-  }, [theme, search, postList]);
+  }, [theme, search, selectedTopics, postList]);
 
   const onPostCreate = (topicOrder, title, content) => {
     backend.post("posts/create-post/", {
@@ -98,7 +112,7 @@ const PostList = ({navigation}) => {
       handleRefreshPostList: handleRefresh,
       updatePostLikeStatus: updatePostLikeStatus,
     })}>
-      <Text style={[styles.postTopic, {color: theme.colors.secondaryText}]}>{item.topic} • {item.author_name}</Text>
+      <Text style={[styles.postTopic, {color: theme.colors.secondaryText}]}>{t(item.topic)} • {item.author_name}</Text>
       <Text style={[styles.postTitle, {color: theme.colors.primaryText}]}>{item.title}</Text>
       <Text style={[styles.postContent, {color: theme.colors.primaryText}]}>{item.content}</Text>
       <View style={styles.bottomContainer}>
@@ -123,13 +137,17 @@ const PostList = ({navigation}) => {
         estimatedItemSize={100}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
         ListHeaderComponent={
-          <SearchBar value={search} onChangeText={setSearch} placeholder={t("search...")} />
+          <View style={styles.topContainer}>
+            <SearchBar value={search} onChangeText={setSearch} placeholder={t("search...")} style={styles.searchBar} />
+            <MultiSelect placeholder={t("topics")} options={topics.map(topic => topic.name)} value={selectedTopics} onChange={setSelectedTopics}
+                         buttonStyle={[styles.multiSelect, {backgroundColor: theme.colors.surface}]} placeholderStyle={{color: theme.colors.secondaryText}} />
+          </View>
         }
       />
       <TouchableOpacity style={[styles.createPostButton, {backgroundColor: theme.colors.primary}]} onPress={() => setIsPostCreateModalOpen(true)}>
         <Text style={[styles.createPostButtonText, {color: theme.colors.primaryText}]}>{'+ ' + t("post")}</Text>
       </TouchableOpacity>
-      <CreatePostModal isOpen={isPostCreateModalOpen} setIsOpen={setIsPostCreateModalOpen} onSubmit={onPostCreate} />
+      <CreatePostModal topics={topics} isOpen={isPostCreateModalOpen} setIsOpen={setIsPostCreateModalOpen} onSubmit={onPostCreate} />
     </View>
   );
 }
@@ -138,6 +156,19 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 10,
+  },
+  topContainer: {
+    flexDirection: "row",
+  },
+  searchBar: {
+    flex: 1,
+    marginRight: 10,
+  },
+  multiSelect: {
+    flex: 1,
+    borderRadius: 6,
+    marginVertical: 10,
+    width: 150
   },
   postContainer: {
     padding: 15,

@@ -22,8 +22,7 @@ const Picker = ({ placeholder, options, value, onChange, buttonStyle, placeholde
             <TouchableOpacity key={index} onPress={() => {
               onChange(option);
               setIsOpen(false);
-            }}
-            >
+            }}>
               <Text style={[styles.option, {color: theme.colors.primaryText}]}>{option}</Text>
             </TouchableOpacity>
           ))}
