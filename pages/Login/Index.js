@@ -6,9 +6,11 @@ import backend, {setAxiosToken} from "../../utils/Backend";
 import etupediaIcon from "../../assets/etupedia.png";
 import {localStorage} from "../../utils/LocalStorage";
 import axios from "axios";
+import {useTheme} from "../../utils/Theme";
 
 const Index = (props) => {
   const {t} = useTranslation();
+  const theme = useTheme();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const passwordRef = useRef(null);
@@ -49,7 +51,7 @@ const Index = (props) => {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {backgroundColor: theme.colors.background}]}>
       <Image source={etupediaIcon} style={{width: 140, height: 140, marginBottom: 40, borderRadius: 16}} />
       <TextInput
         placeholder={t("email")}
@@ -58,7 +60,8 @@ const Index = (props) => {
         onSubmitEditing={() => passwordRef.current.focus()}
         autoCapitalize={"none"}
         autoComplete={"email"}
-        style={styles.input}
+        style={[styles.input, {borderColor: theme.colors.border, color: theme.colors.primaryText}]}
+        placeholderTextColor={theme.colors.secondaryText}
       />
       <TextInput
         ref={passwordRef}
@@ -69,9 +72,10 @@ const Index = (props) => {
         onSubmitEditing={handleLogin}
         autoCapitalize={"none"}
         autoComplete={"current-password"}
-        style={styles.input}
+        style={[styles.input, {borderColor: theme.colors.border, color: theme.colors.primaryText}]}
+        placeholderTextColor={theme.colors.secondaryText}
       />
-      <Button title={t("logIn")} onPress={handleLogin} />
+      <Button title={t("logIn")} onPress={handleLogin} style={{backgroundColor: theme.colors.primary}} />
     </View>
   );
 }
@@ -79,14 +83,12 @@ const Index = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
   input: {
     height: 40,
     width: 300,
-    borderColor: 'gray',
     borderWidth: 1,
     borderRadius: 6,
     marginBottom: 12,

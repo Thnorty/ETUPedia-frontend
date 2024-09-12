@@ -25,7 +25,7 @@
       "package": "com.thnorty.etupedia"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/adaptive-icon.png"
     },
     "extra": {
       "eas": {

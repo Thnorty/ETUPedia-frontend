@@ -105,7 +105,7 @@ const Main = ({colorScheme, setColorScheme}) => {
     <ActionSheetProvider>
       <NavigationContainer>
         {initialRouteName ?
-          <Stack.Navigator initialRouteName={initialRouteName} screenOptions={{headerShown: false}}>
+          <Stack.Navigator initialRouteName={initialRouteName} screenOptions={{headerShown: false, ...screenOptions}}>
             <Stack.Screen name="LoginIndex">
               {(props) => <LoginIndex {...props} getStudentInfo={getStudentInfo} />}
             </Stack.Screen>
