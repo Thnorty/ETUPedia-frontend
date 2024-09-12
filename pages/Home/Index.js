@@ -1,7 +1,6 @@
 import {useTranslation} from "react-i18next";
 import {languages} from "../../utils/i18n";
-import {Dimensions, StatusBar, StyleSheet, Text, TouchableOpacity, View} from "react-native";
-import Button from "../../components/Button";
+import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import Modal from "../../components/Modal";
 import {useEffect, useState} from "react";
 import backend, {setAxiosToken} from "../../utils/Backend";
@@ -18,8 +17,6 @@ const Index = (props) => {
   const {showActionSheetWithOptions} = useActionSheet();
   const [colorPickerVisible, setColorPickerVisible] = useState(false);
   const [colorPickerColor, setColorPickerColor] = useState("");
-
-  const deviceHeight = StatusBar.currentHeight + Dimensions.get('window').height;
 
   useEffect(() => {
     props.navigation.setOptions({

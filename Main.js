@@ -18,6 +18,8 @@ import {ActionSheetProvider} from "@expo/react-native-action-sheet";
 import backend from "./utils/Backend";
 import Loading from "./components/Loading";
 import {useTheme} from "./utils/Theme";
+import {Image, StyleSheet} from "react-native";
+import etupediaIcon from "./assets/etupedia.png";
 
 const Main = ({colorScheme, setColorScheme}) => {
   const {t} = useTranslation();
@@ -96,7 +98,7 @@ const Main = ({colorScheme, setColorScheme}) => {
       .then((value) => {
         getStudentInfo(value, null);
       })
-      .catch((error) => {
+      .catch(() => {
         setInitialRouteName("LoginIndex");
       });
   }, []);
@@ -157,12 +159,30 @@ const Main = ({colorScheme, setColorScheme}) => {
             </Stack.Screen>
           </Stack.Navigator>
         :
-          <Loading loadingError={loadingError} onRetry={() => getStudentInfo(localStorage.load({key: 'studentId'}))} />
+            <Loading loadingError={loadingError} onRetry={() => getStudentInfo(localStorage.load({key: 'studentId'}))}
+                     topElement={<Image source={etupediaIcon} style={styles.image} />}
+            />
         }
         <StatusBar style={theme.dark ? "light" : "dark"} />
       </NavigationContainer>
     </ActionSheetProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  image: {
+    width: 140,
+    height: 140,
+    marginBottom: 40,
+    borderRadius: 16,
+    position: "absolute",
+    top: "25%",
+  },
+});
 
 export default Main;

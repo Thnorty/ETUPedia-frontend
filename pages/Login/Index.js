@@ -5,7 +5,6 @@ import Button from "../../components/Button";
 import backend, {setAxiosToken} from "../../utils/Backend";
 import etupediaIcon from "../../assets/etupedia.png";
 import {localStorage} from "../../utils/LocalStorage";
-import axios from "axios";
 import {useTheme} from "../../utils/Theme";
 
 const Index = (props) => {
@@ -34,7 +33,7 @@ const Index = (props) => {
 
   return (
     <View style={[styles.container, {backgroundColor: theme.colors.background}]}>
-      <Image source={etupediaIcon} style={{width: 140, height: 140, marginBottom: 40, borderRadius: 16}} />
+      <Image source={etupediaIcon} style={styles.image} />
       <TextInput
         placeholder={t("email")}
         value={email}
@@ -67,6 +66,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  image: {
+    width: 140,
+    height: 140,
+    marginBottom: 40,
+    borderRadius: 16,
   },
   input: {
     height: 40,
