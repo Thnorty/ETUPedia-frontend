@@ -23,7 +23,10 @@ const StudentLessonSections = (props) => {
 
   const LessonItem = memo(({ item, navigation }) => (
     <View>
-      <TouchableOpacity style={[styles.item, {borderColor: theme.colors.border}]}>
+      <TouchableOpacity style={[styles.item, {borderColor: theme.colors.border}]} onPress={() => props.navigation.navigate("LessonListIndex", {
+        screen: "LessonDetailIndex",
+        params: { lessonCode: item.lesson_code, lessonName: item.lesson_name }
+      })}>
         <Text style={[styles.mainText, {color: theme.colors.primaryText}]}>{item.lesson_code} {item.lesson_name}</Text>
         <Text style={[styles.smallText, {color: theme.colors.secondaryText}]}>{t("section")}: {item.lesson_section_number}</Text>
       </TouchableOpacity>

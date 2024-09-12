@@ -6,6 +6,7 @@ import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs
 import StudentInfo from "./StudentInfo";
 import StudentLessonSections from "./StudentLessonSections";
 import StudentTimetable from "./StudentTimetable";
+import {resetStartToTargetScreen} from "../../utils/NavigationUtils";
 
 const StudentDetail = ({navigation, route}) => {
   const {t} = useTranslation();
@@ -44,6 +45,7 @@ const StudentDetail = ({navigation, route}) => {
 
   useEffect(() => {
     load();
+    resetStartToTargetScreen(navigation, "StudentList");
   }, []);
 
   const load = () => {

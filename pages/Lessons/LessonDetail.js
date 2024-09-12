@@ -6,6 +6,7 @@ import Loading from "../../components/Loading";
 import LessonInfo from "./LessonInfo";
 import LessonSections from "./LessonSections";
 import LessonStudentNavigator from "./LessonStudents";
+import {resetStartToTargetScreen} from "../../utils/NavigationUtils";
 
 const LessonDetail = ({navigation, route}) => {
   const {t} = useTranslation();
@@ -45,6 +46,7 @@ const LessonDetail = ({navigation, route}) => {
 
   useEffect(() => {
     load();
+    resetStartToTargetScreen(navigation, "LessonList");
   }, []);
 
   const load = () => {

@@ -145,7 +145,7 @@ const Main = ({colorScheme, setColorScheme}) => {
                   >
                     {(props) => <LessonsIndex {...props} screenOptions={screenOptions} />}
                   </Tab.Screen>
-                  <Tab.Screen name="StudentsListIndex"
+                  <Tab.Screen name="StudentListIndex"
                               options={{title: t("students"), headerShown: false, tabBarIcon: ({color, size}) => (
                                   <Icon name="users" color={color} size={size} />
                                 )}}

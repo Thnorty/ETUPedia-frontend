@@ -24,7 +24,7 @@ const LessonStudents = (props) => {
 
   const StudentItem = memo(({ item, navigation }) => (
     <View>
-      <TouchableOpacity style={[styles.item, {borderColor: theme.colors.border}]} onPress={() => props.navigation.navigate("StudentsListIndex", {
+      <TouchableOpacity style={[styles.item, {borderColor: theme.colors.border}]} onPress={() => props.navigation.navigate("StudentListIndex", {
         screen: "StudentDetailIndex",
         params: { studentId: item.id, studentName: `${item.name} ${item.surname}` }
       })}>
