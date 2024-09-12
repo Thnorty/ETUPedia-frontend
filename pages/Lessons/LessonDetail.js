@@ -47,7 +47,7 @@ const LessonDetail = ({navigation, route}) => {
   useEffect(() => {
     load();
     resetStartToTargetScreen(navigation, "LessonList");
-  }, []);
+  }, [route.params]);
 
   const load = () => {
     setLoadingError(false);

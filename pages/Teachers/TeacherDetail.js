@@ -42,7 +42,7 @@ const TeacherDetail = ({navigation, route}) => {
   useEffect(() => {
     load();
     resetStartToTargetScreen(navigation, "TeacherList");
-  }, []);
+  }, [route.params]);
 
   const load = () => {
     setLoadingError(false);

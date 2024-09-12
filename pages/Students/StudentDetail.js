@@ -46,7 +46,7 @@ const StudentDetail = ({navigation, route}) => {
   useEffect(() => {
     load();
     resetStartToTargetScreen(navigation, "StudentList");
-  }, []);
+  }, [route.params]);
 
   const load = () => {
     setLoadingError(false);

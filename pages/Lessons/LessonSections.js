@@ -24,7 +24,7 @@ const LessonSections = (props) => {
 
   const SectionItem = memo(({ item }) => (
     <View>
-      <TouchableOpacity style={styles.item}>
+      <TouchableOpacity style={[styles.item, {borderColor: theme.colors.border}]}>
         <Text style={{color: theme.colors.primaryText}}>{item.section_number} - {item.section_teacher}</Text>
       </TouchableOpacity>
     </View>
@@ -32,7 +32,7 @@ const LessonSections = (props) => {
 
   return (
     <View style={[styles.container, {backgroundColor: theme.colors.background}]}>
-      <SearchBar placeholder={t("search")} value={search} onChangeText={setSearch} />
+      <SearchBar placeholder={t("search...")} value={search} onChangeText={setSearch} />
       <FlashList
         data={filteredSectionList}
         renderItem={({ item }) => <SectionItem item={item} />}
