@@ -1,7 +1,7 @@
 import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {Shadow} from "react-native-shadow-2";
 import {useTheme} from "../utils/Theme";
-import {getTextColor} from "../utils/colorUtils";
+import {getTextColor} from "../utils/ColorUtils";
 
 const ProfileIcon = ({ user, onPress, size, fontSize, style }) => {
   const theme = useTheme();

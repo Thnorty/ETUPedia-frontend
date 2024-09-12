@@ -1,7 +1,8 @@
 import {useTranslation} from "react-i18next";
 import {View, Text, StyleSheet, ScrollView} from 'react-native';
-import {scale, verticalScale} from 'react-native-size-matters';
+import {scale} from 'react-native-size-matters';
 import {useTheme} from "../utils/Theme";
+import {getTextColor} from "../utils/ColorUtils";
 
 const Timetable = ({ lessonSections, style }) => {
   const {t} = useTranslation();
@@ -46,7 +47,7 @@ const Timetable = ({ lessonSections, style }) => {
                     ) : (
                       <View key={lessonsIndex} style={[styles.cell, {borderColor: theme.colors.border}]}>
                         {lessons.map((lesson, lessonIndex) => (
-                          <Text key={lessonIndex} style={[styles.lesson, {backgroundColor: lesson.color, borderColor: theme.colors.border}]}>
+                          <Text key={lessonIndex} style={[styles.lesson, {backgroundColor: lesson.color, borderColor: theme.colors.border, color: getTextColor(lesson.color)}]}>
                             {lesson.lessonCode}{"\n"}{lesson.classroom}
                           </Text>
                         ))}
