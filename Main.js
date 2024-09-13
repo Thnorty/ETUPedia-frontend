@@ -93,7 +93,7 @@ const Main = ({colorScheme, setColorScheme}) => {
       });
   };
 
-  useEffect(() => {
+  const load = () => {
     localStorage.load({key: 'studentId'})
       .then((value) => {
         getStudentInfo(value, null);
@@ -101,68 +101,70 @@ const Main = ({colorScheme, setColorScheme}) => {
       .catch(() => {
         setInitialRouteName("LoginIndex");
       });
+  }
+
+  useEffect(() => {
+    load();
   }, []);
+
+  if (!initialRouteName) return <Loading loadingError={loadingError} onRetry={load}
+                                         topElement={<Image source={etupediaIcon} style={styles.image} />}
+                                         activeOpacity={0.97} />;
 
   return (
     <ActionSheetProvider>
       <NavigationContainer theme={theme}>
-        {initialRouteName ?
-          <Stack.Navigator initialRouteName={initialRouteName} screenOptions={{headerShown: false, ...screenOptions}}>
-            <Stack.Screen name="LoginIndex">
-              {(props) => <LoginIndex {...props} getStudentInfo={getStudentInfo} />}
-            </Stack.Screen>
-            <Stack.Screen name="Home">
-              {() => (
-                <Tab.Navigator initialRouteName="HomeIndex" screenOptions={screenOptions}>
-                  <Tab.Screen name="HomeIndex"
-                              options={{title: t("home"), tabBarIcon: ({color, size}) => (
-                                  <Icon name="home" color={color} size={size} />
-                                )}}
-                  >
-                    {(props) => <HomeIndex {...props}
-                                           studentInfo={studentInfo}
-                                           setStudentInfo={setStudentInfo}
-                                           colorScheme={colorScheme}
-                                           setColorScheme={setColorScheme}
-                    />}
-                  </Tab.Screen>
-                  <Tab.Screen name="ForumIndex"
-                              options={{title: t("forums"), headerShown: false, tabBarIcon: ({color, size}) => (
-                                  <Icon name="list" color={color} size={size} />
-                                )}}
-                  >
-                    {(props) => <PostsIndex {...props} screenOptions={screenOptions} />}
-                  </Tab.Screen>
-                  <Tab.Screen name="TeacherListIndex"
-                              options={{title: t("teachers"), headerShown: false, tabBarIcon: ({color, size}) => (
-                                  <Icon name="user" color={color} size={size} />
-                                )}}
-                  >
-                    {(props) => <TeachersIndex {...props} screenOptions={screenOptions} />}
-                  </Tab.Screen>
-                  <Tab.Screen name="LessonListIndex"
-                              options={{title: t("lessons"), headerShown: false, tabBarIcon: ({color, size}) => (
-                                  <Icon name="book" color={color} size={size} />
-                                )}}
-                  >
-                    {(props) => <LessonsIndex {...props} screenOptions={screenOptions} />}
-                  </Tab.Screen>
-                  <Tab.Screen name="StudentListIndex"
-                              options={{title: t("students"), headerShown: false, tabBarIcon: ({color, size}) => (
-                                  <Icon name="users" color={color} size={size} />
-                                )}}
-                  >
-                    {(props) => <StudentsIndex {...props} screenOptions={screenOptions} />}
-                  </Tab.Screen>
-                </Tab.Navigator>
-              )}
-            </Stack.Screen>
-          </Stack.Navigator>
-        :
-            <Loading loadingError={loadingError} onRetry={() => getStudentInfo(localStorage.load({key: 'studentId'}))}
-                     topElement={<Image source={etupediaIcon} style={styles.image} />}
-            />
-        }
+        <Stack.Navigator initialRouteName={initialRouteName} screenOptions={{headerShown: false, ...screenOptions}}>
+          <Stack.Screen name="LoginIndex">
+            {(props) => <LoginIndex {...props} getStudentInfo={getStudentInfo} />}
+          </Stack.Screen>
+          <Stack.Screen name="Home">
+            {() => (
+              <Tab.Navigator initialRouteName="HomeIndex" screenOptions={screenOptions}>
+                <Tab.Screen name="HomeIndex"
+                            options={{title: t("home"), tabBarIcon: ({color, size}) => (
+                                <Icon name="home" color={color} size={size} />
+                              )}}
+                >
+                  {(props) => <HomeIndex {...props}
+                                         studentInfo={studentInfo}
+                                         setStudentInfo={setStudentInfo}
+                                         colorScheme={colorScheme}
+                                         setColorScheme={setColorScheme}
+                  />}
+                </Tab.Screen>
+                <Tab.Screen name="ForumIndex"
+                            options={{title: t("forums"), headerShown: false, tabBarIcon: ({color, size}) => (
+                                <Icon name="list" color={color} size={size} />
+                              )}}
+                >
+                  {(props) => <PostsIndex {...props} screenOptions={screenOptions} />}
+                </Tab.Screen>
+                <Tab.Screen name="TeacherListIndex"
+                            options={{title: t("teachers"), headerShown: false, tabBarIcon: ({color, size}) => (
+                                <Icon name="user" color={color} size={size} />
+                              )}}
+                >
+                  {(props) => <TeachersIndex {...props} screenOptions={screenOptions} />}
+                </Tab.Screen>
+                <Tab.Screen name="LessonListIndex"
+                            options={{title: t("lessons"), headerShown: false, tabBarIcon: ({color, size}) => (
+                                <Icon name="book" color={color} size={size} />
+                              )}}
+                >
+                  {(props) => <LessonsIndex {...props} screenOptions={screenOptions} />}
+                </Tab.Screen>
+                <Tab.Screen name="StudentListIndex"
+                            options={{title: t("students"), headerShown: false, tabBarIcon: ({color, size}) => (
+                                <Icon name="users" color={color} size={size} />
+                              )}}
+                >
+                  {(props) => <StudentsIndex {...props} screenOptions={screenOptions} />}
+                </Tab.Screen>
+              </Tab.Navigator>
+            )}
+          </Stack.Screen>
+        </Stack.Navigator>
         <StatusBar style={theme.dark ? "light" : "dark"} />
       </NavigationContainer>
     </ActionSheetProvider>

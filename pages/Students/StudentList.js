@@ -56,7 +56,7 @@ const StudentList = ({navigation}) => {
     </View>
   ));
 
-  if (loading) return <Loading loadingError={loadingError} onRetry={() => load()} />
+  if (loading) return <Loading loadingError={loadingError} onRetry={load} />;
 
   return (
     <View style={[styles.container, {backgroundColor: theme.colors.background}]}>

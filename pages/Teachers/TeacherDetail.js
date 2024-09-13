@@ -63,7 +63,7 @@ const TeacherDetail = ({navigation, route}) => {
       });
   }
 
-  if (loading) return <Loading loadingError={loadingError} onRetry={() => load()} />
+  if (loading) return <Loading loadingError={loadingError} onRetry={load} />;
 
   return (
     <Tab.Navigator screenOptions={screenOptions}>
