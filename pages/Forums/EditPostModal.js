@@ -6,7 +6,7 @@ import {TextInput, TouchableOpacity, View, Text, StyleSheet} from "react-native"
 import Picker from "../../components/Picker";
 import {useTranslation} from "react-i18next";
 
-const EditPostModal = ({ post, topics, isOpen, onClose, handleRefresh, setLoading }) => {
+const EditPostModal = ({ post, topics, isOpen, setIsOpen, handleRefresh, setLoading }) => {
   const {t} = useTranslation();
   const theme = useTheme();
   const [selectedTopicOrder, setSelectedTopicOrder] = useState(null);
@@ -21,7 +21,7 @@ const EditPostModal = ({ post, topics, isOpen, onClose, handleRefresh, setLoadin
   }, [post]);
 
   const closeModal = () => {
-    onClose();
+    setIsOpen(false);
   }
 
   const clearFields = () => {
@@ -32,6 +32,20 @@ const EditPostModal = ({ post, topics, isOpen, onClose, handleRefresh, setLoadin
   }
 
   const handleSave = () => {
+    backend.post("posts/edit-post/", {
+      post_id: post.id,
+      topic_order: selectedTopicOrder,
+      title: title,
+      content: content,
+    }).then(() => {
+      setLoading(true);
+      handleRefresh();
+    }).catch((error) => {
+      console.error(error);
+    });
+  }
+
+  const handleSubmit = () => {
     let errors = [];
     if (selectedTopicOrder === null)
       errors.push(t("topic") + " " + t("required").toLowerCase() + ".");
@@ -43,18 +57,8 @@ const EditPostModal = ({ post, topics, isOpen, onClose, handleRefresh, setLoadin
     setErrors(errors);
     if (errors.length) return;
 
-    backend.post("posts/edit-post/", {
-      post_id: post.id,
-      topic_order: selectedTopicOrder,
-      title: title,
-      content: content,
-    }).then(() => {
-      onClose();
-      setLoading(true);
-      handleRefresh();
-    }).catch((error) => {
-      console.error(error);
-    });
+    handleSave();
+    closeModal();
   }
 
   return (
@@ -104,7 +108,7 @@ const EditPostModal = ({ post, topics, isOpen, onClose, handleRefresh, setLoadin
           <TouchableOpacity onPress={closeModal} style={styles.bottomButton}>
             <Text style={{color: theme.colors.error}}>{t("cancel")}</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={handleSave} style={styles.bottomButton}>
+          <TouchableOpacity onPress={handleSubmit} style={styles.bottomButton}>
             <Text style={{color: theme.colors.primary}}>{t("save")}</Text>
           </TouchableOpacity>
         </View>

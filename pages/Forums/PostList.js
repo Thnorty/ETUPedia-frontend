@@ -55,19 +55,6 @@ const PostList = ({navigation}) => {
     );
   }, [theme, search, selectedTopics, postList]);
 
-  const onPostCreate = (topicOrder, title, content) => {
-    backend.post("posts/create-post/", {
-      topic_order: topicOrder,
-      title: title,
-      content: content
-    }).then(() => {
-      setLoading(true);
-      handleRefresh();
-    }).catch((error) => {
-      console.error(error);
-    });
-  }
-
   const likePost = (postID) => {
     const newPostList = postList.map(post => {
       if (post.id === postID) {
@@ -219,8 +206,8 @@ const PostList = ({navigation}) => {
       <TouchableOpacity style={[styles.createPostButton, {backgroundColor: theme.colors.primary}]} onPress={() => setIsPostCreateModalOpen(true)}>
         <Text style={[styles.createPostButtonText, {color: theme.colors.primaryText}]}>{'+ ' + t("post")}</Text>
       </TouchableOpacity>
-      <CreatePostModal topics={topics} isOpen={isPostCreateModalOpen} setIsOpen={setIsPostCreateModalOpen} onSubmit={onPostCreate} />
-      <EditPostModal topics={topics} post={postToEdit} isOpen={isPostEditModalOpen} onClose={() => setIsPostEditModalOpen(false)} handleRefresh={handleRefresh} setLoading={setLoading} />
+      <CreatePostModal topics={topics} isOpen={isPostCreateModalOpen} setIsOpen={setIsPostCreateModalOpen} handleRefresh={handleRefresh} setLoading={setLoading} />
+      <EditPostModal topics={topics} post={postToEdit} isOpen={isPostEditModalOpen} setIsOpen={setIsPostEditModalOpen} handleRefresh={handleRefresh} setLoading={setLoading} />
       <Alert title={t("deletePost")} message={t("deletePostConfirmation")} buttons={deleteAlertButtons} isOpen={isDeleteAlertOpen} setIsOpen={setIsDeleteAlertOpen} />
     </View>
   );

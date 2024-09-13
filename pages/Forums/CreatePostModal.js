@@ -9,8 +9,9 @@ import {useState} from 'react';
 import Modal from "../../components/Modal";
 import {useTheme} from "../../utils/Theme";
 import Picker from "../../components/Picker";
+import backend from "../../utils/Backend";
 
-const CreatePostModal = ({ topics, isOpen, setIsOpen, onSubmit }) => {
+const CreatePostModal = ({ topics, isOpen, setIsOpen, handleRefresh, setLoading }) => {
   const {t} = useTranslation();
   const theme = useTheme();
   const [selectedTopicOrder, setSelectedTopicOrder] = useState(null);
@@ -29,6 +30,19 @@ const CreatePostModal = ({ topics, isOpen, setIsOpen, onSubmit }) => {
     setErrors([]);
   };
 
+  const handleCreate = (topicOrder, title, content) => {
+    backend.post("posts/create-post/", {
+      topic_order: topicOrder,
+      title: title,
+      content: content
+    }).then(() => {
+      setLoading(true);
+      handleRefresh();
+    }).catch((error) => {
+      console.error(error);
+    });
+  }
+
   const handleSubmit = () => {
     let errors = [];
     if (selectedTopicOrder === null)
@@ -41,7 +55,7 @@ const CreatePostModal = ({ topics, isOpen, setIsOpen, onSubmit }) => {
     setErrors(errors);
     if (errors.length) return;
 
-    onSubmit(selectedTopicOrder, title, content);
+    handleCreate(selectedTopicOrder, title, content);
     closeModal();
   }
 
