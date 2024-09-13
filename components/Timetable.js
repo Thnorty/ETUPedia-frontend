@@ -1,11 +1,13 @@
 import {useTranslation} from "react-i18next";
-import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import {View, Text, StyleSheet, ScrollView, TouchableOpacity} from 'react-native';
 import {scale} from 'react-native-size-matters';
 import {useTheme} from "../utils/Theme";
 import {getTextColor} from "../utils/ColorUtils";
+import {useNavigation} from "@react-navigation/native";
 
 const Timetable = ({ lessonSections, style }) => {
   const {t} = useTranslation();
+  const navigation = useNavigation();
   const theme = useTheme();
   const day_count = 7;
   const hour_count = 14;
@@ -19,6 +21,7 @@ const Timetable = ({ lessonSections, style }) => {
       const hour = Math.floor(classroomAndTime.time / day_count);
       timetable[day+1][hour].push({
         lessonCode: lessonSection.lesson_code,
+        lessonName: lessonSection.lesson_name,
         classroom: classroomAndTime.classroom,
         color: lessonSection.color,
       })
@@ -47,9 +50,14 @@ const Timetable = ({ lessonSections, style }) => {
                     ) : (
                       <View key={lessonsIndex} style={[styles.cell, {borderColor: theme.colors.border}]}>
                         {lessons.map((lesson, lessonIndex) => (
-                          <Text key={lessonIndex} style={[styles.lesson, {backgroundColor: lesson.color, borderColor: theme.colors.border, color: getTextColor(lesson.color)}]}>
-                            {lesson.lessonCode}{"\n"}{lesson.classroom}
-                          </Text>
+                          <TouchableOpacity key={lessonIndex} style={{flex: 1}} onPress={() => navigation.navigate("LessonListIndex", {
+                            screen: "LessonDetailIndex",
+                            params: { lessonCode: lesson.lessonCode, lessonName: lesson.lessonName }
+                          })}>
+                            <Text style={[styles.lesson, {backgroundColor: lesson.color, borderColor: theme.colors.border, color: getTextColor(lesson.color)}]}>
+                              {lesson.lessonCode}{"\n"}{lesson.classroom}
+                            </Text>
+                          </TouchableOpacity>
                         ))}
                       </View>
                     )
