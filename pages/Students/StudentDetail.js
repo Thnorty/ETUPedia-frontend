@@ -49,6 +49,7 @@ const StudentDetail = ({navigation, route}) => {
   }, [route.params]);
 
   const load = () => {
+    setLoading(true);
     setLoadingError(false);
     navigation.setOptions({title: route.params.studentName});
 
