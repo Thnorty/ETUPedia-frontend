@@ -63,5 +63,11 @@
   "dark": "Dark",
   "systemDefault": "System Default",
   "loadingError": "An error occurred while loading.",
-  "tapToRetry": "Tap to retry."
+  "tapToRetry": "Tap to retry.",
+  "postSettings": "Post Settings",
+  "editPost": "Edit Post",
+  "deletePost": "Delete Post",
+  "delete": "Delete",
+  "save": "Save",
+  "deletePostConfirmation": "Are you sure you want to delete this post?",
 }

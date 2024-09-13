@@ -49,10 +49,10 @@ const MultiSelect = ({ placeholder, options, value, onChange, buttonStyle, place
             ))}
           </ScrollView>
           <View style={styles.buttonContainer}>
-            <TouchableOpacity onPress={closeModal} style={{marginRight: 10}}>
+            <TouchableOpacity onPress={closeModal} style={styles.bottomButton}>
               <Text style={{color: theme.colors.error}}>{t("cancel")}</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={handleApply}>
+            <TouchableOpacity onPress={handleApply} style={styles.bottomButton}>
               <Text style={{color: theme.colors.primary}}>{t("apply")}</Text>
             </TouchableOpacity>
           </View>
@@ -105,6 +105,10 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     width: '100%',
     marginTop: 10,
+  },
+  bottomButton: {
+    padding: 10,
+    marginLeft: 10,
   },
 });
 

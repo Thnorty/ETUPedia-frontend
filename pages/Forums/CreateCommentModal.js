@@ -61,10 +61,10 @@ const CreateCommentModal = ({ isOpen, setIsOpen, onSubmit }) => {
           </View>
         }
         <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={closeModal} style={{marginRight: 10}}>
+          <TouchableOpacity onPress={closeModal} style={styles.bottomButton}>
             <Text style={{color: theme.colors.error}}>{t("cancel")}</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={handleSubmit}>
+          <TouchableOpacity onPress={handleSubmit} style={styles.bottomButton}>
             <Text style={{color: theme.colors.primary}}>{t("submit")}</Text>
           </TouchableOpacity>
         </View>
@@ -104,6 +104,10 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     width: '100%',
     marginTop: 10,
+  },
+  bottomButton: {
+    padding: 10,
+    marginLeft: 10,
   },
 });
 

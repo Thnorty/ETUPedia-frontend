@@ -63,5 +63,11 @@
   "dark": "Dunkel",
   "systemDefault": "Systemstandard",
   "loadingError": "Beim Laden ist ein Fehler aufgetreten.",
-  "tapToRetry": "Tippen Sie, um es erneut zu versuchen."
+  "tapToRetry": "Tippen Sie, um es erneut zu versuchen.",
+  "postSettings": "Beitragseinstellungen",
+  "editPost": "Beitrag bearbeiten",
+  "deletePost": "Beitrag löschen",
+  "delete": "Löschen",
+  "save": "Speichern",
+  "deletePostConfirmation": "Möchten Sie diesen Beitrag wirklich löschen?"
 }

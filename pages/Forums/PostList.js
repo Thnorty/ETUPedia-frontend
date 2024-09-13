@@ -9,10 +9,14 @@ import CreatePostModal from "./CreatePostModal";
 import {useTheme} from "../../utils/Theme";
 import SearchBar from "../../components/SearchBar";
 import MultiSelect from "../../components/MultiSelect";
+import {useActionSheet} from "@expo/react-native-action-sheet";
+import Alert from "../../components/Alert";
+import EditPostModal from "./EditPostModal";
 
 const PostList = ({navigation}) => {
   const {t} = useTranslation();
   const theme = useTheme();
+  const {showActionSheetWithOptions} = useActionSheet();
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [postList, setPostList] = useState([]);
@@ -22,6 +26,10 @@ const PostList = ({navigation}) => {
   const [topics, setTopics] = useState([]);
   const [selectedTopics, setSelectedTopics] = useState([]);
   const [loadingError, setLoadingError] = useState(false);
+  const [isPostEditModalOpen, setIsPostEditModalOpen] = useState(false);
+  const [isDeleteAlertOpen, setIsDeleteAlertOpen] = useState(false);
+  const [postToEdit, setPostToEdit] = useState(null);
+  const [postToDelete, setPostToDelete] = useState(null);
 
   useEffect(() => {
     handleRefresh();
@@ -42,7 +50,7 @@ const PostList = ({navigation}) => {
       postList.filter(post =>
         (post.title.toLowerCase().includes(search.toLowerCase()) ||
         post.content.toLowerCase().includes(search.toLowerCase())) &&
-        (selectedTopics.length === 0 || selectedTopics.includes(post.topic))
+        (selectedTopics.length === 0 || selectedTopics.includes(post.topic.name))
       )
     );
   }, [theme, search, selectedTopics, postList]);
@@ -106,13 +114,77 @@ const PostList = ({navigation}) => {
       });
   }
 
+  const deletePost = (postID) => {
+    backend.post("posts/delete-post/", {
+      post_id: postID,
+    }).then(() => {
+      handleRefresh();
+    }).catch((error) => {
+      console.error(error);
+    });
+    setPostToDelete(null);
+  }
+
+  const showPostSettingsOptions = (postID) => {
+    const options = [t("editPost"), t("deletePost")];
+    const cancelButtonIndex = options.length;
+    const tintColor = theme.colors.primaryText;
+    const title = t("postSettings");
+    const titleTextStyle = {color: theme.colors.secondaryText};
+    const destructiveButtonIndex = 1;
+    const containerStyle = {backgroundColor: theme.colors.surface};
+    showActionSheetWithOptions({
+      options,
+      cancelButtonIndex,
+      tintColor,
+      title,
+      titleTextStyle,
+      destructiveButtonIndex,
+      containerStyle,
+    }, (buttonIndex) => {
+      switch (buttonIndex) {
+        case 0:
+          const post = postList.find(post => post.id === postID);
+          setPostToEdit(post);
+          setIsPostEditModalOpen(true);
+          break;
+        case 1:
+          setIsDeleteAlertOpen(true);
+          setPostToDelete(postID);
+          break;
+      }
+    });
+  }
+
+  const deleteAlertButtons = [
+    {
+      text: t("cancel"),
+      onPress: () => setIsDeleteAlertOpen(false),
+    },
+    {
+      text: t("delete"),
+      onPress: () => {
+        setIsDeleteAlertOpen(false);
+        deletePost(postToDelete);
+      },
+      style: {color: "#c30000"},
+    },
+  ];
+
   const PostItem = memo(({ item, navigation }) => (
     <TouchableOpacity style={[styles.postContainer, {backgroundColor: theme.colors.surface}]} onPress={() => navigation.navigate("ForumDetailIndex", {
       forumTitle:item.title, forumID: item.id,
       handleRefreshPostList: handleRefresh,
       updatePostLikeStatus: updatePostLikeStatus,
     })}>
-      <Text style={[styles.postTopic, {color: theme.colors.secondaryText}]}>{t(item.topic)} • {item.author_name}</Text>
+      <View style={styles.postHeader}>
+        <Text style={[styles.postTopic, {color: theme.colors.secondaryText}]}>{t(item.topic.name)} • {item.author_name}</Text>
+        {item.is_owner &&
+          <TouchableOpacity onPress={() => showPostSettingsOptions(item.id)}>
+            <Icon name="cog" size={20} color={theme.colors.secondaryText} />
+          </TouchableOpacity>
+        }
+      </View>
       <Text style={[styles.postTitle, {color: theme.colors.primaryText}]}>{item.title}</Text>
       <Text style={[styles.postContent, {color: theme.colors.primaryText}]}>{item.content}</Text>
       <View style={styles.bottomContainer}>
@@ -148,6 +220,8 @@ const PostList = ({navigation}) => {
         <Text style={[styles.createPostButtonText, {color: theme.colors.primaryText}]}>{'+ ' + t("post")}</Text>
       </TouchableOpacity>
       <CreatePostModal topics={topics} isOpen={isPostCreateModalOpen} setIsOpen={setIsPostCreateModalOpen} onSubmit={onPostCreate} />
+      <EditPostModal topics={topics} post={postToEdit} isOpen={isPostEditModalOpen} onClose={() => setIsPostEditModalOpen(false)} handleRefresh={handleRefresh} setLoading={setLoading} />
+      <Alert title={t("deletePost")} message={t("deletePostConfirmation")} buttons={deleteAlertButtons} isOpen={isDeleteAlertOpen} setIsOpen={setIsDeleteAlertOpen} />
     </View>
   );
 }
@@ -177,6 +251,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     borderRadius: 10,
     elevation: 5,
+  },
+  postHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 10,
   },
   postTopic: {
     fontSize: 14,

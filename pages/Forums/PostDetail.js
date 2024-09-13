@@ -140,7 +140,7 @@ const PostDetail = ({navigation, route}) => {
         ListHeaderComponent={
           <View>
             <View style={[styles.postContainer, {backgroundColor: theme.colors.surface}]}>
-              <Text style={[styles.postTopic, {color: theme.colors.secondaryText}]}>{t(postInfo.topic)} • {postInfo.author_name}</Text>
+              <Text style={[styles.postTopic, {color: theme.colors.secondaryText}]}>{t(postInfo.topic.name)} • {postInfo.author_name}</Text>
               <Text style={[styles.postTitle, {color: theme.colors.primaryText}]}>{postInfo.title}</Text>
               <Text style={[styles.postContent, {color: theme.colors.primaryText}]}>{postInfo.content}</Text>
               <View style={styles.bottomContainer}>

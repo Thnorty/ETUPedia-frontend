@@ -1,35 +1,37 @@
-import {useTranslation} from "react-i18next";
-import {
-  StyleSheet,
-  Text,
-  TextInput, TouchableOpacity,
-  View
-} from "react-native";
-import {useState} from 'react';
-import Modal from "../../components/Modal";
 import {useTheme} from "../../utils/Theme";
+import {useEffect, useState} from "react";
+import backend from "../../utils/Backend";
+import Modal from "../../components/Modal";
+import {TextInput, TouchableOpacity, View, Text, StyleSheet} from "react-native";
 import Picker from "../../components/Picker";
+import {useTranslation} from "react-i18next";
 
-const CreatePostModal = ({ topics, isOpen, setIsOpen, onSubmit }) => {
+const EditPostModal = ({ post, topics, isOpen, onClose, handleRefresh, setLoading }) => {
   const {t} = useTranslation();
   const theme = useTheme();
   const [selectedTopicOrder, setSelectedTopicOrder] = useState(null);
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
   const [errors, setErrors] = useState([]);
 
+  useEffect(() => {
+    setSelectedTopicOrder(post ? post.topic.order : null);
+    setTitle(post ? post.title : '');
+    setContent(post ? post.content : '');
+  }, [post]);
+
   const closeModal = () => {
-    setIsOpen(false);
+    onClose();
   }
 
   const clearFields = () => {
-    setSelectedTopicOrder("");
-    setTitle("");
-    setContent("");
+    setSelectedTopicOrder(post ? post.topic.order : null);
+    setTitle(post ? post.title : '');
+    setContent(post ? post.content : '');
     setErrors([]);
-  };
+  }
 
-  const handleSubmit = () => {
+  const handleSave = () => {
     let errors = [];
     if (selectedTopicOrder === null)
       errors.push(t("topic") + " " + t("required").toLowerCase() + ".");
@@ -41,8 +43,18 @@ const CreatePostModal = ({ topics, isOpen, setIsOpen, onSubmit }) => {
     setErrors(errors);
     if (errors.length) return;
 
-    onSubmit(selectedTopicOrder, title, content);
-    closeModal();
+    backend.post("posts/edit-post/", {
+      post_id: post.id,
+      topic_order: selectedTopicOrder,
+      title: title,
+      content: content,
+    }).then(() => {
+      onClose();
+      setLoading(true);
+      handleRefresh();
+    }).catch((error) => {
+      console.error(error);
+    });
   }
 
   return (
@@ -52,7 +64,7 @@ const CreatePostModal = ({ topics, isOpen, setIsOpen, onSubmit }) => {
       onModalHide={() => clearFields()}
     >
       <View style={[styles.modal, {backgroundColor: theme.colors.surface}]}>
-        <Text style={[styles.modalTitle, {color: theme.colors.primaryText}]}>{t("createPost")}</Text>
+        <Text style={[styles.modalTitle, {color: theme.colors.primaryText}]}>{t("editPost")}</Text>
         <Picker
           buttonStyle={[styles.picker, {borderColor: theme.colors.border}]}
           placeholderStyle={{color: theme.colors.secondaryText}}
@@ -92,14 +104,14 @@ const CreatePostModal = ({ topics, isOpen, setIsOpen, onSubmit }) => {
           <TouchableOpacity onPress={closeModal} style={styles.bottomButton}>
             <Text style={{color: theme.colors.error}}>{t("cancel")}</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={handleSubmit} style={styles.bottomButton}>
-            <Text style={{color: theme.colors.primary}}>{t("submit")}</Text>
+          <TouchableOpacity onPress={handleSave} style={styles.bottomButton}>
+            <Text style={{color: theme.colors.primary}}>{t("save")}</Text>
           </TouchableOpacity>
         </View>
       </View>
     </Modal>
-  )
-};
+  );
+}
 
 const styles = StyleSheet.create({
   modal: {
@@ -154,4 +166,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CreatePostModal;
+export default EditPostModal;

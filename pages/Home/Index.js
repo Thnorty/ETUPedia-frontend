@@ -123,16 +123,16 @@ const Index = (props) => {
     const cancelButtonIndex = options.length;
     const tintColor = theme.colors.primaryText;
     const title = t("settings");
-    const destructiveButtonIndex = 3;
     const titleTextStyle = {color: theme.colors.secondaryText};
+    const destructiveButtonIndex = 3;
     const containerStyle = {backgroundColor: theme.colors.surface};
     showActionSheetWithOptions({
       options,
       cancelButtonIndex,
       tintColor,
       title,
-      destructiveButtonIndex,
       titleTextStyle,
+      destructiveButtonIndex,
       containerStyle,
     }, (buttonIndex) => {
       switch (buttonIndex) {

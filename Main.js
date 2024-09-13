@@ -105,7 +105,7 @@ const Main = ({colorScheme, setColorScheme}) => {
 
   return (
     <ActionSheetProvider>
-      <NavigationContainer>
+      <NavigationContainer theme={theme}>
         {initialRouteName ?
           <Stack.Navigator initialRouteName={initialRouteName} screenOptions={{headerShown: false, ...screenOptions}}>
             <Stack.Screen name="LoginIndex">

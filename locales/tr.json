@@ -63,5 +63,11 @@
   "dark": "Koyu",
   "systemDefault": "Sistem Varsayılanı",
   "loadingError": "Yüklenirken bir hata oluştu.",
-  "tapToRetry": "Yeniden denemek için dokunun."
+  "tapToRetry": "Yeniden denemek için dokunun.",
+  "postSettings": "Gönderi Ayarları",
+  "editPost": "Gönderiyi Düzenle",
+  "deletePost": "Gönderiyi Sil",
+  "delete": "Sil",
+  "save": "Kaydet",
+  "deletePostConfirmation": "Bu gönderiyi silmek istediğinizden emin misiniz?"
 }
