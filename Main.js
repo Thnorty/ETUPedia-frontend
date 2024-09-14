@@ -1,7 +1,7 @@
 import {useTranslation} from "react-i18next";
 import "intl-pluralrules";
 import "./utils/i18n";
-import {useEffect, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import {StatusBar} from 'expo-status-bar';
 import LoginIndex from './pages/Login/Index';
 import HomeIndex from './pages/Home/Index';
@@ -49,7 +49,7 @@ const Main = ({colorScheme, setColorScheme}) => {
   const Stack = createNativeStackNavigator();
   const Tab = createBottomTabNavigator();
 
-  const screenOptions = {
+  const screenOptions = useMemo(() => ({
     tabBarStyle: {
       backgroundColor: theme.colors.surface,
       borderColor: "transparent",
@@ -64,7 +64,7 @@ const Main = ({colorScheme, setColorScheme}) => {
     tabBarInactiveTintColor: theme.colors.secondaryText,
     contentStyle: {backgroundColor: theme.colors.background},
     animation: 'fade_from_bottom',
-  };
+  }), [theme]);
 
   const getStudentInfo = (studentId, navigation) => {
     setLoadingError(false);

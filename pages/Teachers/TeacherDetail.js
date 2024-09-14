@@ -1,8 +1,7 @@
-import {View, Text, StyleSheet} from "react-native";
+import {useTranslation} from "react-i18next";
 import {useEffect, useState} from "react";
 import backend from "../../utils/Backend";
 import Loading from "../../components/Loading";
-import {useTranslation} from "react-i18next";
 import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs";
 import TeacherTimetable from "./TeacherTimetable";
 import TeacherLessonSections from "./TeacherLessonSections";

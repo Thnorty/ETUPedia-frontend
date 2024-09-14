@@ -2,7 +2,6 @@ import {useTranslation} from "react-i18next";
 import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {memo, useState, useEffect} from "react";
 import {FlashList} from "@shopify/flash-list";
-import {Shadow} from "react-native-shadow-2";
 import {useTheme} from "../../utils/Theme";
 import SearchBar from "../../components/SearchBar";
 import ProfileIcon from "../../components/ProfileIcon";

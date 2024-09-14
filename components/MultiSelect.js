@@ -1,8 +1,8 @@
+import {useTranslation} from "react-i18next";
 import {StyleSheet, TouchableOpacity, View, Text, ScrollView} from "react-native";
 import Modal from "./Modal";
 import {useTheme} from "../utils/Theme";
 import {useState} from "react";
-import {useTranslation} from "react-i18next";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {faCaretDown} from "@fortawesome/free-solid-svg-icons";
 import {faSquare, faSquareCheck} from "@fortawesome/free-regular-svg-icons";

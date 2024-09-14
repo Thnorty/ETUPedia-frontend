@@ -1,7 +1,7 @@
+import {useTranslation} from "react-i18next";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import PostList from "./PostList";
 import PostDetail from "./PostDetail";
-import {useTranslation} from "react-i18next";
 
 const Index = (props) => {
   const {t} = useTranslation();
