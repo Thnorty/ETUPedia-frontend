@@ -64,10 +64,16 @@
   "systemDefault": "Sistem Varsayılanı",
   "loadingError": "Yüklenirken bir hata oluştu.",
   "tapToRetry": "Yeniden denemek için dokunun.",
-  "postSettings": "Gönderi Ayarları",
+  "postOptions": "Gönderi Seçenekleri",
   "editPost": "Gönderiyi Düzenle",
   "deletePost": "Gönderiyi Sil",
   "delete": "Sil",
   "save": "Kaydet",
-  "deletePostConfirmation": "Bu gönderiyi silmek istediğinizden emin misiniz?"
+  "deletePostConfirmation": "Bu gönderiyi silmek istediğinizden emin misiniz?",
+  "commentOptions": "Yorum Seçenekleri",
+  "editComment": "Yorumu Düzenle",
+  "deleteComment": "Yorumu Sil",
+  "deleteCommentConfirmation": "Bu yorumu silmek istediğinizden emin misiniz?",
+  "noPosts": "Henüz bir gönderi yok :(",
+  "noComments" : "Henüz bir yorum yok :("
 }

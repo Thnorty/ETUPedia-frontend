@@ -64,10 +64,16 @@
   "systemDefault": "Systemstandard",
   "loadingError": "Beim Laden ist ein Fehler aufgetreten.",
   "tapToRetry": "Tippen Sie, um es erneut zu versuchen.",
-  "postSettings": "Beitragseinstellungen",
+  "postOptions": "Beitragsoptionen",
   "editPost": "Beitrag bearbeiten",
   "deletePost": "Beitrag löschen",
   "delete": "Löschen",
   "save": "Speichern",
-  "deletePostConfirmation": "Möchten Sie diesen Beitrag wirklich löschen?"
+  "deletePostConfirmation": "Möchten Sie diesen Beitrag wirklich löschen?",
+  "commentOptions": "Kommentaroptionen",
+  "editComment": "Kommentar bearbeiten",
+  "deleteComment": "Kommentar löschen",
+  "deleteCommentConfirmation": "Möchten Sie diesen Kommentar wirklich löschen?",
+  "noPosts": "Noch keine Beiträge :(",
+  "noComments": "Noch keine Kommentare :("
 }

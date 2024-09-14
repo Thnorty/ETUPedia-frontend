@@ -9,11 +9,10 @@ import {useTheme} from "../../utils/Theme";
 import SearchBar from "../../components/SearchBar";
 import MultiSelect from "../../components/MultiSelect";
 import {useActionSheet} from "@expo/react-native-action-sheet";
-import Alert from "../../components/Alert";
-import EditPostModal from "./EditPostModal";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
-import {faEllipsisVertical, faHeart, faPen, faTrash} from "@fortawesome/free-solid-svg-icons";
+import {faEllipsisVertical, faHeart} from "@fortawesome/free-solid-svg-icons";
 import {faHeart as faHeartO} from "@fortawesome/free-regular-svg-icons";
+import {showPostOptions, EditPostModal, DeletePostAlert} from "./PostOptions";
 
 const PostList = ({navigation}) => {
   const {t} = useTranslation();
@@ -29,9 +28,8 @@ const PostList = ({navigation}) => {
   const [selectedTopics, setSelectedTopics] = useState([]);
   const [loadingError, setLoadingError] = useState(false);
   const [isPostEditModalOpen, setIsPostEditModalOpen] = useState(false);
-  const [isDeleteAlertOpen, setIsDeleteAlertOpen] = useState(false);
-  const [postToEdit, setPostToEdit] = useState(null);
-  const [postToDelete, setPostToDelete] = useState(null);
+  const [isPostDeleteAlertOpen, setIsPostDeleteAlertOpen] = useState(false);
+  const [selectedPost, setSelectedPost] = useState(null);
 
   useEffect(() => {
     handleRefresh();
@@ -88,6 +86,7 @@ const PostList = ({navigation}) => {
   }
 
   const handleRefresh = () => {
+    setSelectedPost(null);
     setRefreshing(true);
     setLoadingError(false);
     backend.get("posts/get-posts/")
@@ -103,70 +102,6 @@ const PostList = ({navigation}) => {
       });
   }
 
-  const deletePost = (postID) => {
-    backend.post("posts/delete-post/", {
-      post_id: postID,
-    }).then(() => {
-      handleRefresh();
-    }).catch((error) => {
-      console.error(error);
-    });
-    setPostToDelete(null);
-  }
-
-  const showPostSettingsOptions = (postID) => {
-    const options = [t("editPost"), t("deletePost")];
-    const icons = [
-      <FontAwesomeIcon icon={faPen} size={20} color={theme.colors.secondaryText} />,
-      <FontAwesomeIcon icon={faTrash} size={20} color={theme.colors.error} />,
-    ]
-    const cancelButtonIndex = options.length;
-    const tintColor = theme.colors.primaryText;
-    const title = t("postSettings");
-    const titleTextStyle = {color: theme.colors.secondaryText};
-    const destructiveColor = theme.colors.error;
-    const destructiveButtonIndex = 1;
-    const containerStyle = {backgroundColor: theme.colors.surface};
-    showActionSheetWithOptions({
-      options,
-      icons,
-      cancelButtonIndex,
-      tintColor,
-      title,
-      titleTextStyle,
-      destructiveColor,
-      destructiveButtonIndex,
-      containerStyle,
-    }, (buttonIndex) => {
-      switch (buttonIndex) {
-        case 0:
-          const post = postList.find(post => post.id === postID);
-          setPostToEdit(post);
-          setIsPostEditModalOpen(true);
-          break;
-        case 1:
-          setIsDeleteAlertOpen(true);
-          setPostToDelete(postID);
-          break;
-      }
-    });
-  }
-
-  const deleteAlertButtons = [
-    {
-      text: t("cancel"),
-      onPress: () => setIsDeleteAlertOpen(false),
-    },
-    {
-      text: t("delete"),
-      onPress: () => {
-        setIsDeleteAlertOpen(false);
-        deletePost(postToDelete);
-      },
-      style: {color: "#c30000"},
-    },
-  ];
-
   const PostItem = memo(({ item, navigation }) => (
     <TouchableOpacity style={[styles.postContainer, {backgroundColor: theme.colors.surface}]} onPress={() => navigation.navigate("ForumDetailIndex", {
       forumTitle:item.title, forumID: item.id,
@@ -176,7 +111,13 @@ const PostList = ({navigation}) => {
       <View style={styles.postHeader}>
         <Text style={[styles.postTopic, {color: theme.colors.secondaryText}]}>{t(item.topic.name)} • {item.author_name}</Text>
         {item.is_owner &&
-          <TouchableOpacity onPress={() => showPostSettingsOptions(item.id)}>
+          <TouchableOpacity onPress={() => {
+            setSelectedPost(item);
+            showPostOptions(showActionSheetWithOptions, theme,
+              () => setIsPostEditModalOpen(true),
+              () => setIsPostDeleteAlertOpen(true)
+            );
+          }}>
             <FontAwesomeIcon icon={faEllipsisVertical} size={20} color={theme.colors.secondaryText} />
           </TouchableOpacity>
         }
@@ -211,13 +152,16 @@ const PostList = ({navigation}) => {
                          buttonStyle={[styles.multiSelect, {backgroundColor: theme.colors.surface}]} placeholderStyle={{color: theme.colors.secondaryText}} />
           </View>
         }
+        ListEmptyComponent={
+          <Text style={[styles.noPosts, {color: theme.colors.secondaryText}]}>{t("noPosts")}</Text>
+        }
       />
       <TouchableOpacity style={[styles.createPostButton, {backgroundColor: theme.colors.primary}]} onPress={() => setIsPostCreateModalOpen(true)}>
         <Text style={[styles.createPostButtonText, {color: theme.colors.primaryText}]}>{'+ ' + t("post")}</Text>
       </TouchableOpacity>
       <CreatePostModal topics={topics} isOpen={isPostCreateModalOpen} setIsOpen={setIsPostCreateModalOpen} handleRefresh={handleRefresh} setLoading={setLoading} />
-      <EditPostModal topics={topics} post={postToEdit} isOpen={isPostEditModalOpen} setIsOpen={setIsPostEditModalOpen} handleRefresh={handleRefresh} setLoading={setLoading} />
-      <Alert title={t("deletePost")} message={t("deletePostConfirmation")} buttons={deleteAlertButtons} isOpen={isDeleteAlertOpen} setIsOpen={setIsDeleteAlertOpen} />
+      <EditPostModal topics={topics} post={selectedPost} isOpen={isPostEditModalOpen} setIsOpen={setIsPostEditModalOpen} handleRefresh={handleRefresh} setLoading={setLoading} />
+      <DeletePostAlert isOpen={isPostDeleteAlertOpen} setIsOpen={setIsPostDeleteAlertOpen} selectedPost={selectedPost} handleRefresh={handleRefresh} />
     </View>
   );
 }
@@ -252,6 +196,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginBottom: 10,
+  },
+  noPosts: {
+    fontSize: 16,
+    textAlign: "center",
+    marginTop: 20,
   },
   postTopic: {
     fontSize: 14,

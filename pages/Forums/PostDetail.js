@@ -7,12 +7,15 @@ import CreateCommentModal from "./CreateCommentModal";
 import {FlashList} from "@shopify/flash-list";
 import {useTheme} from "../../utils/Theme";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
-import {faHeart} from "@fortawesome/free-solid-svg-icons";
+import {faEllipsisVertical, faHeart} from "@fortawesome/free-solid-svg-icons";
 import {faHeart as faHeartO} from "@fortawesome/free-regular-svg-icons";
+import {DeleteCommentAlert, EditCommentModal, showCommentOptions} from "./CommentOptions";
+import {useActionSheet} from "@expo/react-native-action-sheet";
 
 const PostDetail = ({navigation, route}) => {
   const {t} = useTranslation();
   const theme = useTheme();
+  const {showActionSheetWithOptions} = useActionSheet();
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [postInfo, setPostInfo] = useState({
@@ -25,8 +28,11 @@ const PostDetail = ({navigation, route}) => {
     liked: false,
   });
   const [isCommentCreateModalOpen, setIsCommentCreateModalOpen] = useState(false);
+  const [isCommentEditModalOpen, setIsCommentEditModalOpen] = useState(false);
+  const [isCommentDeleteAlertOpen, setIsCommentDeleteAlertOpen] = useState(false);
   const [comments, setComments] = useState([]);
   const [loadingError, setLoadingError] = useState(false);
+  const [selectedComment, setSelectedComment] = useState(null);
 
   useEffect(() => {
     navigation.setOptions({title: route.params.forumTitle});
@@ -87,7 +93,9 @@ const PostDetail = ({navigation, route}) => {
   }
 
   const handleRefresh = () => {
+    setSelectedComment(null);
     setRefreshing(true);
+    setLoadingError(false);
     const payload = {
       forum_id: route.params.forumID,
     };
@@ -95,28 +103,32 @@ const PostDetail = ({navigation, route}) => {
       .then((response) => {
         setPostInfo(response.data.post);
         setComments(response.data.comments);
+        setLoading(false);
         setRefreshing(false);
       })
       .catch((error) => {
         console.error(error);
+        setLoadingError(true);
         setRefreshing(false);
       });
   }
 
-  const onCommentCreate = (content) => {
-    backend.post("posts/create-comment/", {
-      forum_id: route.params.forumID,
-      content: content
-    }).then(() => {
-      handleLoad();
-    }).catch((error) => {
-      console.error(error);
-    });
-  }
-
   const CommentItem = memo(({ item }) => (
     <View style={[styles.commentContainer, {backgroundColor: theme.colors.surface}]}>
-      <Text style={[styles.commentAuthor, {color: theme.colors.primaryText}]}>{item.author_name}</Text>
+      <View style={styles.commentHeader}>
+        <Text style={[styles.commentAuthor, {color: theme.colors.primaryText}]}>{item.author_name}</Text>
+        {item.is_owner &&
+          <TouchableOpacity onPress={() => {
+            setSelectedComment(item);
+            showCommentOptions(showActionSheetWithOptions, theme,
+              () => setIsCommentEditModalOpen(true),
+              () => setIsCommentDeleteAlertOpen(true)
+            );
+          }}>
+            <FontAwesomeIcon icon={faEllipsisVertical} size={20} color={theme.colors.secondaryText} />
+          </TouchableOpacity>
+        }
+      </View>
       <Text style={[styles.commentContent, {color: theme.colors.primaryText}]}>{item.content}</Text>
       <View style={styles.bottomContainer}>
         <TouchableOpacity onPress={() => likeComment(item.id)} style={styles.likeButton}>
@@ -157,11 +169,16 @@ const PostDetail = ({navigation, route}) => {
             <View style={[styles.separator, {borderBottomColor: theme.colors.border}]} />
           </View>
         }
+        ListEmptyComponent={
+          <Text style={[styles.noComments, {color: theme.colors.secondaryText}]}>{t("noComments")}</Text>
+        }
       />
       <TouchableOpacity style={[styles.createCommentButton, {backgroundColor: theme.colors.primary}]} onPress={() => setIsCommentCreateModalOpen(true)}>
         <Text style={[styles.createCommentButtonText, {color: theme.colors.primaryText}]}>{'+ ' + t("comment")}</Text>
       </TouchableOpacity>
-      <CreateCommentModal isOpen={isCommentCreateModalOpen} setIsOpen={setIsCommentCreateModalOpen} onSubmit={onCommentCreate} />
+      <CreateCommentModal isOpen={isCommentCreateModalOpen} setIsOpen={setIsCommentCreateModalOpen} handleLoad={handleLoad} forumID={route.params.forumID} />
+      <EditCommentModal isOpen={isCommentEditModalOpen} setIsOpen={setIsCommentEditModalOpen} selectedComment={selectedComment} handleRefresh={handleRefresh} />
+      <DeleteCommentAlert isOpen={isCommentDeleteAlertOpen} setIsOpen={setIsCommentDeleteAlertOpen} selectedComment={selectedComment} handleRefresh={handleRefresh} />
     </View>
   );
 }
@@ -227,6 +244,16 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginHorizontal: 10,
     elevation: 5,
+  },
+  commentHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 10,
+  },
+  noComments: {
+    fontSize: 16,
+    textAlign: "center",
+    marginTop: 20,
   },
   commentAuthor: {
     fontSize: 14,

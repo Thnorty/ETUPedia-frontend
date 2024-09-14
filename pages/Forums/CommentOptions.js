@@ -1,44 +1,64 @@
-import {useTheme} from "../../utils/Theme";
+import {t} from "i18next";
+import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
+import {faPen, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {useEffect, useState} from "react";
 import backend from "../../utils/Backend";
 import Modal from "../../components/Modal";
-import {TextInput, TouchableOpacity, View, Text, StyleSheet} from "react-native";
-import Picker from "../../components/Picker";
-import {useTranslation} from "react-i18next";
+import {StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {useTheme} from "../../utils/Theme";
+import Alert from "../../components/Alert";
 
-const EditPostModal = ({ post, topics, isOpen, setIsOpen, handleRefresh, setLoading }) => {
-  const {t} = useTranslation();
+export const showCommentOptions = (showActionSheetWithOptions, theme, handleEdit, handleDelete) => {
+  showActionSheetWithOptions(
+    {
+      options: [t("editComment"), t("deleteComment")],
+      icons: [
+        <FontAwesomeIcon icon={faPen} size={20} color={theme.colors.secondaryText} />,
+        <FontAwesomeIcon icon={faTrash} size={20} color={theme.colors.error} />,
+      ],
+      destructiveColor: theme.colors.error,
+      destructiveButtonIndex: 1,
+      cancelButtonIndex: 2,
+      tintColor: theme.colors.primaryText,
+      title: t("commentOptions"),
+      titleTextStyle: {color: theme.colors.secondaryText},
+      containerStyle: {backgroundColor: theme.colors.surface},
+    }, (buttonIndex) => {
+      switch (buttonIndex) {
+        case 0:
+          handleEdit();
+          break;
+        case 1:
+          handleDelete();
+          break;
+      }
+    }
+  );
+}
+
+export const EditCommentModal = ({isOpen, setIsOpen, selectedComment, handleRefresh}) => {
   const theme = useTheme();
-  const [selectedTopicOrder, setSelectedTopicOrder] = useState(null);
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState(selectedComment ? selectedComment.content : '');
   const [errors, setErrors] = useState([]);
 
   useEffect(() => {
-    setSelectedTopicOrder(post ? post.topic.order : null);
-    setTitle(post ? post.title : '');
-    setContent(post ? post.content : '');
-  }, [post]);
+    setContent(selectedComment ? selectedComment.content : '');
+  }, [selectedComment]);
 
   const closeModal = () => {
     setIsOpen(false);
   }
 
   const clearFields = () => {
-    setSelectedTopicOrder(post ? post.topic.order : null);
-    setTitle(post ? post.title : '');
-    setContent(post ? post.content : '');
+    setContent(selectedComment ? selectedComment.content : '');
     setErrors([]);
   }
 
   const handleSave = () => {
-    backend.post("posts/edit-post/", {
-      post_id: post.id,
-      topic_order: selectedTopicOrder,
-      title: title,
+    backend.post("posts/edit-comment/", {
+      comment_id: selectedComment.id,
       content: content,
     }).then(() => {
-      setLoading(true);
       handleRefresh();
     }).catch((error) => {
       console.error(error);
@@ -47,10 +67,6 @@ const EditPostModal = ({ post, topics, isOpen, setIsOpen, handleRefresh, setLoad
 
   const handleSubmit = () => {
     let errors = [];
-    if (selectedTopicOrder === null)
-      errors.push(t("topic") + " " + t("required").toLowerCase() + ".");
-    if (!title)
-      errors.push(t("title") + " " + t("required").toLowerCase() + ".");
     if (!content)
       errors.push(t("content") + " " + t("required").toLowerCase() + ".");
 
@@ -68,26 +84,7 @@ const EditPostModal = ({ post, topics, isOpen, setIsOpen, handleRefresh, setLoad
       onModalHide={() => clearFields()}
     >
       <View style={[styles.modal, {backgroundColor: theme.colors.surface}]}>
-        <Text style={[styles.modalTitle, {color: theme.colors.primaryText}]}>{t("editPost")}</Text>
-        <Picker
-          buttonStyle={[styles.picker, {borderColor: theme.colors.border}]}
-          placeholderStyle={{color: theme.colors.secondaryText}}
-          options={topics.map(topic => topic.name)}
-          value={topics[selectedTopicOrder]?.name}
-          onChange={(selectedName) => {
-            const selectedTopic = topics.find(topic => topic.name === selectedName);
-            setSelectedTopicOrder(selectedTopic ? selectedTopic.order : null);
-          }}
-          placeholder={t("topic")}
-        />
-        <TextInput
-          style={[styles.titleInput, {color: theme.colors.primaryText, borderColor: theme.colors.border}]}
-          placeholderTextColor={theme.colors.secondaryText}
-          placeholder={t("title")}
-          maxLength={100}
-          value={title}
-          onChangeText={setTitle}
-        />
+        <Text style={[styles.modalTitle, {color: theme.colors.primaryText}]}>{t("editComment")}</Text>
         <TextInput
           style={[styles.contentInput, {color: theme.colors.primaryText, borderColor: theme.colors.border}]}
           placeholderTextColor={theme.colors.secondaryText}
@@ -117,6 +114,45 @@ const EditPostModal = ({ post, topics, isOpen, setIsOpen, handleRefresh, setLoad
   );
 }
 
+export const DeleteCommentAlert = ({isOpen, setIsOpen, selectedComment, handleRefresh}) => {
+  const theme = useTheme();
+
+  const deleteComment = () => {
+    backend.post("posts/delete-comment/", {
+      comment_id: selectedComment.id,
+    }).then(() => {
+      handleRefresh();
+    }).catch((error) => {
+      console.error(error);
+    });
+  }
+
+  const buttons = [
+    {
+      text: t("cancel"),
+      onPress: () => setIsOpen(false),
+    },
+    {
+      text: t("delete"),
+      onPress: () => {
+        setIsOpen(false);
+        deleteComment();
+      },
+      style: {color: theme.colors.error},
+    },
+  ];
+
+  return (
+    <Alert
+      title={t("deleteComment")}
+      message={t("deleteCommentConfirmation")}
+      buttons={buttons}
+      isOpen={isOpen}
+      setIsOpen={setIsOpen}
+    />
+  );
+}
+
 const styles = StyleSheet.create({
   modal: {
     borderRadius: 10,
@@ -126,21 +162,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 15,
-  },
-  picker: {
-    height: 40,
-    width: "100%",
-    borderWidth: 1,
-    borderRadius: 6,
-    marginBottom: 12,
-  },
-  titleInput: {
-    height: 40,
-    width: "100%",
-    borderWidth: 1,
-    borderRadius: 6,
-    marginBottom: 12,
-    padding: 10,
   },
   contentInput: {
     height: 100,
@@ -169,5 +190,3 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
 });
-
-export default EditPostModal;

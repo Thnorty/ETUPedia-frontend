@@ -8,8 +8,9 @@ import {
 import {useState} from 'react';
 import Modal from "../../components/Modal";
 import {useTheme} from "../../utils/Theme";
+import backend from "../../utils/Backend";
 
-const CreateCommentModal = ({ isOpen, setIsOpen, onSubmit }) => {
+const CreateCommentModal = ({ isOpen, setIsOpen, handleLoad, forumID }) => {
   const {t} = useTranslation();
   const theme = useTheme();
   const [content, setContent] = useState("");
@@ -24,6 +25,17 @@ const CreateCommentModal = ({ isOpen, setIsOpen, onSubmit }) => {
     setErrors([]);
   };
 
+  const handleCreate = (content) => {
+    backend.post("posts/create-comment/", {
+      forum_id: forumID,
+      content: content
+    }).then(() => {
+      handleLoad();
+    }).catch((error) => {
+      console.error(error);
+    });
+  }
+
   const handleSubmit = () => {
     let errors = [];
     if (!content)
@@ -32,7 +44,7 @@ const CreateCommentModal = ({ isOpen, setIsOpen, onSubmit }) => {
     setErrors(errors);
     if (errors.length) return;
 
-    onSubmit(content);
+    handleCreate(content);
     closeModal();
   }
 
