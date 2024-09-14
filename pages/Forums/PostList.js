@@ -168,7 +168,7 @@ const PostList = ({navigation}) => {
         <Text style={[styles.postTopic, {color: theme.colors.secondaryText}]}>{t(item.topic.name)} • {item.author_name}</Text>
         {item.is_owner &&
           <TouchableOpacity onPress={() => showPostSettingsOptions(item.id)}>
-            <Icon name="cog" size={20} color={theme.colors.secondaryText} />
+            <Icon name="ellipsis-v" size={20} color={theme.colors.secondaryText} />
           </TouchableOpacity>
         }
       </View>
