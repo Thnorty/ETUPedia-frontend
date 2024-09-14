@@ -12,7 +12,6 @@ import StudentsIndex from './pages/Students/Index';
 import {NavigationContainer} from "@react-navigation/native";
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Icon from "react-native-vector-icons/FontAwesome";
 import {localStorage} from "./utils/LocalStorage";
 import {ActionSheetProvider} from "@expo/react-native-action-sheet";
 import backend from "./utils/Backend";
@@ -20,6 +19,8 @@ import Loading from "./components/Loading";
 import {useTheme} from "./utils/Theme";
 import {Image, StyleSheet} from "react-native";
 import etupediaIcon from "./assets/etupedia.png";
+import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
+import {faHouse, faListUl, faPersonChalkboard, faUserGraduate, faBookOpen} from "@fortawesome/free-solid-svg-icons";
 
 const Main = ({colorScheme, setColorScheme}) => {
   const {t} = useTranslation();
@@ -121,7 +122,7 @@ const Main = ({colorScheme, setColorScheme}) => {
                   <Tab.Screen name="HomeIndex"
                               options={{
                                 title: t("home"), tabBarIcon: ({color, size}) => (
-                                  <Icon name="home" color={color} size={size}/>
+                                  <FontAwesomeIcon icon={faHouse} color={color} size={size} />
                                 )
                               }}
                   >
@@ -135,7 +136,7 @@ const Main = ({colorScheme, setColorScheme}) => {
                   <Tab.Screen name="ForumIndex"
                               options={{
                                 title: t("forums"), headerShown: false, tabBarIcon: ({color, size}) => (
-                                  <Icon name="list" color={color} size={size}/>
+                                  <FontAwesomeIcon icon={faListUl} color={color} size={size} />
                                 )
                               }}
                   >
@@ -144,7 +145,7 @@ const Main = ({colorScheme, setColorScheme}) => {
                   <Tab.Screen name="TeacherListIndex"
                               options={{
                                 title: t("teachers"), headerShown: false, tabBarIcon: ({color, size}) => (
-                                  <Icon name="user" color={color} size={size}/>
+                                  <FontAwesomeIcon icon={faPersonChalkboard} color={color} size={size} />
                                 )
                               }}
                   >
@@ -153,7 +154,7 @@ const Main = ({colorScheme, setColorScheme}) => {
                   <Tab.Screen name="LessonListIndex"
                               options={{
                                 title: t("lessons"), headerShown: false, tabBarIcon: ({color, size}) => (
-                                  <Icon name="book" color={color} size={size}/>
+                                  <FontAwesomeIcon icon={faBookOpen} color={color} size={size} />
                                 )
                               }}
                   >
@@ -162,7 +163,7 @@ const Main = ({colorScheme, setColorScheme}) => {
                   <Tab.Screen name="StudentListIndex"
                               options={{
                                 title: t("students"), headerShown: false, tabBarIcon: ({color, size}) => (
-                                  <Icon name="users" color={color} size={size}/>
+                                  <FontAwesomeIcon icon={faUserGraduate} color={color} size={size} />
                                 )
                               }}
                   >

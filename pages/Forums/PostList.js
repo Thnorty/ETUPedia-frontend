@@ -2,7 +2,6 @@ import {useTranslation} from "react-i18next";
 import backend from "../../utils/Backend";
 import {memo, useEffect, useState} from "react";
 import {StyleSheet, Text, TouchableOpacity, View, RefreshControl} from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome";
 import Loading from "../../components/Loading";
 import {FlashList} from "@shopify/flash-list";
 import CreatePostModal from "./CreatePostModal";
@@ -12,6 +11,9 @@ import MultiSelect from "../../components/MultiSelect";
 import {useActionSheet} from "@expo/react-native-action-sheet";
 import Alert from "../../components/Alert";
 import EditPostModal from "./EditPostModal";
+import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
+import {faEllipsisVertical, faHeart} from "@fortawesome/free-solid-svg-icons";
+import {faHeart as faHeartO} from "@fortawesome/free-regular-svg-icons";
 
 const PostList = ({navigation}) => {
   const {t} = useTranslation();
@@ -168,7 +170,7 @@ const PostList = ({navigation}) => {
         <Text style={[styles.postTopic, {color: theme.colors.secondaryText}]}>{t(item.topic.name)} • {item.author_name}</Text>
         {item.is_owner &&
           <TouchableOpacity onPress={() => showPostSettingsOptions(item.id)}>
-            <Icon name="ellipsis-v" size={20} color={theme.colors.secondaryText} />
+            <FontAwesomeIcon icon={faEllipsisVertical} size={20} color={theme.colors.secondaryText} />
           </TouchableOpacity>
         }
       </View>
@@ -176,7 +178,7 @@ const PostList = ({navigation}) => {
       <Text style={[styles.postContent, {color: theme.colors.primaryText}]}>{item.content}</Text>
       <View style={styles.bottomContainer}>
         <TouchableOpacity style={styles.likeButton} onPress={() => likePost(item.id)}>
-          <Icon name={item.liked ? "heart": "heart-o"} size={20} color={item.liked ? "#c30000" : theme.colors.secondaryText} />
+          <FontAwesomeIcon icon={item.liked ? faHeart : faHeartO} size={20} color={item.liked ? "#c30000" : theme.colors.secondaryText} />
           <Text style={[styles.likeText, {color: theme.colors.secondaryText}]}>{item.likes}</Text>
         </TouchableOpacity>
         <Text style={[styles.postDate, {color: theme.colors.secondaryText}]}>{item.created_at}</Text>

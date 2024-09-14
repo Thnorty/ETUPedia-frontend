@@ -10,6 +10,8 @@ import {useActionSheet} from "@expo/react-native-action-sheet";
 import ColorPicker, { Panel1, Preview, HueSlider } from 'reanimated-color-picker';
 import {useTheme} from "../../utils/Theme";
 import ProfileIcon from "../../components/ProfileIcon";
+import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
+import {faDroplet, faBrush, faGlobe, faRightFromBracket} from "@fortawesome/free-solid-svg-icons";
 
 const Index = (props) => {
   const {t, i18n} = useTranslation();
@@ -120,6 +122,12 @@ const Index = (props) => {
       t("changeLanguage"),
       t("logOut"),
     ];
+    const icons = [
+      <FontAwesomeIcon icon={faDroplet} size={20} color={theme.colors.primaryText} />,
+      <FontAwesomeIcon icon={faBrush} size={20} color={theme.colors.primaryText} />,
+      <FontAwesomeIcon icon={faGlobe} size={20} color={theme.colors.primaryText} />,
+      <FontAwesomeIcon icon={faRightFromBracket} size={20} color={theme.colors.primaryText} />,
+    ];
     const cancelButtonIndex = options.length;
     const tintColor = theme.colors.primaryText;
     const title = t("settings");
@@ -128,6 +136,7 @@ const Index = (props) => {
     const containerStyle = {backgroundColor: theme.colors.surface};
     showActionSheetWithOptions({
       options,
+      icons,
       cancelButtonIndex,
       tintColor,
       title,

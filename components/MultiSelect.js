@@ -1,9 +1,11 @@
 import {StyleSheet, TouchableOpacity, View, Text, ScrollView} from "react-native";
 import Modal from "./Modal";
-import Icon from "react-native-vector-icons/FontAwesome";
 import {useTheme} from "../utils/Theme";
 import {useState} from "react";
 import {useTranslation} from "react-i18next";
+import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
+import {faCaretDown} from "@fortawesome/free-solid-svg-icons";
+import {faSquare, faSquareCheck} from "@fortawesome/free-regular-svg-icons";
 
 const MultiSelect = ({ placeholder, options, value, onChange, buttonStyle, placeholderStyle }) => {
   const {t} = useTranslation();
@@ -35,7 +37,7 @@ const MultiSelect = ({ placeholder, options, value, onChange, buttonStyle, place
         <Text style={[styles.buttonText, !value && placeholderStyle, value && {color: theme.colors.primaryText}]}>
           {placeholder}{value.length > 0 ? ` (${value.length})` : ""}
         </Text>
-        <Icon name="caret-down" size={20} color={theme.colors.secondaryText} />
+        <FontAwesomeIcon icon={faCaretDown} size={20} color={theme.colors.secondaryText} />
       </TouchableOpacity>
       <Modal isVisible={isOpen} onBackdropPress={closeModal}>
         <View style={[styles.modal, {backgroundColor: theme.colors.surface}]}>
@@ -44,7 +46,7 @@ const MultiSelect = ({ placeholder, options, value, onChange, buttonStyle, place
             {options.map((option, index) => (
               <TouchableOpacity key={index} style={styles.optionContainer} onPress={() => toggleOption(option)}>
                 <Text style={[styles.option, {color: theme.colors.primaryText}]}>{option}</Text>
-                <Icon name={selectedOptions.includes(option) ? "check-square" : "square-o"} size={20} color={theme.colors.primaryText} />
+                <FontAwesomeIcon icon={selectedOptions.includes(option) ? faSquareCheck : faSquare} size={20} color={theme.colors.primaryText} />
               </TouchableOpacity>
             ))}
           </ScrollView>

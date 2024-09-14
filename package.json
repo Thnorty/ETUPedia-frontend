@@ -11,6 +11,11 @@
   "dependencies": {
     "@callstack/react-theme-provider": "^3.0.9",
     "@expo/react-native-action-sheet": "^4.1.0",
+    "@fortawesome/fontawesome-svg-core": "^6.6.0",
+    "@fortawesome/free-brands-svg-icons": "^6.6.0",
+    "@fortawesome/free-regular-svg-icons": "^6.6.0",
+    "@fortawesome/free-solid-svg-icons": "^6.6.0",
+    "@fortawesome/react-native-fontawesome": "^0.3.2",
     "@react-native-async-storage/async-storage": "1.23.1",
     "@react-navigation/bottom-tabs": "^6.5.20",
     "@react-navigation/material-top-tabs": "^6.6.13",
@@ -37,7 +42,7 @@
     "react-native-shadow-2": "^7.1.0",
     "react-native-size-matters": "^0.4.2",
     "react-native-storage": "^1.0.1",
-    "react-native-svg": "15.2.0",
+    "react-native-svg": "^15.6.0",
     "react-native-tab-view": "^3.5.2",
     "react-native-vector-icons": "^10.0.3",
     "reanimated-color-picker": "^3.0.4"

@@ -3,7 +3,8 @@ import Modal from "./Modal";
 import {Text} from "react-native";
 import {useState} from "react";
 import {useTheme} from "../utils/Theme";
-import Icon from "react-native-vector-icons/FontAwesome";
+import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
+import {faCaretDown} from "@fortawesome/free-solid-svg-icons";
 
 const Picker = ({ placeholder, options, value, onChange, buttonStyle, placeholderStyle }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,7 +14,7 @@ const Picker = ({ placeholder, options, value, onChange, buttonStyle, placeholde
     <View>
       <TouchableOpacity style={[styles.button, buttonStyle]} onPress={() => setIsOpen(true)}>
         <Text style={[styles.buttonText, !value && placeholderStyle, value && {color: theme.colors.primaryText}]}>{value || placeholder}</Text>
-        <Icon name="caret-down" size={20} color={theme.colors.secondaryText} />
+        <FontAwesomeIcon icon={faCaretDown} size={20} color={theme.colors.secondaryText} />
       </TouchableOpacity>
       <Modal isVisible={isOpen} onBackdropPress={() => setIsOpen(false)}>
         <View style={[styles.modal, {backgroundColor: theme.colors.surface}]}>

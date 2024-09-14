@@ -1,13 +1,14 @@
 import {StyleSheet, TextInput, View} from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome";
 import {useTheme} from "../utils/Theme";
+import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
+import {faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
 
 const SearchBar = ({ value, onChangeText, placeholder, style }) => {
   const theme = useTheme();
 
   return (
     <View style={[{backgroundColor: theme.colors.surface}, styles.searchBar, style]}>
-      <Icon name="search" size={20} color={theme.colors.secondaryText} />
+      <FontAwesomeIcon icon={faMagnifyingGlass} size={20} color={theme.colors.secondaryText} />
       <TextInput
         style={[styles.input, {color: theme.colors.primaryText}]}
         placeholderTextColor={theme.colors.secondaryText}
