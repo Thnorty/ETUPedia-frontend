@@ -154,7 +154,7 @@ const PostList = ({navigation}) => {
         ListHeaderComponent={
           <View style={styles.topContainer}>
             <SearchBar value={search} onChangeText={setSearch} placeholder={t("search...")} style={styles.searchBar} />
-            <MultiSelect placeholder={t("topics")} options={topics.map(topic => topic.name)} value={selectedTopics} onChange={setSelectedTopics}
+            <MultiSelect placeholder={t("topics")} options={topics.map(topic => t(topic.name))} value={selectedTopics} onChange={setSelectedTopics}
                          buttonStyle={[styles.multiSelect, {backgroundColor: theme.colors.surface}]} placeholderStyle={{color: theme.colors.secondaryText}} />
           </View>
         }

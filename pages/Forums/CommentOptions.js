@@ -7,6 +7,7 @@ import Modal from "../../components/Modal";
 import {StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import {useTheme} from "../../utils/Theme";
 import Alert from "../../components/Alert";
+import {useTranslation} from "react-i18next";
 
 export const showCommentOptions = (showActionSheetWithOptions, theme, handleEdit, handleDelete) => {
   showActionSheetWithOptions(
@@ -37,6 +38,7 @@ export const showCommentOptions = (showActionSheetWithOptions, theme, handleEdit
 }
 
 export const EditCommentModal = ({ selectedComment, isOpen, setIsOpen, handleRefresh }) => {
+  const {t} = useTranslation();
   const theme = useTheme();
   const [content, setContent] = useState(selectedComment ? selectedComment.content : '');
   const [errors, setErrors] = useState([]);
@@ -115,6 +117,7 @@ export const EditCommentModal = ({ selectedComment, isOpen, setIsOpen, handleRef
 }
 
 export const DeleteCommentAlert = ({ selectedComment, isOpen, setIsOpen, handleRefresh }) => {
+  const {t} = useTranslation();
   const theme = useTheme();
 
   const deleteComment = () => {

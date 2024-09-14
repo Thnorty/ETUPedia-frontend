@@ -8,6 +8,7 @@ import Modal from "../../components/Modal";
 import {StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import Picker from "../../components/Picker";
 import Alert from "../../components/Alert";
+import {useTranslation} from "react-i18next";
 
 export const showPostOptions = (showActionSheetWithOptions, theme, handleEdit, handleDelete) => {
   showActionSheetWithOptions(
@@ -38,6 +39,7 @@ export const showPostOptions = (showActionSheetWithOptions, theme, handleEdit, h
 }
 
 export const EditPostModal = ({ selectedPost, topics, isOpen, setIsOpen, handleRefresh, setLoading }) => {
+  const {t} = useTranslation();
   const theme = useTheme();
   const [selectedTopicOrder, setSelectedTopicOrder] = useState(null);
   const [title, setTitle] = useState('');
@@ -102,7 +104,7 @@ export const EditPostModal = ({ selectedPost, topics, isOpen, setIsOpen, handleR
         <Picker
           buttonStyle={[styles.picker, {borderColor: theme.colors.border}]}
           placeholderStyle={{color: theme.colors.secondaryText}}
-          options={topics.map(topic => topic.name)}
+          options={topics.map(topic => t(topic.name))}
           value={topics[selectedTopicOrder]?.name}
           onChange={(selectedName) => {
             const selectedTopic = topics.find(topic => topic.name === selectedName);
@@ -148,6 +150,7 @@ export const EditPostModal = ({ selectedPost, topics, isOpen, setIsOpen, handleR
 }
 
 export const DeletePostAlert = ({ selectedPost, isOpen, setIsOpen, handleRefresh }) => {
+  const {t} = useTranslation();
   const theme = useTheme();
 
   const deletePost = () => {
