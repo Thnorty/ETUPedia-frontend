@@ -123,15 +123,16 @@ const Index = (props) => {
       t("logOut"),
     ];
     const icons = [
-      <FontAwesomeIcon icon={faDroplet} size={20} color={theme.colors.primaryText} />,
-      <FontAwesomeIcon icon={faBrush} size={20} color={theme.colors.primaryText} />,
-      <FontAwesomeIcon icon={faGlobe} size={20} color={theme.colors.primaryText} />,
-      <FontAwesomeIcon icon={faRightFromBracket} size={20} color={theme.colors.primaryText} />,
+      <FontAwesomeIcon icon={faDroplet} size={20} color={theme.colors.secondaryText} />,
+      <FontAwesomeIcon icon={faBrush} size={20} color={theme.colors.secondaryText} />,
+      <FontAwesomeIcon icon={faGlobe} size={20} color={theme.colors.secondaryText} />,
+      <FontAwesomeIcon icon={faRightFromBracket} size={20} color={theme.colors.error} />,
     ];
     const cancelButtonIndex = options.length;
     const tintColor = theme.colors.primaryText;
     const title = t("settings");
     const titleTextStyle = {color: theme.colors.secondaryText};
+    const destructiveColor = theme.colors.error;
     const destructiveButtonIndex = 3;
     const containerStyle = {backgroundColor: theme.colors.surface};
     showActionSheetWithOptions({
@@ -141,6 +142,7 @@ const Index = (props) => {
       tintColor,
       title,
       titleTextStyle,
+      destructiveColor,
       destructiveButtonIndex,
       containerStyle,
     }, (buttonIndex) => {

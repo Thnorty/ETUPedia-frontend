@@ -12,7 +12,7 @@ import {useActionSheet} from "@expo/react-native-action-sheet";
 import Alert from "../../components/Alert";
 import EditPostModal from "./EditPostModal";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
-import {faEllipsisVertical, faHeart} from "@fortawesome/free-solid-svg-icons";
+import {faEllipsisVertical, faHeart, faPen, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {faHeart as faHeartO} from "@fortawesome/free-regular-svg-icons";
 
 const PostList = ({navigation}) => {
@@ -116,18 +116,25 @@ const PostList = ({navigation}) => {
 
   const showPostSettingsOptions = (postID) => {
     const options = [t("editPost"), t("deletePost")];
+    const icons = [
+      <FontAwesomeIcon icon={faPen} size={20} color={theme.colors.secondaryText} />,
+      <FontAwesomeIcon icon={faTrash} size={20} color={theme.colors.error} />,
+    ]
     const cancelButtonIndex = options.length;
     const tintColor = theme.colors.primaryText;
     const title = t("postSettings");
     const titleTextStyle = {color: theme.colors.secondaryText};
+    const destructiveColor = theme.colors.error;
     const destructiveButtonIndex = 1;
     const containerStyle = {backgroundColor: theme.colors.surface};
     showActionSheetWithOptions({
       options,
+      icons,
       cancelButtonIndex,
       tintColor,
       title,
       titleTextStyle,
+      destructiveColor,
       destructiveButtonIndex,
       containerStyle,
     }, (buttonIndex) => {
