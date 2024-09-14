@@ -7,7 +7,7 @@ import CreateCommentModal from "./CreateCommentModal";
 import {FlashList} from "@shopify/flash-list";
 import {useTheme} from "../../utils/Theme";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
-import {faEllipsisVertical, faHeart} from "@fortawesome/free-solid-svg-icons";
+import {faEllipsisVertical, faHeart, faPen} from "@fortawesome/free-solid-svg-icons";
 import {faHeart as faHeartO} from "@fortawesome/free-regular-svg-icons";
 import {DeleteCommentAlert, EditCommentModal, showCommentOptions} from "./CommentOptions";
 import {useActionSheet} from "@expo/react-native-action-sheet";
@@ -136,7 +136,11 @@ const PostDetail = ({navigation, route}) => {
           <Text style={[styles.likeText, {color: theme.colors.secondaryText}]}>{item.likes}</Text>
         </TouchableOpacity>
         <Text style={[styles.commentDate, {color: theme.colors.secondaryText}]}>
-          {item.created_at}{item.edited_at && " • " + t("edited") + " " + item.edited_at}
+          {item.created_at}{item.edited_at &&
+            <>
+              {" • "}<FontAwesomeIcon icon={faPen} size={12} color={theme.colors.secondaryText} />{" "}{item.edited_at}
+            </>
+          }
         </Text>
       </View>
     </View>
@@ -227,6 +231,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   bottomContainer: {
+    marginTop: 10,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",

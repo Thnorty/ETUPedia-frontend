@@ -10,7 +10,7 @@ import SearchBar from "../../components/SearchBar";
 import MultiSelect from "../../components/MultiSelect";
 import {useActionSheet} from "@expo/react-native-action-sheet";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
-import {faEllipsisVertical, faHeart} from "@fortawesome/free-solid-svg-icons";
+import {faEllipsisVertical, faHeart, faPen} from "@fortawesome/free-solid-svg-icons";
 import {faHeart as faHeartO} from "@fortawesome/free-regular-svg-icons";
 import {showPostOptions, EditPostModal, DeletePostAlert} from "./PostOptions";
 
@@ -130,7 +130,11 @@ const PostList = ({navigation}) => {
           <Text style={[styles.likeText, {color: theme.colors.secondaryText}]}>{item.likes}</Text>
         </TouchableOpacity>
         <Text style={[styles.postDate, {color: theme.colors.secondaryText}]}>
-          {item.created_at}{item.edited_at && " • " + t("edited") + " " + item.edited_at}
+          {item.created_at}{item.edited_at &&
+            <>
+              {" • "}<FontAwesomeIcon icon={faPen} size={12} color={theme.colors.secondaryText} />{" "}{item.edited_at}
+            </>
+          }
         </Text>
       </View>
     </TouchableOpacity>
@@ -162,8 +166,8 @@ const PostList = ({navigation}) => {
         <Text style={[styles.createPostButtonText, {color: theme.colors.primaryText}]}>{'+ ' + t("post")}</Text>
       </TouchableOpacity>
       <CreatePostModal topics={topics} isOpen={isPostCreateModalOpen} setIsOpen={setIsPostCreateModalOpen} handleRefresh={handleRefresh} setLoading={setLoading} />
-      <EditPostModal topics={topics} post={selectedPost} isOpen={isPostEditModalOpen} setIsOpen={setIsPostEditModalOpen} handleRefresh={handleRefresh} setLoading={setLoading} />
-      <DeletePostAlert isOpen={isPostDeleteAlertOpen} setIsOpen={setIsPostDeleteAlertOpen} selectedPost={selectedPost} handleRefresh={handleRefresh} />
+      <EditPostModal topics={topics} selectedPost={selectedPost} isOpen={isPostEditModalOpen} setIsOpen={setIsPostEditModalOpen} handleRefresh={handleRefresh} setLoading={setLoading} />
+      <DeletePostAlert selectedPost={selectedPost} isOpen={isPostDeleteAlertOpen} setIsOpen={setIsPostDeleteAlertOpen} handleRefresh={handleRefresh} />
     </View>
   );
 }
@@ -189,7 +193,6 @@ const styles = StyleSheet.create({
   postContainer: {
     padding: 15,
     marginVertical: 8,
-    marginBottom: 20,
     marginHorizontal: 10,
     borderRadius: 10,
     elevation: 5,
@@ -217,13 +220,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 10,
   },
-  postDate: {
-    fontSize: 12,
-  },
   bottomContainer: {
+    marginTop: 10,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+  },
+  postDate: {
+    fontSize: 12,
   },
   likeButton: {
     flexDirection: "row",

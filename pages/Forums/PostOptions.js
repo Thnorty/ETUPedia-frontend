@@ -37,7 +37,7 @@ export const showPostOptions = (showActionSheetWithOptions, theme, handleEdit, h
   );
 }
 
-export const EditPostModal = ({ post, topics, isOpen, setIsOpen, handleRefresh, setLoading }) => {
+export const EditPostModal = ({ selectedPost, topics, isOpen, setIsOpen, handleRefresh, setLoading }) => {
   const theme = useTheme();
   const [selectedTopicOrder, setSelectedTopicOrder] = useState(null);
   const [title, setTitle] = useState('');
@@ -45,25 +45,25 @@ export const EditPostModal = ({ post, topics, isOpen, setIsOpen, handleRefresh, 
   const [errors, setErrors] = useState([]);
 
   useEffect(() => {
-    setSelectedTopicOrder(post ? post.topic.order : null);
-    setTitle(post ? post.title : '');
-    setContent(post ? post.content : '');
-  }, [post]);
+    setSelectedTopicOrder(selectedPost ? selectedPost.topic.order : null);
+    setTitle(selectedPost ? selectedPost.title : '');
+    setContent(selectedPost ? selectedPost.content : '');
+  }, [selectedPost]);
 
   const closeModal = () => {
     setIsOpen(false);
   }
 
   const clearFields = () => {
-    setSelectedTopicOrder(post ? post.topic.order : null);
-    setTitle(post ? post.title : '');
-    setContent(post ? post.content : '');
+    setSelectedTopicOrder(selectedPost ? selectedPost.topic.order : null);
+    setTitle(selectedPost ? selectedPost.title : '');
+    setContent(selectedPost ? selectedPost.content : '');
     setErrors([]);
   }
 
   const handleSave = () => {
     backend.post("posts/edit-post/", {
-      post_id: post.id,
+      post_id: selectedPost.id,
       topic_order: selectedTopicOrder,
       title: title,
       content: content,
@@ -147,7 +147,7 @@ export const EditPostModal = ({ post, topics, isOpen, setIsOpen, handleRefresh, 
   );
 }
 
-export const DeletePostAlert = ({isOpen, setIsOpen, selectedPost, handleRefresh}) => {
+export const DeletePostAlert = ({ selectedPost, isOpen, setIsOpen, handleRefresh }) => {
   const theme = useTheme();
 
   const deletePost = () => {

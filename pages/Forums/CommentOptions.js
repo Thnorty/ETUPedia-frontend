@@ -36,7 +36,7 @@ export const showCommentOptions = (showActionSheetWithOptions, theme, handleEdit
   );
 }
 
-export const EditCommentModal = ({isOpen, setIsOpen, selectedComment, handleRefresh}) => {
+export const EditCommentModal = ({ selectedComment, isOpen, setIsOpen, handleRefresh }) => {
   const theme = useTheme();
   const [content, setContent] = useState(selectedComment ? selectedComment.content : '');
   const [errors, setErrors] = useState([]);
@@ -114,7 +114,7 @@ export const EditCommentModal = ({isOpen, setIsOpen, selectedComment, handleRefr
   );
 }
 
-export const DeleteCommentAlert = ({isOpen, setIsOpen, selectedComment, handleRefresh}) => {
+export const DeleteCommentAlert = ({ selectedComment, isOpen, setIsOpen, handleRefresh }) => {
   const theme = useTheme();
 
   const deleteComment = () => {
