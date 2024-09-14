@@ -129,7 +129,9 @@ const PostList = ({navigation}) => {
           <FontAwesomeIcon icon={item.liked ? faHeart : faHeartO} size={20} color={item.liked ? "#c30000" : theme.colors.secondaryText} />
           <Text style={[styles.likeText, {color: theme.colors.secondaryText}]}>{item.likes}</Text>
         </TouchableOpacity>
-        <Text style={[styles.postDate, {color: theme.colors.secondaryText}]}>{item.created_at}</Text>
+        <Text style={[styles.postDate, {color: theme.colors.secondaryText}]}>
+          {item.created_at}{item.edited_at && " • " + t("edited") + " " + item.edited_at}
+        </Text>
       </View>
     </TouchableOpacity>
   ));

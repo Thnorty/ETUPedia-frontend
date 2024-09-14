@@ -135,7 +135,9 @@ const PostDetail = ({navigation, route}) => {
           <FontAwesomeIcon icon={item.liked ? faHeart : faHeartO} size={20} color={item.liked ? "#c30000": theme.colors.secondaryText} />
           <Text style={[styles.likeText, {color: theme.colors.secondaryText}]}>{item.likes}</Text>
         </TouchableOpacity>
-        <Text style={[styles.commentDate, {color: theme.colors.secondaryText}]}>{item.created_at}</Text>
+        <Text style={[styles.commentDate, {color: theme.colors.secondaryText}]}>
+          {item.created_at}{item.edited_at && " • " + t("edited") + " " + item.edited_at}
+        </Text>
       </View>
     </View>
   ));
@@ -162,7 +164,9 @@ const PostDetail = ({navigation, route}) => {
                   <FontAwesomeIcon icon={postInfo.liked ? faHeart : faHeartO} size={20} color={postInfo.liked ? "#c30000": theme.colors.secondaryText} />
                   <Text style={[styles.likeText, {color: theme.colors.secondaryText}]}>{postInfo.likes}</Text>
                 </TouchableOpacity>
-                <Text style={[styles.postDate, {color: theme.colors.secondaryText}]}>{postInfo.created_at}</Text>
+                <Text style={[styles.postDate, {color: theme.colors.secondaryText}]}>
+                  {postInfo.created_at}{postInfo.edited_at && " • " + t("edited") + " " + postInfo.edited_at}
+                </Text>
               </View>
             </View>
             <Text style={[styles.commentsHeader, {color: theme.colors.primaryText}]}>{t("comments")}</Text>

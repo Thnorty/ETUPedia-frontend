@@ -75,5 +75,6 @@
   "deleteComment": "Kommentar löschen",
   "deleteCommentConfirmation": "Möchten Sie diesen Kommentar wirklich löschen?",
   "noPosts": "Noch keine Beiträge :(",
-  "noComments": "Noch keine Kommentare :("
+  "noComments": "Noch keine Kommentare :(",
+  "edited": "Bearbeitet"
 }
