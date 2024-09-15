@@ -11,25 +11,23 @@ const ProfileIcon = ({ user, onPress, size, fontSize, style }) => {
 
   return (
     <View style={[styles.container, style]}>
-      <Shadow distance={5}>
-        <TouchableOpacity
-          onPress={onPress}
-          style={[
-            styles.profileButton,
-            {
-              backgroundColor: user.color || "white",
-              borderColor: theme.colors.border,
-              width: size,
-              height: size,
-            }
-          ]}
-          disabled={isDisabled}
-        >
-          <Text style={[styles.profileText, {color: textColor, fontSize: fontSize}]}>
-            {user.name.slice(0, 1)+user.surname.slice(0, 1)}
-          </Text>
-        </TouchableOpacity>
-      </Shadow>
+      <TouchableOpacity
+        onPress={onPress}
+        style={[
+          styles.profileButton,
+          {
+            backgroundColor: user.color || "white",
+            borderColor: theme.colors.border,
+            width: size,
+            height: size,
+          }
+        ]}
+        disabled={isDisabled}
+      >
+        <Text style={[styles.profileText, {color: textColor, fontSize: fontSize}]}>
+          {user.name.slice(0, 1)+user.surname.slice(0, 1)}
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -43,7 +41,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 50,
-    borderWidth: 1.5,
     elevation: 5,
   },
   profileText: {
