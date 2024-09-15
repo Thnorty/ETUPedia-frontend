@@ -57,6 +57,7 @@ const Main = ({colorScheme, setColorScheme}) => {
       paddingTop: 10,
       height: 70
     },
+    tabBarIndicatorStyle: {backgroundColor: theme.colors.primary},
     headerStyle: {backgroundColor: theme.colors.background},
     headerShadowVisible: false,
     headerTintColor: theme.colors.primaryText,
