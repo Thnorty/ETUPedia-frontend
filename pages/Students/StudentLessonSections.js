@@ -23,7 +23,7 @@ const StudentLessonSections = (props) => {
 
   const LessonItem = memo(({ item, navigation }) => (
     <View>
-      <TouchableOpacity style={[styles.item, {borderColor: theme.colors.border}]} onPress={() => props.navigation.navigate("LessonListIndex", {
+      <TouchableOpacity style={[styles.item, {backgroundColor:theme.colors.surface}]} onPress={() => props.navigation.navigate("LessonListIndex", {
         screen: "LessonDetailIndex",
         params: { lessonCode: item.lesson_code, lessonName: item.lesson_name }
       })}>
@@ -35,7 +35,7 @@ const StudentLessonSections = (props) => {
 
   return (
     <View style={[styles.container, {backgroundColor: theme.colors.background}]}>
-      <SearchBar placeholder={t("search")} value={search} onChangeText={setSearch} />
+      <SearchBar placeholder={t("search...")} value={search} onChangeText={setSearch} />
       <FlashList
         data={filteredLessonList}
         renderItem={({ item }) => <LessonItem item={item} navigation={props.navigation} />}
@@ -48,11 +48,13 @@ const StudentLessonSections = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 10,
   },
   item: {
-    padding: 10,
-    borderBottomWidth: 1,
+    padding: 16,
+    marginVertical: 4,
+    marginHorizontal: 10,
+    borderRadius: 10,
+    elevation: 5,
   },
   mainText: {
     fontSize: 16,

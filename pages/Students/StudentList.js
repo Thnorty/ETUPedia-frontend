@@ -44,7 +44,7 @@ const StudentList = ({navigation}) => {
 
   const StudentItem = memo(({ item, navigation }) => (
     <View>
-      <TouchableOpacity style={[styles.item, {borderBottomColor: theme.colors.border}]} onPress={() => navigation.navigate("StudentDetailIndex", {
+      <TouchableOpacity style={[styles.item, {backgroundColor:theme.colors.surface}]} onPress={() => navigation.navigate("StudentDetailIndex", {
         studentId: item.id,
         studentName: `${item.name} ${item.surname}`,
       })}>
@@ -73,11 +73,13 @@ const StudentList = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 10,
   },
   item: {
     padding: 10,
-    borderBottomWidth: 1,
+    marginVertical: 4,
+    marginHorizontal: 10,
+    borderRadius: 10,
+    elevation: 5,
   },
   profileIcon: {
     marginRight: 10,

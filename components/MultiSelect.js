@@ -71,6 +71,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     padding: 10,
     width: 100,
+    elevation: 5,
+    marginHorizontal: 10,
   },
   buttonText: {
     flex: 1,

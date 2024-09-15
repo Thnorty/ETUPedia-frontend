@@ -43,7 +43,7 @@ const TeacherList = ({navigation}) => {
 
   const TeacherItem = memo(({ item, navigation }) => (
     <View>
-      <TouchableOpacity style={[styles.item, {borderBottomColor: theme.colors.border}]} onPress={() => navigation.navigate("TeacherDetailIndex", {
+      <TouchableOpacity style={[styles.item, {backgroundColor:theme.colors.surface}]} onPress={() => navigation.navigate("TeacherDetailIndex", {
         teacherName: item.name
       })}>
         <Text style={[{color: theme.colors.primaryText}]}>{item.name} {item.surname}</Text>
@@ -68,11 +68,13 @@ const TeacherList = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 10,
   },
   item: {
-    padding: 10,
-    borderBottomWidth: 1,
+    padding: 16,
+    marginVertical: 4,
+    marginHorizontal: 10,
+    borderRadius: 10,
+    elevation: 5,
   },
 });
 

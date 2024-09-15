@@ -175,20 +175,19 @@ const PostList = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 10,
   },
   topContainer: {
     flexDirection: "row",
   },
   searchBar: {
     flex: 1,
-    marginRight: 10,
   },
   multiSelect: {
     flex: 1,
     borderRadius: 6,
     marginVertical: 10,
-    width: 150
+    width: 150,
+    marginLeft: 0,
   },
   postContainer: {
     padding: 15,

@@ -43,7 +43,7 @@ const LessonList = ({navigation}) => {
 
   const LessonItem = memo(({ item, navigation }) => (
     <View>
-      <TouchableOpacity style={[styles.item, {borderBottomColor: theme.colors.border}]} onPress={() => navigation.navigate("LessonDetailIndex", {
+      <TouchableOpacity style={[styles.item, {backgroundColor:theme.colors.surface}]} onPress={() => navigation.navigate("LessonDetailIndex", {
         lessonCode: item.lesson_code,
         lessonName: item.name,
       })}>
@@ -69,11 +69,13 @@ const LessonList = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 10,
   },
   item: {
-    padding: 10,
-    borderBottomWidth: 1,
+    padding: 16,
+    marginVertical: 4,
+    marginHorizontal: 10,
+    borderRadius: 10,
+    elevation: 5,
   },
 });
 

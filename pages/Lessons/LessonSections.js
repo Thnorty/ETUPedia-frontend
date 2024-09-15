@@ -24,7 +24,7 @@ const LessonSections = (props) => {
 
   const SectionItem = memo(({ item }) => (
     <View>
-      <TouchableOpacity style={[styles.item, {borderColor: theme.colors.border}]}>
+      <TouchableOpacity style={[styles.item, {backgroundColor:theme.colors.surface}]}>
         <Text style={{color: theme.colors.primaryText}}>{item.section_number} - {item.section_teacher}</Text>
       </TouchableOpacity>
     </View>
@@ -45,11 +45,13 @@ const LessonSections = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 10,
   },
   item: {
-    padding: 10,
-    borderBottomWidth: 1,
+    padding: 16,
+    marginVertical: 4,
+    marginHorizontal: 10,
+    borderRadius: 10,
+    elevation: 5,
   },
 });
 
