@@ -1,9 +1,11 @@
 {
   "hello": "Merhaba",
+  "name": "İsim",
   "studentID": "Öğrenci Numarası",
   "department": "Bölüm",
   "email": "E-posta",
   "year": "Sınıf",
+  "lessonName": "Ders Adı",
   "logOut": "Çıkış Yap",
   "logIn": "Giriş Yap",
   "password": "Şifre",

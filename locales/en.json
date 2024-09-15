@@ -1,9 +1,11 @@
 {
   "hello": "Hello",
+  "name": "Name",
   "studentID": "Student ID",
   "department": "Department",
   "email": "E-mail",
   "year": "Year",
+  "lessonName": "Lesson Name",
   "logOut": "Log Out",
   "logIn": "Log In",
   "password": "Password",

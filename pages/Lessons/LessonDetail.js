@@ -75,7 +75,7 @@ const LessonDetail = ({navigation, route}) => {
   return (
     <Tab.Navigator screenOptions={screenOptions}>
       <Tab.Screen name="LessonInfo" options={{title: t("info")}}>
-        {() => <LessonInfo studentCount={lessonInfo.student_count} />}
+        {() => <LessonInfo lessonInfo={lessonInfo} />}
       </Tab.Screen>
       <Tab.Screen name="LessonSections" options={{title: t("sections")}}>
         {() => <LessonSections lessonSections={lessonSections} lessonInfo={lessonInfo} navigation={navigation}/>}
