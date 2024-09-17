@@ -50,7 +50,7 @@ const PostList = ({navigation}) => {
       postList.filter(post =>
         (post.title.toLowerCase().includes(search.toLowerCase()) ||
         post.content.toLowerCase().includes(search.toLowerCase())) &&
-        (selectedTopics.length === 0 || selectedTopics.includes(post.topic.name))
+        (selectedTopics.length === 0 || selectedTopics.includes(t(post.topic.name)))
       )
     );
   }, [theme, search, selectedTopics, postList]);
