@@ -78,5 +78,6 @@
   "deleteCommentConfirmation": "Bu yorumu silmek istediğinizden emin misiniz?",
   "noPosts": "Henüz bir gönderi yok :(",
   "noComments" : "Henüz bir yorum yok :(",
-  "edited": "Düzenlendi"
+  "edited": "Düzenlendi",
+  "graduated": "Mezun"
 }

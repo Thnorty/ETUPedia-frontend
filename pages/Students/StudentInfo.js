@@ -14,7 +14,7 @@ const StudentInfo = (props) => {
       <InfoCard icon={faIdBadge} label={t("studentID")} value={props.studentInfo.id} />
       <InfoCard icon={faBuilding} label={t("department")} value={props.studentInfo.department} />
       <InfoCard icon={faEnvelope} label={t("email")} value={props.studentInfo.mail} />
-      <InfoCard icon={faGraduationCap} label={t("year")} value={props.studentInfo.year} />
+      <InfoCard icon={faGraduationCap} label={t("year")} value={props.studentInfo.year !== -1 ? props.studentInfo.year : t("graduated")} />
     </View>
   );
 }

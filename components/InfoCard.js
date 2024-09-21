@@ -1,6 +1,5 @@
 import {StyleSheet, Text, View} from "react-native";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
-import React from "react";
 import {useTheme} from "../utils/Theme";
 
 const InfoCard = ({icon, label, value}) => {
@@ -36,6 +35,7 @@ const styles = StyleSheet.create({
   value: {
     fontSize: 16,
     marginLeft: 5,
+    flex: 2,
   },
 });
 
