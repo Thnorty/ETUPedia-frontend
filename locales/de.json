@@ -79,5 +79,9 @@
   "noPosts": "Noch keine Beiträge :(",
   "noComments": "Noch keine Kommentare :(",
   "edited": "Bearbeitet",
-  "graduated": "Absolvent"
+  "graduated": "Absolvent",
+  "sortPostsBy": "Beiträge sortieren nach",
+  "new": "Neu",
+  "hot": "Heiß",
+  "top": "Top"
 }

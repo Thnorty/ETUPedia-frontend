@@ -13,6 +13,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {faEllipsisVertical, faHeart, faPen} from "@fortawesome/free-solid-svg-icons";
 import {faHeart as faHeartO} from "@fortawesome/free-regular-svg-icons";
 import {showPostOptions, EditPostModal, DeletePostAlert} from "./PostOptions";
+import Picker from "../../components/Picker";
 
 const PostList = ({navigation}) => {
   const {t} = useTranslation();
@@ -30,10 +31,13 @@ const PostList = ({navigation}) => {
   const [isPostEditModalOpen, setIsPostEditModalOpen] = useState(false);
   const [isPostDeleteAlertOpen, setIsPostDeleteAlertOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
+  const [selectedPostSortOption, setSelectedPostSortOption] = useState("hot");
+
+  const postSortOptions = ["new", "hot", "top"];
 
   useEffect(() => {
     handleRefresh();
-  }, []);
+  }, [selectedPostSortOption]);
 
   useEffect(() => {
     backend.get("posts/get-topics/")
@@ -89,7 +93,10 @@ const PostList = ({navigation}) => {
     setSelectedPost(null);
     setRefreshing(true);
     setLoadingError(false);
-    backend.get("posts/get-posts/")
+    const payload = {
+      sort_by: selectedPostSortOption,
+    }
+    backend.post("posts/get-posts/", payload)
       .then((response) => {
         setPostList(response.data);
         setLoading(false);
@@ -153,9 +160,21 @@ const PostList = ({navigation}) => {
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
         ListHeaderComponent={
           <View style={styles.topContainer}>
-            <SearchBar value={search} onChangeText={setSearch} placeholder={t("search...")} style={styles.searchBar} />
-            <MultiSelect placeholder={t("topics")} options={topics.map(topic => t(topic.name))} value={selectedTopics} onChange={setSelectedTopics}
-                         buttonStyle={[styles.multiSelect, {backgroundColor: theme.colors.surface}]} placeholderStyle={{color: theme.colors.secondaryText}} />
+            <View style={styles.firstRow}>
+              <SearchBar value={search} onChangeText={setSearch} placeholder={t("search...")} style={styles.searchBar} />
+              <MultiSelect placeholder={t("topics")} options={topics.map(topic => t(topic.name))} value={selectedTopics}
+                           onChange={setSelectedTopics} buttonStyle={[styles.multiSelect, {backgroundColor: theme.colors.surface}]}
+                           placeholderStyle={{color: theme.colors.secondaryText}} />
+            </View>
+            <Picker
+              onChange={(selectedOption) => {
+                const selectedPostSortOption = postSortOptions.find(option => t(option) === selectedOption);
+                setSelectedPostSortOption(selectedPostSortOption ? selectedPostSortOption : postSortOptions[0]);
+              }}
+              value={t(selectedPostSortOption)} options={postSortOptions.map(option => t(option))}
+              buttonStyle={[styles.postSortOptionPicker, {backgroundColor: theme.colors.surface}]}
+              placeholder={t("sortPostsBy")} placeholderStyle={{color: theme.colors.secondaryText}}
+            />
           </View>
         }
         ListEmptyComponent={
@@ -177,6 +196,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   topContainer: {
+    marginBottom: 10,
+  },
+  firstRow: {
     flexDirection: "row",
   },
   searchBar: {
@@ -188,6 +210,12 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     width: 150,
     marginLeft: 0,
+  },
+  postSortOptionPicker: {
+    flex: 1,
+    borderRadius: 6,
+    marginLeft: 10,
+    elevation: 5,
   },
   postContainer: {
     padding: 15,

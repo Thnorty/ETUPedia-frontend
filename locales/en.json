@@ -79,5 +79,9 @@
   "noPosts": "There are no posts yet :(",
   "noComments": "There are no comments yet :(",
   "edited": "Edited",
-  "graduated": "Graduated"
+  "graduated": "Graduated",
+  "sortPostsBy": "Sort Posts By",
+  "new": "New",
+  "hot": "Hot",
+  "top": "Top"
 }

@@ -79,5 +79,9 @@
   "noPosts": "Henüz bir gönderi yok :(",
   "noComments" : "Henüz bir yorum yok :(",
   "edited": "Düzenlendi",
-  "graduated": "Mezun"
+  "graduated": "Mezun",
+  "sortPostsBy": "Gönderileri Sırala",
+  "new": "Yeni",
+  "hot": "Popüler",
+  "top": "En İyi"
 }
