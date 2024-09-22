@@ -9,7 +9,7 @@ import PostsIndex from './pages/Forums/Index';
 import TeachersIndex from './pages/Teachers/Index';
 import LessonsIndex from './pages/Lessons/Index';
 import StudentsIndex from './pages/Students/Index';
-import {NavigationContainer} from "@react-navigation/native";
+import {CommonActions, NavigationContainer} from "@react-navigation/native";
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {localStorage} from "./utils/LocalStorage";
@@ -76,10 +76,17 @@ const Main = ({colorScheme, setColorScheme}) => {
     backend.post("api/get-student-info/", payload)
       .then((response) => {
         setStudentInfo(response.data);
-        if (navigation)
-          navigation.navigate("Home");
-        else
+        if (navigation) {
+          navigation.dispatch(
+            CommonActions.reset({
+              index: 0,
+              routes: [{name: "Home"}],
+            })
+          );
+        }
+        else {
           setInitialRouteName("Home");
+        }
       })
       .catch((error) => {
         if (error.response.status === 401) {
