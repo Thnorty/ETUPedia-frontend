@@ -1,5 +1,5 @@
 import RNModal from "react-native-modal"
-import {Dimensions, StatusBar} from "react-native";
+import {Dimensions, KeyboardAvoidingView, StatusBar, View} from "react-native";
 import {useState} from "react";
 
 const Modal = ({ isVisible, onBackdropPress = () => {}, onModalHide = () => {}, children }) => {
@@ -18,6 +18,7 @@ const Modal = ({ isVisible, onBackdropPress = () => {}, onModalHide = () => {}, 
       backdropOpacity={0.5}
       statusBarTranslucent={true}
       deviceHeight={deviceHeight}
+      avoidKeyboard={true}
       onBackdropPress={() => {
         if (!isClosing) {
           setIsClosing(true);
@@ -35,7 +36,11 @@ const Modal = ({ isVisible, onBackdropPress = () => {}, onModalHide = () => {}, 
         onModalHide();
       }}
     >
-      {children}
+      <KeyboardAvoidingView behavior={"padding"} keyboardVerticalOffset={StatusBar.currentHeight}>
+        <View>
+          {children}
+        </View>
+      </KeyboardAvoidingView>
     </RNModal>
   );
 }
