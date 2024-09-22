@@ -21,9 +21,11 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#000000"
       },
-      "package": "com.thnorty.etupedia"
+      "package": "com.thnorty.etupedia",
+      "permissions": [
+      ]
     },
     "web": {
       "favicon": "./assets/adaptive-icon.png"
@@ -39,7 +41,8 @@
         "expo-build-properties",
         {
           "android": {
-            "usesCleartextTraffic": true
+            "usesCleartextTraffic": true,
+            "enableProguardInReleaseBuilds": true
           }
         }
       ]
