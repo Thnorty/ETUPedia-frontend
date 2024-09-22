@@ -64,6 +64,7 @@ const Main = ({colorScheme, setColorScheme}) => {
     tabBarActiveTintColor: theme.colors.primary,
     tabBarInactiveTintColor: theme.colors.secondaryText,
     contentStyle: {backgroundColor: theme.colors.background},
+    cardStyle: {backgroundColor: theme.colors.background},
     animation: 'fade_from_bottom',
   }), [theme]);
 
