@@ -10,6 +10,7 @@
   "logIn": "Log In",
   "password": "Password",
   "invalidLogin": "Invalid email or password!",
+  "invalidLoginMessage": "Please check your email and password and try again. If you are sure that your email and password are correct, please wait a few minutes and try again.",
   "home": "Home",
   "posts": "Posts",
   "forums": "Forums",
@@ -83,5 +84,6 @@
   "sortPostsBy": "Sort Posts By",
   "new": "New",
   "hot": "Hot",
-  "top": "Top"
+  "top": "Top",
+  "okay": "Okay"
 }

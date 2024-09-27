@@ -10,6 +10,7 @@
   "logIn": "Anmelden",
   "password": "Passwort",
   "invalidLogin": "Ungültige E-Mail oder ungültiges Passwort!",
+  "invalidLoginMessage": "Bitte überprüfen Sie Ihre E-Mail-Adresse und Ihr Passwort und versuchen Sie es erneut. Wenn Sie sicher sind, dass Ihre E-Mail-Adresse und Ihr Passwort korrekt sind, warten Sie bitte einige Minuten und versuchen Sie es erneut.",
   "home": "Startseite",
   "posts": "Beiträge",
   "forums": "Foren",
@@ -83,5 +84,6 @@
   "sortPostsBy": "Beiträge sortieren nach",
   "new": "Neu",
   "hot": "Heiß",
-  "top": "Top"
+  "top": "Top",
+  "okay": "Okay"
 }

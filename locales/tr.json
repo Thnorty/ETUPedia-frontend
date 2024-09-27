@@ -10,6 +10,7 @@
   "logIn": "Giriş Yap",
   "password": "Şifre",
   "invalidLogin": "Geçersiz e-posta veya şifre!",
+  "invalidLoginMessage": "Lütfen e-postanızı ve şifrenizi kontrol edin ve tekrar deneyin. E-postanızın ve şifrenizin doğru olduğundan eminseniz, lütfen birkaç dakika bekleyin ve tekrar deneyin.",
   "home": "Ana Sayfa",
   "posts": "Gönderiler",
   "forums": "Forumlar",
@@ -83,5 +84,6 @@
   "sortPostsBy": "Gönderileri Sırala",
   "new": "Yeni",
   "hot": "Popüler",
-  "top": "En İyi"
+  "top": "En İyi",
+  "okay": "Tamam"
 }
