@@ -59,9 +59,11 @@ const PostList = ({navigation}) => {
     );
   }, [theme, search, selectedTopics, postList]);
 
-  const likePost = (postID) => {
+  const handlePostLikeButton = (postID) => {
+    let isLiked = false;
     const newPostList = postList.map(post => {
       if (post.id === postID) {
+        isLiked = post.liked;
         post.likes += post.liked ? -1 : 1;
         post.liked = !post.liked;
       }
@@ -70,13 +72,14 @@ const PostList = ({navigation}) => {
     setPostList(newPostList);
 
     const payload = {
-      forum_id: postID,
+      post_id: postID,
     };
-    backend.post("posts/like-post/", payload)
+    const endpoint = isLiked ? "posts/dislike-post/" : "posts/like-post/";
+    backend.post(endpoint, payload)
       .catch((error) => {
         console.error(error);
       });
-  }
+  };
 
   const updatePostLikeStatus = (postID, liked) => {
     const newPostList = postList.map(post => {
@@ -87,7 +90,7 @@ const PostList = ({navigation}) => {
       return post;
     });
     setPostList(newPostList);
-  }
+  };
 
   const handleRefresh = () => {
     setSelectedPost(null);
@@ -107,11 +110,11 @@ const PostList = ({navigation}) => {
         setLoadingError(true);
         setRefreshing(false);
       });
-  }
+  };
 
   const PostItem = memo(({ item, navigation }) => (
     <TouchableOpacity style={[styles.postContainer, {backgroundColor: theme.colors.surface}]} onPress={() => navigation.navigate("ForumDetailIndex", {
-      forumTitle:item.title, forumID: item.id,
+      postTitle:item.title, postID: item.id,
       handleRefreshPostList: handleRefresh,
       updatePostLikeStatus: updatePostLikeStatus,
     })}>
@@ -132,12 +135,13 @@ const PostList = ({navigation}) => {
       <Text style={[styles.postTitle, {color: theme.colors.primaryText}]}>{item.title}</Text>
       <Text style={[styles.postContent, {color: theme.colors.primaryText}]}>{item.content}</Text>
       <View style={styles.bottomContainer}>
-        <TouchableOpacity style={styles.likeButton} onPress={() => likePost(item.id)}>
+        <TouchableOpacity style={styles.likeButton} onPress={() => handlePostLikeButton(item.id)}>
           <FontAwesomeIcon icon={item.liked ? faHeart : faHeartO} size={20} color={item.liked ? "#c30000" : theme.colors.secondaryText} />
           <Text style={[styles.likeText, {color: theme.colors.secondaryText}]}>{item.likes}</Text>
         </TouchableOpacity>
         <Text style={[styles.postDate, {color: theme.colors.secondaryText}]}>
-          {item.created_at}{item.edited_at &&
+          {item.created_at}
+          {item.edited_at &&
             <>
               {" • "}<FontAwesomeIcon icon={faPen} size={12} color={theme.colors.secondaryText} />{" "}{item.edited_at}
             </>
@@ -189,7 +193,7 @@ const PostList = ({navigation}) => {
       <DeletePostAlert selectedPost={selectedPost} isOpen={isPostDeleteAlertOpen} setIsOpen={setIsPostDeleteAlertOpen} handleRefresh={handleRefresh} />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {

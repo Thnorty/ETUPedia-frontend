@@ -36,7 +36,7 @@ const CreatePostModal = ({ topics, isOpen, setIsOpen, handleRefresh, setLoading 
     }).catch((error) => {
       console.error(error);
     });
-  }
+  };
 
   const handleSubmit = () => {
     let errors = [];
@@ -52,7 +52,7 @@ const CreatePostModal = ({ topics, isOpen, setIsOpen, handleRefresh, setLoading 
 
     handleCreate(selectedTopicOrder, title, content);
     closeModal();
-  }
+  };
 
   return (
     <Modal

@@ -5,7 +5,7 @@ import Modal from "../../components/Modal";
 import {useTheme} from "../../utils/Theme";
 import backend from "../../utils/Backend";
 
-const CreateCommentModal = ({ isOpen, setIsOpen, handleLoad, forumID }) => {
+const CreateCommentModal = ({ isOpen, setIsOpen, handleLoad, postID }) => {
   const {t} = useTranslation();
   const theme = useTheme();
   const [content, setContent] = useState("");
@@ -22,14 +22,14 @@ const CreateCommentModal = ({ isOpen, setIsOpen, handleLoad, forumID }) => {
 
   const handleCreate = (content) => {
     backend.post("posts/create-comment/", {
-      forum_id: forumID,
-      content: content
+      content: content,
+      post_id: postID
     }).then(() => {
       handleLoad();
     }).catch((error) => {
       console.error(error);
     });
-  }
+  };
 
   const handleSubmit = () => {
     let errors = [];
@@ -41,7 +41,7 @@ const CreateCommentModal = ({ isOpen, setIsOpen, handleLoad, forumID }) => {
 
     handleCreate(content);
     closeModal();
-  }
+  };
 
   return (
     <Modal
@@ -77,7 +77,7 @@ const CreateCommentModal = ({ isOpen, setIsOpen, handleLoad, forumID }) => {
         </View>
       </View>
     </Modal>
-  )
+  );
 };
 
 const styles = StyleSheet.create({

@@ -35,30 +35,38 @@ const PostDetail = ({navigation, route}) => {
   const [selectedComment, setSelectedComment] = useState(null);
 
   useEffect(() => {
-    navigation.setOptions({title: route.params.forumTitle});
+    navigation.setOptions({title: route.params.postTitle});
     handleLoad();
   }, []);
 
-  const likePost = () => {
-    const newPostInfo = {...postInfo, likes: postInfo.liked ? postInfo.likes - 1 : postInfo.likes + 1, liked: !postInfo.liked};
+  const handlePostLikeButton = () => {
+    const newPostInfo = {
+      ...postInfo,
+      likes: postInfo.liked ? postInfo.likes - 1 : postInfo.likes + 1,
+      liked: !postInfo.liked
+    };
     setPostInfo(newPostInfo);
 
     const newLikedStatus = !postInfo.liked;
-    route.params.updatePostLikeStatus(route.params.forumID, newLikedStatus);
+    route.params.updatePostLikeStatus(route.params.postID, newLikedStatus);
 
     const payload = {
-      forum_id: route.params.forumID,
+      post_id: route.params.postID,
     };
-    backend.post("posts/like-post/", payload)
+    const endpoint = postInfo.liked ? "posts/dislike-post/" : "posts/like-post/";
+    backend.post(endpoint, payload)
       .catch((error) => {
         console.error(error);
       });
   }
 
-  const likeComment = (commentID) => {
+  const handleCommentLikeButton = (commentID) => {
+    let isLiked = false;
     const newComments = comments.map(comment => {
       if (comment.id === commentID) {
-        return {...comment, likes: comment.liked ? comment.likes - 1 : comment.likes + 1, liked: !comment.liked};
+        isLiked = comment.liked;
+        comment.likes += comment.liked ? -1 : 1;
+        comment.liked = !comment.liked;
       }
       return comment;
     });
@@ -67,7 +75,8 @@ const PostDetail = ({navigation, route}) => {
     const payload = {
       comment_id: commentID,
     };
-    backend.post("posts/like-comment/", payload)
+    const endpoint = isLiked ? "posts/dislike-comment/" : "posts/like-comment/";
+    backend.post(endpoint, payload)
       .catch((error) => {
         console.error(error);
       });
@@ -77,7 +86,7 @@ const PostDetail = ({navigation, route}) => {
     setLoading(true);
     setLoadingError(false);
     const payload = {
-      forum_id: route.params.forumID,
+      post_id: route.params.postID,
     }
     backend.post("posts/get-post-info/", payload)
       .then((response) => {
@@ -97,7 +106,7 @@ const PostDetail = ({navigation, route}) => {
     setRefreshing(true);
     setLoadingError(false);
     const payload = {
-      forum_id: route.params.forumID,
+      post_id: route.params.postID,
     };
     backend.post("posts/get-post-info/", payload)
       .then((response) => {
@@ -131,12 +140,13 @@ const PostDetail = ({navigation, route}) => {
       </View>
       <Text style={[styles.commentContent, {color: theme.colors.primaryText}]}>{item.content}</Text>
       <View style={styles.bottomContainer}>
-        <TouchableOpacity onPress={() => likeComment(item.id)} style={styles.likeButton}>
+        <TouchableOpacity onPress={() => handleCommentLikeButton(item.id)} style={styles.likeButton}>
           <FontAwesomeIcon icon={item.liked ? faHeart : faHeartO} size={20} color={item.liked ? "#c30000": theme.colors.secondaryText} />
           <Text style={[styles.likeText, {color: theme.colors.secondaryText}]}>{item.likes}</Text>
         </TouchableOpacity>
         <Text style={[styles.commentDate, {color: theme.colors.secondaryText}]}>
-          {item.created_at}{item.edited_at &&
+          {item.created_at}
+          {item.edited_at &&
             <>
               {" • "}<FontAwesomeIcon icon={faPen} size={12} color={theme.colors.secondaryText} />{" "}{item.edited_at}
             </>
@@ -164,12 +174,17 @@ const PostDetail = ({navigation, route}) => {
               <Text style={[styles.postTitle, {color: theme.colors.primaryText}]}>{postInfo.title}</Text>
               <Text style={[styles.postContent, {color: theme.colors.primaryText}]}>{postInfo.content}</Text>
               <View style={styles.bottomContainer}>
-                <TouchableOpacity onPress={likePost} style={styles.likeButton}>
+                <TouchableOpacity onPress={handlePostLikeButton} style={styles.likeButton}>
                   <FontAwesomeIcon icon={postInfo.liked ? faHeart : faHeartO} size={20} color={postInfo.liked ? "#c30000": theme.colors.secondaryText} />
                   <Text style={[styles.likeText, {color: theme.colors.secondaryText}]}>{postInfo.likes}</Text>
                 </TouchableOpacity>
                 <Text style={[styles.postDate, {color: theme.colors.secondaryText}]}>
-                  {postInfo.created_at}{postInfo.edited_at && " • " + t("edited") + " " + postInfo.edited_at}
+                  {postInfo.created_at}
+                  {postInfo.edited_at &&
+                    <>
+                      {" • "}<FontAwesomeIcon icon={faPen} size={12} color={theme.colors.secondaryText} />{" "}{postInfo.edited_at}
+                    </>
+                  }
                 </Text>
               </View>
             </View>
@@ -184,7 +199,7 @@ const PostDetail = ({navigation, route}) => {
       <TouchableOpacity style={[styles.createCommentButton, {backgroundColor: theme.colors.primary}]} onPress={() => setIsCommentCreateModalOpen(true)}>
         <Text style={[styles.createCommentButtonText, {color: theme.colors.primaryText}]}>{'+ ' + t("comment")}</Text>
       </TouchableOpacity>
-      <CreateCommentModal isOpen={isCommentCreateModalOpen} setIsOpen={setIsCommentCreateModalOpen} handleLoad={handleLoad} forumID={route.params.forumID} />
+      <CreateCommentModal isOpen={isCommentCreateModalOpen} setIsOpen={setIsCommentCreateModalOpen} handleLoad={handleLoad} postID={route.params.postID} />
       <EditCommentModal isOpen={isCommentEditModalOpen} setIsOpen={setIsCommentEditModalOpen} selectedComment={selectedComment} handleRefresh={handleRefresh} />
       <DeleteCommentAlert isOpen={isCommentDeleteAlertOpen} setIsOpen={setIsCommentDeleteAlertOpen} selectedComment={selectedComment} handleRefresh={handleRefresh} />
     </View>
