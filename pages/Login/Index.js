@@ -30,40 +30,58 @@ const Index = (props) => {
       'btnLogin': 'Giriş'
     };
 
-    axios.post(loginURL, new URLSearchParams(loginData)).then((response) => {
-      const responseURL = response.request.responseURL;
-      if (responseURL === loginURL) {
-        throw new Error("Invalid login credentials");
-      } else {
-        axios.get("https://ubs.etu.edu.tr/Ogrenci/Ogr0413/Default.aspx?lang=tr-TR").then((response) => {
-          const oturumNo = response.request.responseURL.split("oturumNo=")[1];
-          clearCookies();
-          const payload = {
-            email: email,
-            oturumNo: oturumNo,
-          }
-          backend.post("api/login/", payload).then((response) => {
-            localStorage.save({key: 'studentId', data: response.data.student_id}).then().catch((error) => {
-              console.error(error);
-              setIsErrorAlertOpen(true);
-            });
-            localStorage.save({key: 'token', data: response.data.token}).then(() => {
-              setAxiosToken(response.data.token);
-              props.getStudentInfo(response.data.student_id, props.navigation);
-            }).catch((error) => {
-              console.error(error);
-              setIsErrorAlertOpen(true);
-            });
-          });
-        }).catch((error) => {
-          console.error(error);
-          setIsErrorAlertOpen(true);
-        });
-      }
-    }).catch((error) => {
+    try {
+      axios.post(loginURL, new URLSearchParams(loginData)).then((response) => {
+        const responseURL = response.request.responseURL;
+        if (responseURL === loginURL) {
+          throw new Error("Invalid login credentials");
+        } else {
+          axios.get(
+              "https://ubs.etu.edu.tr/Ogrenci/Ogr0413/Default.aspx?lang=tr-TR").
+              then((response) => {
+                const oturumNo = response.request.responseURL.split(
+                    "oturumNo=")[1];
+                clearCookies();
+                const payload = {
+                  email: email,
+                  oturumNo: oturumNo,
+                }
+                backend.post("api/login/", payload).then((response) => {
+                  localStorage.save(
+                      {key: 'studentId', data: response.data.student_id}).
+                      then().
+                      catch((error) => {
+                        console.error(error);
+                        setIsErrorAlertOpen(true);
+                      });
+                  localStorage.save({key: 'token', data: response.data.token}).
+                      then(() => {
+                        setAxiosToken(response.data.token);
+                        props.getStudentInfo(response.data.student_id,
+                            props.navigation);
+                      }).
+                      catch((error) => {
+                        console.error(error);
+                        setIsErrorAlertOpen(true);
+                      });
+                }).catch((error) => {
+                  console.error(error);
+                  setIsErrorAlertOpen(true);
+                });
+              }).
+              catch((error) => {
+                console.error(error);
+                setIsErrorAlertOpen(true);
+              });
+        }
+      }).catch((error) => {
+        console.error(error);
+        setIsErrorAlertOpen(true);
+      });
+    } catch (error) {
       console.error(error);
       setIsErrorAlertOpen(true);
-    });
+    }
   }
 
   return (

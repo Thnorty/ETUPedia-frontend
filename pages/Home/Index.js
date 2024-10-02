@@ -33,7 +33,6 @@ const Index = (props) => {
   const changeProfileColor = (color) => {
     props.setStudentInfo({...props.studentInfo, color: color})
     const payload = {
-      student_id: props.studentInfo.id,
       color: color,
     };
     backend.post("api/change-profile-color/", payload)
