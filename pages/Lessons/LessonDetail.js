@@ -6,6 +6,7 @@ import Loading from "../../components/Loading";
 import LessonInfo from "./LessonInfo";
 import LessonSections from "./LessonSections";
 import LessonStudentNavigator from "./LessonStudents";
+import LessonTimetable from './LessonTimetable';
 import {resetStartToTargetScreen} from "../../utils/NavigationUtils";
 
 const LessonDetail = ({navigation, route}) => {
@@ -26,8 +27,15 @@ const LessonDetail = ({navigation, route}) => {
   });
   const [lessonSections, setLessonSections] = useState([
     {
-      section_teacher: "",
-      section_number: "",
+      lesson_code: "",
+      lesson_name: "",
+      lesson_section_number: "",
+      lesson_section_teacher: "",
+      color: "",
+      classrooms_and_times: [{
+        classroom: "",
+        time: "",
+      }],
     }
   ]);
   const [loadingError, setLoadingError] = useState(false);
@@ -82,6 +90,9 @@ const LessonDetail = ({navigation, route}) => {
       </Tab.Screen>
       <Tab.Screen name="LessonStudents" options={{title: t("students")}}>
         {() => <LessonStudentNavigator students={lessonInfo.students} navigation={navigation} route={route}/>}
+      </Tab.Screen>
+      <Tab.Screen name="Timetable" options={{title: t("timetable")}}>
+        {() => <LessonTimetable lessonSections={lessonSections} />}
       </Tab.Screen>
     </Tab.Navigator>
   );

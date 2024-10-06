@@ -72,7 +72,7 @@ const TeacherDetail = ({navigation, route}) => {
       <Tab.Screen name="TeacherLessons" options={{title: t("lessons")}}>
         {() => <TeacherLessonSections lesson_sections={teacherInfo.lesson_sections} navigation={navigation} route={route}/>}
       </Tab.Screen>
-      <Tab.Screen name="TimeTable" options={{title: t("timetable")}}>
+      <Tab.Screen name="Timetable" options={{title: t("timetable")}}>
         {() => <TeacherTimetable lessonSections={teacherInfo.lesson_sections} />}
       </Tab.Screen>
     </Tab.Navigator>

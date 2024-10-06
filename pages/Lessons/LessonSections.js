@@ -14,8 +14,8 @@ const LessonSections = (props) => {
   useEffect(() => {
     setFilteredSectionList(
       props.lessonSections.filter(section =>
-        section.section_teacher.toLowerCase().includes(search.toLowerCase()) ||
-        section.section_number.toString().toLowerCase().includes(search.toLowerCase()) ||
+        section.lesson_section_teacher.toLowerCase().includes(search.toLowerCase()) ||
+        section.lesson_section_number.toString().toLowerCase().includes(search.toLowerCase()) ||
         props.lessonInfo.lesson_code.toLowerCase().includes(search.toLowerCase()) ||
         props.lessonInfo.lesson_name.toLowerCase().includes(search.toLowerCase())
       )
@@ -25,7 +25,7 @@ const LessonSections = (props) => {
   const SectionItem = memo(({ item }) => (
     <View>
       <TouchableOpacity style={[styles.item, {backgroundColor:theme.colors.surface}]}>
-        <Text style={{color: theme.colors.primaryText}}>{item.section_number} - {item.section_teacher}</Text>
+        <Text style={{color: theme.colors.primaryText}}>{item.lesson_section_number} - {item.lesson_section_teacher}</Text>
       </TouchableOpacity>
     </View>
   ));

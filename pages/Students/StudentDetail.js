@@ -77,7 +77,7 @@ const StudentDetail = ({navigation, route}) => {
       <Tab.Screen name="StudentLessons" options={{title: t("lessons")}}>
         {() => <StudentLessonSections lesson_sections={studentInfo.lesson_sections} navigation={navigation} route={route}/>}
       </Tab.Screen>
-      <Tab.Screen name="TimeTable" options={{title: t("timetable")}}>
+      <Tab.Screen name="Timetable" options={{title: t("timetable")}}>
         {() => <StudentTimetable lessonSections={studentInfo.lesson_sections} />}
       </Tab.Screen>
     </Tab.Navigator>

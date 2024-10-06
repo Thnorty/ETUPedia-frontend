@@ -22,6 +22,7 @@ const Timetable = ({ lessonSections, style }) => {
       timetable[day+1][hour].push({
         lessonCode: lessonSection.lesson_code,
         lessonName: lessonSection.lesson_name,
+        lessonSectionNumber: lessonSection.lesson_section_number,
         classroom: classroomAndTime.classroom,
         color: lessonSection.color,
       })
@@ -55,7 +56,7 @@ const Timetable = ({ lessonSections, style }) => {
                             params: { lessonCode: lesson.lessonCode, lessonName: lesson.lessonName }
                           })}>
                             <Text style={[styles.lesson, {backgroundColor: lesson.color, borderColor: theme.colors.border, color: getTextColor(lesson.color)}]}>
-                              {lesson.lessonCode}{"\n"}{lesson.classroom}
+                              {lesson.lessonCode}{"\n"}{lesson.classroom}{"\n"}{t("section")} {lesson.lessonSectionNumber}
                             </Text>
                           </TouchableOpacity>
                         ))}
@@ -103,7 +104,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     textAlign: "center",
     textAlignVertical: "center",
-    fontSize: 10,
+    fontSize: 8,
     borderRadius: 5,
   },
 });
