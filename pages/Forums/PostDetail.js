@@ -8,7 +8,10 @@ import {FlashList} from "@shopify/flash-list";
 import {useTheme} from "../../utils/Theme";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {faEllipsisVertical, faHeart, faPen} from "@fortawesome/free-solid-svg-icons";
-import {faHeart as faHeartO} from "@fortawesome/free-regular-svg-icons";
+import {
+  faComment,
+  faHeart as faHeartO,
+} from '@fortawesome/free-regular-svg-icons';
 import {DeleteCommentAlert, EditCommentModal, showCommentOptions} from "./CommentOptions";
 import {useActionSheet} from "@expo/react-native-action-sheet";
 
@@ -140,9 +143,9 @@ const PostDetail = ({navigation, route}) => {
       </View>
       <Text style={[styles.commentContent, {color: theme.colors.primaryText}]}>{item.content}</Text>
       <View style={styles.bottomContainer}>
-        <TouchableOpacity onPress={() => handleCommentLikeButton(item.id)} style={styles.likeButton}>
+        <TouchableOpacity onPress={() => handleCommentLikeButton(item.id)} style={styles.postBottomButton}>
           <FontAwesomeIcon icon={item.liked ? faHeart : faHeartO} size={20} color={item.liked ? "#c30000": theme.colors.secondaryText} />
-          <Text style={[styles.likeText, {color: theme.colors.secondaryText}]}>{item.likes}</Text>
+          <Text style={[styles.postBottomButtonText, {color: theme.colors.secondaryText}]}>{item.likes}</Text>
         </TouchableOpacity>
         <Text style={[styles.commentDate, {color: theme.colors.secondaryText}]}>
           {item.created_at}
@@ -174,18 +177,26 @@ const PostDetail = ({navigation, route}) => {
               <Text style={[styles.postTitle, {color: theme.colors.primaryText}]}>{postInfo.title}</Text>
               <Text style={[styles.postContent, {color: theme.colors.primaryText}]}>{postInfo.content}</Text>
               <View style={styles.bottomContainer}>
-                <TouchableOpacity onPress={handlePostLikeButton} style={styles.likeButton}>
-                  <FontAwesomeIcon icon={postInfo.liked ? faHeart : faHeartO} size={20} color={postInfo.liked ? "#c30000": theme.colors.secondaryText} />
-                  <Text style={[styles.likeText, {color: theme.colors.secondaryText}]}>{postInfo.likes}</Text>
-                </TouchableOpacity>
-                <Text style={[styles.postDate, {color: theme.colors.secondaryText}]}>
-                  {postInfo.created_at}
-                  {postInfo.edited_at &&
-                    <>
-                      {" • "}<FontAwesomeIcon icon={faPen} size={12} color={theme.colors.secondaryText} />{" "}{postInfo.edited_at}
-                    </>
-                  }
-                </Text>
+                <View style={styles.postBottomButtons}>
+                  <TouchableOpacity style={styles.postBottomButton} onPress={() => handlePostLikeButton(postInfo.id)}>
+                    <FontAwesomeIcon icon={postInfo.liked ? faHeart : faHeartO} size={20} color={postInfo.liked ? "#c30000" : theme.colors.secondaryText} />
+                    <Text style={[styles.postBottomButtonText, {color: theme.colors.secondaryText}]}>{postInfo.likes}</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.postBottomButton} onPress={() => setIsCommentCreateModalOpen(true)}>
+                    <FontAwesomeIcon icon={faComment} size={20} color={theme.colors.secondaryText} />
+                    <Text style={[styles.postBottomButtonText, {color: theme.colors.secondaryText}]}>{postInfo.comments}</Text>
+                  </TouchableOpacity>
+                </View>
+                <View style={styles.postBottomButtons}>
+                  <Text style={[styles.postDate, {color: theme.colors.secondaryText}]}>
+                    {postInfo.created_at}
+                    {postInfo.edited_at &&
+                        <>
+                          {" • "}<FontAwesomeIcon icon={faPen} size={12} color={theme.colors.secondaryText} />{" "}{postInfo.edited_at}
+                        </>
+                    }
+                  </Text>
+                </View>
               </View>
             </View>
             <Text style={[styles.commentsHeader, {color: theme.colors.primaryText}]}>{t("comments")}</Text>
@@ -200,8 +211,8 @@ const PostDetail = ({navigation, route}) => {
         <Text style={[styles.createCommentButtonText, {color: theme.colors.primaryText}]}>{'+ ' + t("comment")}</Text>
       </TouchableOpacity>
       <CreateCommentModal isOpen={isCommentCreateModalOpen} setIsOpen={setIsCommentCreateModalOpen} handleLoad={handleLoad} postID={route.params.postID} />
-      <EditCommentModal isOpen={isCommentEditModalOpen} setIsOpen={setIsCommentEditModalOpen} selectedComment={selectedComment} handleRefresh={handleRefresh} />
-      <DeleteCommentAlert isOpen={isCommentDeleteAlertOpen} setIsOpen={setIsCommentDeleteAlertOpen} selectedComment={selectedComment} handleRefresh={handleRefresh} />
+      <EditCommentModal isOpen={isCommentEditModalOpen} setIsOpen={setIsCommentEditModalOpen} selectedComment={selectedComment} handleLoad={handleLoad} />
+      <DeleteCommentAlert isOpen={isCommentDeleteAlertOpen} setIsOpen={setIsCommentDeleteAlertOpen} selectedComment={selectedComment} handleLoad={handleLoad} />
     </View>
   );
 }
@@ -231,9 +242,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 10,
   },
-  postDate: {
-    fontSize: 12,
-  },
   commentsHeader: {
     fontSize: 20,
     fontWeight: "bold",
@@ -251,13 +259,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
   },
-  likeButton: {
+  postBottomButtons: {
+    flexDirection: "row",
+    columnGap: 10,
+  },
+  postBottomButton: {
     flexDirection: "row",
     alignItems: "center",
   },
-  likeText: {
+  postBottomButtonText: {
     marginLeft: 5,
     fontSize: 16,
+  },
+  postDate: {
+    fontSize: 12,
   },
   commentsList: {
     paddingBottom: 70,

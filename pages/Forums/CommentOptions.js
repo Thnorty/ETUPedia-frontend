@@ -37,7 +37,7 @@ export const showCommentOptions = (showActionSheetWithOptions, theme, handleEdit
   );
 }
 
-export const EditCommentModal = ({ selectedComment, isOpen, setIsOpen, handleRefresh }) => {
+export const EditCommentModal = ({ selectedComment, isOpen, setIsOpen, handleLoad }) => {
   const {t} = useTranslation();
   const theme = useTheme();
   const [content, setContent] = useState(selectedComment ? selectedComment.content : '');
@@ -61,7 +61,7 @@ export const EditCommentModal = ({ selectedComment, isOpen, setIsOpen, handleRef
       comment_id: selectedComment.id,
       content: content,
     }).then(() => {
-      handleRefresh();
+      handleLoad();
     }).catch((error) => {
       console.error(error);
     });
@@ -116,7 +116,7 @@ export const EditCommentModal = ({ selectedComment, isOpen, setIsOpen, handleRef
   );
 }
 
-export const DeleteCommentAlert = ({ selectedComment, isOpen, setIsOpen, handleRefresh }) => {
+export const DeleteCommentAlert = ({ selectedComment, isOpen, setIsOpen, handleLoad }) => {
   const {t} = useTranslation();
   const theme = useTheme();
 
@@ -124,7 +124,7 @@ export const DeleteCommentAlert = ({ selectedComment, isOpen, setIsOpen, handleR
     backend.post("posts/delete-comment/", {
       comment_id: selectedComment.id,
     }).then(() => {
-      handleRefresh();
+      handleLoad();
     }).catch((error) => {
       console.error(error);
     });
