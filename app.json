@@ -45,7 +45,8 @@
             "enableProguardInReleaseBuilds": true
           }
         }
-      ]
+      ],
+      "expo-localization"
     ]
   }
 }

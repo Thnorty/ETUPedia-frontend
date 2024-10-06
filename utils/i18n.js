@@ -4,6 +4,7 @@ import trTranslation from "../locales/tr.json";
 import enTranslation from "../locales/en.json";
 import deTranslation from "../locales/de.json";
 import {localStorage} from "./LocalStorage";
+import ExpoLocalization from 'expo-localization/src/ExpoLocalization';
 
 const languages = [
   { code: 'tr', translation: trTranslation },
@@ -25,10 +26,19 @@ i18n.use(initReactI18next).init({
   },
 }).then();
 
+function getPreferredLocale() {
+  const locales = ExpoLocalization.getLocales();
+  return locales.find(locale => languages.some(lang => lang.code === locale.languageCode));
+}
+
 localStorage.load({key: 'language'}).then((language) => {
   i18n.changeLanguage(language).then().catch(e => console.error(e));
-}).catch((error) => {
-  i18n.changeLanguage("en").then().catch(e => console.error(e));
+}).catch(() => {
+  const locale = getPreferredLocale();
+  if (locale)
+    i18n.changeLanguage(locale.languageCode).then().catch(e => console.error(e));
+  else
+    i18n.changeLanguage("en").then().catch(e => console.error(e));
 });
 
 export {languages};
