@@ -5,7 +5,7 @@ import backend from "../../utils/Backend";
 import Loading from "../../components/Loading";
 import LessonInfo from "./LessonInfo";
 import LessonSections from "./LessonSections";
-import LessonStudentNavigator from "./LessonStudents";
+import LessonStudents from "./LessonStudents";
 import LessonTimetable from './LessonTimetable';
 import {resetStartToTargetScreen} from "../../utils/NavigationUtils";
 
@@ -22,6 +22,8 @@ const LessonDetail = ({navigation, route}) => {
         id: "",
         name: "",
         surname: "",
+        color: "",
+        lesson_section_number: "",
       }
     ],
   });
@@ -89,7 +91,7 @@ const LessonDetail = ({navigation, route}) => {
         {() => <LessonSections lessonSections={lessonSections} lessonInfo={lessonInfo} navigation={navigation}/>}
       </Tab.Screen>
       <Tab.Screen name="LessonStudents" options={{title: t("students")}}>
-        {() => <LessonStudentNavigator students={lessonInfo.students} navigation={navigation} route={route}/>}
+        {() => <LessonStudents lessonSections={lessonSections} students={lessonInfo.students} navigation={navigation} route={route}/>}
       </Tab.Screen>
       <Tab.Screen name="Timetable" options={{title: t("timetable")}}>
         {() => <LessonTimetable lessonSections={lessonSections} />}

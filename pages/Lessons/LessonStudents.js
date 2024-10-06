@@ -5,25 +5,26 @@ import {FlashList} from "@shopify/flash-list";
 import {useTheme} from "../../utils/Theme";
 import SearchBar from "../../components/SearchBar";
 import ProfileIcon from "../../components/ProfileIcon";
+import MultiSelect from '../../components/MultiSelect';
 
 const LessonStudents = (props) => {
   const {t} = useTranslation();
   const theme = useTheme();
   const [search, setSearch] = useState('');
   const [filteredStudentList, setFilteredStudentList] = useState([]);
+  const [selectedSections, setSelectedSections] = useState([]);
 
   useEffect(() => {
-    setFilteredStudentList(
-      props.students.filter(student =>
-        `${student.name} ${student.surname}`.toLowerCase().includes(search.toLowerCase()) ||
-        student.id.toString().toLowerCase().includes(search.toLowerCase())
-      )
+    setFilteredStudentList(props.students.filter(student =>
+        (selectedSections.length === 0 || selectedSections.includes(student.lesson_section_number)) &&
+        (`${student.name} ${student.surname}`.toLowerCase().includes(search.toLowerCase()) ||
+        student.id.toString().toLowerCase().includes(search.toLowerCase())))
     );
-  }, [theme, search, props.students]);
+  }, [theme, search, selectedSections, props.students]);
 
   const StudentItem = memo(({ item, navigation }) => (
     <View>
-      <TouchableOpacity style={[styles.item, {backgroundColor:theme.colors.surface}]} onPress={() => props.navigation.navigate("StudentListIndex", {
+      <TouchableOpacity style={[styles.item, {backgroundColor:theme.colors.surface}]} onPress={() => navigation.navigate("StudentListIndex", {
         screen: "StudentDetailIndex",
         params: { studentId: item.id, studentName: `${item.name} ${item.surname}` }
       })}>
@@ -37,7 +38,11 @@ const LessonStudents = (props) => {
 
   return (
     <View style={[styles.container, {backgroundColor: theme.colors.background}]}>
-      <SearchBar placeholder={t("search...")} value={search} onChangeText={setSearch} />
+      <View style={styles.topContainer}>
+        <SearchBar style={styles.searchBar} placeholder={t("search...")} value={search} onChangeText={setSearch} />
+        <MultiSelect placeholder={t("sections")} options={props.lessonSections.map(section => section.lesson_section_number)}
+                     value={selectedSections} onChange={setSelectedSections} buttonStyle={[styles.multiSelect, {backgroundColor: theme.colors.surface}]} />
+      </View>
       <FlashList
         data={filteredStudentList}
         renderItem={({ item }) => <StudentItem item={item} navigation={props.navigation} />}
@@ -50,6 +55,19 @@ const LessonStudents = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  topContainer: {
+    flexDirection: 'row',
+  },
+  searchBar: {
+    flex: 1,
+  },
+  multiSelect: {
+    flex: 1,
+    borderRadius: 6,
+    marginVertical: 10,
+    width: 150,
+    marginLeft: 0,
   },
   item: {
     padding: 10,
