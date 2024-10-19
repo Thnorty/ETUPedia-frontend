@@ -2,7 +2,7 @@ import {useTranslation} from "react-i18next";
 import "intl-pluralrules";
 import "./utils/i18n";
 import {useEffect, useMemo, useState} from "react";
-import {StatusBar} from 'expo-status-bar';
+import {StatusBar as ExpoStatusBar} from 'expo-status-bar';
 import LoginIndex from './pages/Login/Index';
 import HomeIndex from './pages/Home/Index';
 import PostsIndex from './pages/Forums/Index';
@@ -17,7 +17,7 @@ import {ActionSheetProvider} from "@expo/react-native-action-sheet";
 import backend from "./utils/Backend";
 import Loading from "./components/Loading";
 import {useTheme} from "./utils/Theme";
-import {Image, StyleSheet} from "react-native";
+import {Image, StyleSheet} from 'react-native';
 import etupediaIcon from "./assets/etupedia.png";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {faHouse, faListUl, faPersonChalkboard, faUserGraduate, faBookOpen} from "@fortawesome/free-solid-svg-icons";
@@ -187,7 +187,7 @@ const Main = ({colorScheme, setColorScheme}) => {
                    topElement={<Image source={etupediaIcon} style={styles.image} />}
                    activeOpacity={0.97} />
         }
-        <StatusBar style={theme.dark ? "light" : "dark"} />
+        <ExpoStatusBar style={theme.dark ? "light" : "dark"} />
       </NavigationContainer>
     </ActionSheetProvider>
   );

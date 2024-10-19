@@ -3,7 +3,7 @@ import "intl-pluralrules";
 import "./utils/i18n";
 import {useEffect, useState} from "react";
 import {ThemeProvider, lightTheme, darkTheme} from "./utils/Theme";
-import {useColorScheme} from "react-native";
+import {StatusBar, useColorScheme, View} from 'react-native';
 import {localStorage} from "./utils/LocalStorage";
 import * as SystemUI from 'expo-system-ui';
 
@@ -24,8 +24,10 @@ export default function App() {
   SystemUI.setBackgroundColorAsync(colorScheme === "dark" ? darkTheme.colors.background : colorScheme === "light" ? lightTheme.colors.background : deviceTheme === "dark" ? darkTheme.colors.background : lightTheme.colors.background).then();
 
   return (
-    <ThemeProvider theme={colorScheme === "dark" ? darkTheme : colorScheme === "light" ? lightTheme : deviceTheme === "dark" ? darkTheme : lightTheme}>
-      <Main colorScheme={colorScheme} setColorScheme={setColorScheme} />
-    </ThemeProvider>
+    <View style={{paddingTop: StatusBar.currentHeight, flex: 1}}>
+      <ThemeProvider theme={colorScheme === "dark" ? darkTheme : colorScheme === "light" ? lightTheme : deviceTheme === "dark" ? darkTheme : lightTheme}>
+        <Main colorScheme={colorScheme} setColorScheme={setColorScheme} />
+      </ThemeProvider>
+    </View>
   );
 }
