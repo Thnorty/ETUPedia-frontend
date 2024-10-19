@@ -62,6 +62,7 @@ const StudentList = ({navigation}) => {
     <View style={[styles.container, {backgroundColor: theme.colors.background}]}>
       <SearchBar value={search} onChangeText={setSearch} placeholder={t("search...")} />
       <FlashList
+        contentContainerStyle={{paddingBottom: 90}}
         data={filteredStudentList}
         renderItem={({ item }) => <StudentItem item={item} navigation={navigation} />}
         estimatedItemSize={60}

@@ -171,7 +171,7 @@ const PostList = ({navigation}) => {
         data={filteredPostList}
         renderItem={({ item }) => <PostItem item={item} navigation={navigation} />}
         keyExtractor={(item) => item.id.toString()}
-        contentContainerStyle={styles.postsList}
+        contentContainerStyle={{paddingBottom: 90}}
         estimatedItemSize={100}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
         ListHeaderComponent={
@@ -284,12 +284,9 @@ const styles = StyleSheet.create({
   postDate: {
     fontSize: 12,
   },
-  postsList: {
-    paddingBottom: 70,
-  },
   createPostButton: {
     position: "absolute",
-    bottom: 20,
+    bottom: 90,
     right: 20,
     padding: 15,
     borderRadius: 50,

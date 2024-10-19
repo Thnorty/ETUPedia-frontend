@@ -44,6 +44,7 @@ const LessonStudents = (props) => {
                      value={selectedSections} onChange={setSelectedSections} buttonStyle={[styles.multiSelect, {backgroundColor: theme.colors.surface}]} />
       </View>
       <FlashList
+        contentContainerStyle={{paddingBottom: 90}}
         data={filteredStudentList}
         renderItem={({ item }) => <StudentItem item={item} navigation={props.navigation} />}
         estimatedItemSize={60}

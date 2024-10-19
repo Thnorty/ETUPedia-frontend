@@ -167,7 +167,7 @@ const PostDetail = ({navigation, route}) => {
         data={comments}
         renderItem={({item}) => <CommentItem item={item} />}
         keyExtractor={(item) => item.id.toString()}
-        contentContainerStyle={styles.commentsList}
+        contentContainerStyle={{paddingBottom: 90}}
         estimatedItemSize={100}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
         ListHeaderComponent={
@@ -274,9 +274,6 @@ const styles = StyleSheet.create({
   postDate: {
     fontSize: 12,
   },
-  commentsList: {
-    paddingBottom: 70,
-  },
   commentContainer: {
     marginBottom: 15,
     padding: 10,
@@ -308,7 +305,7 @@ const styles = StyleSheet.create({
   },
   createCommentButton: {
     position: "absolute",
-    bottom: 20,
+    bottom: 90,
     right: 20,
     padding: 15,
     borderRadius: 50,

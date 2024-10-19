@@ -11,7 +11,7 @@ import LessonsIndex from './pages/Lessons/Index';
 import StudentsIndex from './pages/Students/Index';
 import {CommonActions, NavigationContainer} from "@react-navigation/native";
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {AnimatedTabBarNavigator} from 'react-native-animated-nav-tab-bar';
 import {localStorage} from "./utils/LocalStorage";
 import {ActionSheetProvider} from "@expo/react-native-action-sheet";
 import backend from "./utils/Backend";
@@ -47,7 +47,7 @@ const Main = ({colorScheme, setColorScheme}) => {
   const [loadingError, setLoadingError] = useState(false);
 
   const Stack = createNativeStackNavigator();
-  const Tab = createBottomTabNavigator();
+  const Tab = AnimatedTabBarNavigator();
 
   const screenOptions = useMemo(() => ({
     tabBarStyle: {
@@ -66,6 +66,15 @@ const Main = ({colorScheme, setColorScheme}) => {
     contentStyle: {backgroundColor: theme.colors.background},
     cardStyle: {backgroundColor: theme.colors.background},
     animation: 'fade_from_bottom',
+  }), [theme]);
+
+  const tabBarOptions = useMemo(() => ({
+    activeTintColor: theme.colors.primaryText,
+    inactiveTintColor: theme.colors.secondaryText,
+    activeBackgroundColor: theme.colors.secondaryText,
+    tabStyle: {
+      backgroundColor: theme.colors.surface,
+    },
   }), [theme]);
 
   const getStudentInfo = (studentId, navigation) => {
@@ -127,7 +136,7 @@ const Main = ({colorScheme, setColorScheme}) => {
             </Stack.Screen>
             <Stack.Screen name="Home">
               {() => (
-                <Tab.Navigator initialRouteName="HomeIndex" screenOptions={screenOptions}>
+                <Tab.Navigator initialRouteName="HomeIndex" screenOptions={screenOptions} tabBarOptions={tabBarOptions} appearance={{floating: true}}>
                   <Tab.Screen name="HomeIndex"
                               options={{
                                 title: t("home"), tabBarIcon: ({color, size}) => (
@@ -136,6 +145,7 @@ const Main = ({colorScheme, setColorScheme}) => {
                               }}
                   >
                     {(props) => <HomeIndex {...props}
+                                           screenOptions={screenOptions}
                                            studentInfo={studentInfo}
                                            setStudentInfo={setStudentInfo}
                                            colorScheme={colorScheme}

@@ -34,6 +34,7 @@
     "react": "18.2.0",
     "react-i18next": "^14.1.0",
     "react-native": "0.74.5",
+    "react-native-animated-nav-tab-bar": "^3.1.11",
     "react-native-gesture-handler": "~2.16.1",
     "react-native-modal": "^13.0.1",
     "react-native-pager-view": "6.3.0",
@@ -46,7 +47,8 @@
     "react-native-svg": "15.2.0",
     "react-native-tab-view": "^3.5.2",
     "react-native-vector-icons": "^10.0.3",
-    "reanimated-color-picker": "^3.0.4"
+    "reanimated-color-picker": "^3.0.4",
+    "styled-components": "^6.1.13"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
