@@ -6,6 +6,7 @@ import {ThemeProvider, lightTheme, darkTheme} from "./utils/Theme";
 import {StatusBar, useColorScheme, View} from 'react-native';
 import {localStorage} from "./utils/LocalStorage";
 import * as SystemUI from 'expo-system-ui';
+import * as NavigationBar from 'expo-navigation-bar';
 
 export default function App() {
   const deviceTheme = useColorScheme();
@@ -22,6 +23,7 @@ export default function App() {
   if (colorScheme === "") return null;
 
   SystemUI.setBackgroundColorAsync(colorScheme === "dark" ? darkTheme.colors.background : colorScheme === "light" ? lightTheme.colors.background : deviceTheme === "dark" ? darkTheme.colors.background : lightTheme.colors.background).then();
+  NavigationBar.setBackgroundColorAsync("transparent").then();
 
   return (
     <View style={{paddingTop: StatusBar.currentHeight, flex: 1}}>

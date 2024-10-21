@@ -236,7 +236,7 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   timetable: {
-    marginBottom: 10,
+    paddingBottom: 90,
   },
   modal: {
     borderRadius: 10,
