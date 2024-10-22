@@ -1351,6 +1351,18 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
+"@lordicon/helpers@^1.10.0":
+  version "1.10.0"
+  resolved "https://registry.yarnpkg.com/@lordicon/helpers/-/helpers-1.10.0.tgz#18e2c3af08f141ec32739a9b1acf7bbd8b49d361"
+  integrity sha512-8Qx193ENhyHrNhSyB0YD75NWbIJt0XjqNdQqJGDX+/nf1bjf2Tw/8krmGcwE6kFoP8ApB6hhvVyZR2zaPMlu+g==
+
+"@lordicon/react@^1.10.0":
+  version "1.10.0"
+  resolved "https://registry.yarnpkg.com/@lordicon/react/-/react-1.10.0.tgz#263910c06747aabcd1184a39294ae9fd6a28cf4c"
+  integrity sha512-5lAqGWsR5juNnHOKlHFesw0rdawivFi2tbX/+d6aUfFyobVw5HCzsP2Oom3oDBjIlbOW9SsMViIL/Fj4BXwuog==
+  dependencies:
+    "@lordicon/helpers" "^1.10.0"
+
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz#7619c2eb21b25483f6d167548b4cfd5a7488c3d5"
@@ -4845,6 +4857,11 @@ loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.4.0:
   integrity sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==
   dependencies:
     js-tokens "^3.0.0 || ^4.0.0"
+
+lottie-react-native@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/lottie-react-native/-/lottie-react-native-7.0.0.tgz#045a30432b75ef33ae2f36a67c9fa3b44abebf5a"
+  integrity sha512-RnwacxdB1MKDS/WSX8XFyXw5nxEKF+aLYRzbkQBQY0pZTRF2XYg8zd25D1su1M0TEP0sgWutwN5rweSeCsf8qQ==
 
 lru-cache@^10.0.1, lru-cache@^10.2.0:
   version "10.4.3"

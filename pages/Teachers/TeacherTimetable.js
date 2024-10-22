@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
   timetable: {
-    paddingBottom: 90,
+    paddingBottom: 100,
   },
 });
 

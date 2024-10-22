@@ -34,7 +34,7 @@ const LessonSections = (props) => {
     <View style={[styles.container, {backgroundColor: theme.colors.background}]}>
       <SearchBar placeholder={t("search...")} value={search} onChangeText={setSearch} />
       <FlashList
-        contentContainerStyle={{paddingBottom: 90}}
+        contentContainerStyle={{paddingBottom: 100}}
         data={filteredSectionList}
         renderItem={({ item }) => <SectionItem item={item} />}
         estimatedItemSize={40}
