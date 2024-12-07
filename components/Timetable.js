@@ -12,7 +12,12 @@ const Timetable = ({ lessonSections, style }) => {
   const day_count = 7;
   const hour_count = 14;
   const days = ["", "mon", "tue", "wed", "thu", "fri", "sat", "sun"].map((day) => t(day));
-  const timeSlots = [["8.30\n9.20"], ["9.30\n10.20"], ["10.30\n11.20"], ["11.30\n12.20"], ["12.30\n13.20"], ["13.30\n14.20"], ["14.30\n15.20"], ["15.30\n16.20"], ["16.30\n17.20"], ["17.30\n18.20"], ["18.30\n19.20"], ["19.30\n20.20"], ["20.30\n21.20"], ["21.30\n22.20"]];
+  const timeSlots = [
+    ['8:30\n9:20'], ['9:30\n10:20'], ['10:30\n11:20'], ['11:30\n12:20'],
+    ['12:30\n13:20'], ['13:30\n14:20'], ['14:30\n15:20'], ['15:30\n16:20'],
+    ['16:30\n17:20'], ['17:30\n18:20'], ['18:30\n19:20'], ['19:30\n20:20'],
+    ['20:30\n21:20'], ['21:30\n22:20'],
+  ];
 
   const timetable = Array(day_count+1).fill().map(() => Array(hour_count).fill().map(() => []));
   lessonSections.forEach((lessonSection) => {

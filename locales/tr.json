@@ -85,5 +85,8 @@
   "new": "Yeni",
   "hot": "Popüler",
   "top": "En İyi",
-  "okay": "Tamam"
+  "okay": "Tamam",
+  "emptyClassrooms": "Boş Sınıflar",
+  "amphitheater": "Amfi",
+  "other": "Diğer"
 }

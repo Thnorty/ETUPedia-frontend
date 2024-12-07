@@ -85,5 +85,8 @@
   "new": "Neu",
   "hot": "Heiß",
   "top": "Top",
-  "okay": "Okay"
+  "okay": "Okay",
+  "emptyClassrooms": "Freie Klassenzimmer",
+  "amphitheater": "Amphitheater",
+  "other": "Andere"
 }

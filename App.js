@@ -3,10 +3,11 @@ import "intl-pluralrules";
 import "./utils/i18n";
 import {useEffect, useState} from "react";
 import {ThemeProvider, lightTheme, darkTheme} from "./utils/Theme";
-import {StatusBar, useColorScheme, View} from 'react-native';
+import {useColorScheme} from 'react-native';
 import {localStorage} from "./utils/LocalStorage";
 import * as SystemUI from 'expo-system-ui';
 import * as NavigationBar from 'expo-navigation-bar';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 export default function App() {
   const deviceTheme = useColorScheme();
@@ -26,10 +27,10 @@ export default function App() {
   NavigationBar.setBackgroundColorAsync("transparent").then();
 
   return (
-    <View style={{paddingTop: StatusBar.currentHeight, flex: 1}}>
+    <SafeAreaView style={{flex: 1}}>
       <ThemeProvider theme={colorScheme === "dark" ? darkTheme : colorScheme === "light" ? lightTheme : deviceTheme === "dark" ? darkTheme : lightTheme}>
         <Main colorScheme={colorScheme} setColorScheme={setColorScheme} />
       </ThemeProvider>
-    </View>
+    </SafeAreaView>
   );
 }

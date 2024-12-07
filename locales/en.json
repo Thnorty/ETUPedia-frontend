@@ -85,5 +85,8 @@
   "new": "New",
   "hot": "Hot",
   "top": "Top",
-  "okay": "Okay"
+  "okay": "Okay",
+  "emptyClassrooms": "Empty Classrooms",
+  "amphitheater": "Amphitheater",
+  "other": "Other"
 }
