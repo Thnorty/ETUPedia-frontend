@@ -150,7 +150,7 @@ const Main = ({colorScheme, setColorScheme}) => {
                 <Tab.Navigator initialRouteName="HomeIndex" screenOptions={screenOptions} tabBarOptions={tabBarOptions} appearance={{floating: true}}>
                   <Tab.Screen name="HomeIndex"
                               options={{
-                                title: t("home"), tabBarIcon: ({color, size}) => (
+                                title: t("home"), headerShown: false, tabBarIcon: ({color, size}) => (
                                     <View style={[styles.navbarIconContainer, {backgroundColor: theme.colors.surface}]}>
                                       <Player icon={HOME_ICON} size={size*1.5} ref={homeIconRef}
                                               colors={`primary:${theme.colors.primaryText},secondary:${theme.colors.accent}`}

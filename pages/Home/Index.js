@@ -9,15 +9,15 @@ const Index = (props) => {
   const Stack = createNativeStackNavigator();
 
   useFocusEffect(
-      useCallback(() => {
-        props.iconRef?.current.play();
-      }, [])
+    useCallback(() => {
+      props.iconRef?.current.play();
+    }, [])
   );
 
   return (
-      <Stack.Navigator initialRouteName="Forums" screenOptions={props.screenOptions}>
-        <Stack.Screen name="Home" component={Home} options={{title: t("home")}} initialParams={props} />
-      </Stack.Navigator>
+    <Stack.Navigator initialRouteName="Home" screenOptions={props.screenOptions}>
+      <Stack.Screen name="Home" component={Home} options={{title: t("home")}} initialParams={props} />
+    </Stack.Navigator>
   );
 }
 

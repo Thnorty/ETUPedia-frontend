@@ -23,9 +23,9 @@ const Home = ({navigation, route}) => {
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-          <View style={[styles.topBar]}>
-            <ProfileIcon user={route.params.studentInfo} onPress={showSettingsOptions} size={40} fontSize={14} style={styles.profileIcon} />
-          </View>
+        <View style={[styles.topBar]}>
+          <ProfileIcon user={route.params.studentInfo} onPress={showSettingsOptions} size={40} fontSize={14} style={styles.profileIcon} />
+        </View>
       ),
     });
   }, [theme, i18n.language, route.params.studentInfo]);
@@ -115,6 +115,7 @@ const Home = ({navigation, route}) => {
   }
 
   const showSettingsOptions = () => {
+    console.log("aaaaa");
     const options = [
       t("changeProfileColor"),
       t("changeTheme"),
@@ -173,35 +174,35 @@ const Home = ({navigation, route}) => {
   }
 
   return (
-      <View style={[styles.container, {backgroundColor: theme.colors.background}]}>
-        <Text style={[styles.greeting, {color: theme.colors.primaryText}]}>{getCurrentGreeting()} {route.params.studentInfo.name}!</Text>
-        <Timetable lessonSections={route.params.studentInfo.lesson_sections} style={styles.timetable} />
-        <Modal
-            isVisible={colorPickerVisible}
-            onBackdropPress={() => setColorPickerVisible(false)}
-        >
-          <View style={[styles.modal, {backgroundColor: theme.colors.surface}]}>
-            <ColorPicker value={route.params.studentInfo.color} onComplete={({hex}) => setColorPickerColor(hex)}>
-              <Preview style={{marginVertical: 10}} />
-              <Panel1 style={{marginVertical: 10}} thumbShape={"ring"} />
-              <HueSlider style={{marginVertical: 10}} thumbSize={25} thumbShape={"pill"} />
-            </ColorPicker>
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity style={{marginRight: 10}} onPress={() => {
-                setColorPickerVisible(false);
-              }}>
-                <Text style={{color: theme.colors.error}}>{t("cancel")}</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => {
-                setColorPickerVisible(false);
-                changeProfileColor(colorPickerColor);
-              }}>
-                <Text style={{color: theme.colors.primary}}>{t("submit")}</Text>
-              </TouchableOpacity>
-            </View>
+    <View style={[styles.container, {backgroundColor: theme.colors.background}]}>
+      <Text style={[styles.greeting, {color: theme.colors.primaryText}]}>{getCurrentGreeting()} {route.params.studentInfo.name}!</Text>
+      <Timetable lessonSections={route.params.studentInfo.lesson_sections} style={styles.timetable} />
+      <Modal
+          isVisible={colorPickerVisible}
+          onBackdropPress={() => setColorPickerVisible(false)}
+      >
+        <View style={[styles.modal, {backgroundColor: theme.colors.surface}]}>
+          <ColorPicker value={route.params.studentInfo.color} onComplete={({hex}) => setColorPickerColor(hex)}>
+            <Preview style={{marginVertical: 10}} />
+            <Panel1 style={{marginVertical: 10}} thumbShape={"ring"} />
+            <HueSlider style={{marginVertical: 10}} thumbSize={25} thumbShape={"pill"} />
+          </ColorPicker>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity style={{marginRight: 10}} onPress={() => {
+              setColorPickerVisible(false);
+            }}>
+              <Text style={{color: theme.colors.error}}>{t("cancel")}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => {
+              setColorPickerVisible(false);
+              changeProfileColor(colorPickerColor);
+            }}>
+              <Text style={{color: theme.colors.primary}}>{t("submit")}</Text>
+            </TouchableOpacity>
           </View>
-        </Modal>
-      </View>
+        </View>
+      </Modal>
+    </View>
   );
 }
 
