@@ -49,17 +49,17 @@ export const EditPostModal = ({ selectedPost, topics, isOpen, setIsOpen, handleR
   useEffect(() => {
     setSelectedTopicOrder(selectedPost ? selectedPost.topic.order : null);
     setTitle(selectedPost ? selectedPost.title : '');
-    setContent(selectedPost ? selectedPost.content : '');
+    setContent(selectedPost ? selectedPost.full_content : '');
   }, [selectedPost]);
 
   const closeModal = () => {
     setIsOpen(false);
   }
 
-  const clearFields = () => {
+  const resetFields = () => {
     setSelectedTopicOrder(selectedPost ? selectedPost.topic.order : null);
     setTitle(selectedPost ? selectedPost.title : '');
-    setContent(selectedPost ? selectedPost.content : '');
+    setContent(selectedPost ? selectedPost.full_content : '');
     setErrors([]);
   }
 
@@ -97,7 +97,7 @@ export const EditPostModal = ({ selectedPost, topics, isOpen, setIsOpen, handleR
     <Modal
       isVisible={isOpen}
       onBackdropPress={() => closeModal()}
-      onModalHide={() => clearFields()}
+      onModalHide={() => resetFields()}
     >
       <View style={[styles.modal, {backgroundColor: theme.colors.surface}]}>
         <Text style={[styles.modalTitle, {color: theme.colors.primaryText}]}>{t("editPost")}</Text>
