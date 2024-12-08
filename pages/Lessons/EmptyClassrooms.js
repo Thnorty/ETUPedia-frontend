@@ -5,6 +5,7 @@ import {useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import Loading from '../../components/Loading';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import SearchBar from '../../components/SearchBar';
 
 const EmptyClassrooms = () => {
   const theme = useTheme();
@@ -14,6 +15,7 @@ const EmptyClassrooms = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [loadingError, setLoadingError] = useState(null);
   const [selectedDay, setSelectedDay] = useState(null);
+  const [search, setSearch] = useState('');
 
   const days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"].map((day) => t(day));
   const timeSlots = [
@@ -47,37 +49,41 @@ const EmptyClassrooms = () => {
 
   const groupClassrooms = (classrooms) => {
     return classrooms.reduce((acc, room) => {
-        const building = room.includes('Amfi') ? t('amphitheater') :
+        const building =
+            room.includes('Amfi') ? t('amphitheater') :
             room.startsWith('TM') ? 'TM' :
             room.startsWith('ST') ? 'ST' :
-            room.startsWith('Y') ? 'YDB' : t('other');
-        if (!acc[building]) acc[building] = [];
-        acc[building].push(room);
-        return acc;
-      }, {});
+            room.startsWith('Y') ? 'YDB' :
+            t('other');
+      if (!acc[building]) acc[building] = [];
+      acc[building].push(room);
+      return acc;
+    }, {});
   };
+
+  const filteredClassrooms = emptyClassrooms.map(dayClassrooms =>
+      dayClassrooms.filter(room => room.toLowerCase().includes(search.toLowerCase()))
+  );
 
   if (loading) return <Loading loadingError={loadingError} onRetry={load} />;
 
   return (
       <ScrollView
-          style={[styles.container, { backgroundColor: theme.colors.background }]}
-          refreshControl={
-            <RefreshControl
-                refreshing={refreshing}
-                onRefresh={onRefresh}
-                tintColor={theme.colors.primary}
-            />
-          }
+          style={[styles.container, {backgroundColor: theme.colors.background}]}
+          contentContainerStyle={{paddingBottom: 100}}
+          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}
       >
+        <SearchBar
+            value={search}
+            onChangeText={setSearch}
+            placeholder={t("search...")}
+            style={styles.searchBar}
+        />
         {days.map((day, dayIndex) => (
             <View key={dayIndex} style={[styles.dayContainer, {backgroundColor: theme.colors.surface}]}>
               <TouchableOpacity
                   onPress={() => setSelectedDay(selectedDay === dayIndex ? null : dayIndex)}
-                  style={[
-                    styles.dayHeader,
-                    selectedDay === dayIndex && {borderBottomColor: theme.colors.border, borderBottomWidth: 1}
-                  ]}
+                  style={styles.dayHeader}
               >
                 <Text style={[styles.dayText, {color: theme.colors.primaryText}]}>
                   {day}
@@ -89,26 +95,30 @@ const EmptyClassrooms = () => {
                 />
               </TouchableOpacity>
               {selectedDay === dayIndex &&
-                  emptyClassrooms
-                  .filter((_, time) => time % days.length === dayIndex)
-                  .map((classrooms, timeIndex) => {
-                    const actualTime = timeIndex * days.length + dayIndex;
-                    const rooms = groupClassrooms(classrooms, actualTime);
+                  timeSlots.map((timeSlot, timeIndex) => {
+                    const classrooms = filteredClassrooms[dayIndex * timeSlots.length + timeIndex] || [];
+                    const rooms = groupClassrooms(classrooms);
                     return (
-                        <View key={actualTime} style={[styles.timeSlotContainer, {borderBottomColor: theme.colors.border}]}>
+                        <View key={timeIndex} style={[styles.timeSlotContainer, {borderTopColor: theme.colors.border}]}>
                           <Text style={[styles.timeSlotText, {color: theme.colors.primaryText}]}>
-                            {timeSlots[timeIndex]}
+                            {timeSlot}
                           </Text>
-                          {Object.entries(rooms).map(([building, rooms]) => (
-                              <View key={building} style={[styles.buildingSection, {backgroundColor: theme.colors.background}]}>
-                                <Text style={[styles.buildingText, {color: theme.colors.primaryText}]}>
-                                  {building}
-                                </Text>
-                                <Text style={[styles.roomsText, {color: theme.colors.secondaryText}]}>
-                                  {rooms.join(' • ')}
-                                </Text>
-                              </View>
-                          ))}
+                          {classrooms.length === 0 ? (
+                              <Text style={[styles.noClassroomsText, {color: theme.colors.secondaryText}]}>
+                                {t("No empty classrooms available")}
+                              </Text>
+                          ) : (
+                              Object.entries(rooms).map(([building, rooms]) => (
+                                  <View key={building} style={[styles.buildingSection, {backgroundColor: theme.colors.background}]}>
+                                    <Text style={[styles.buildingText, {color: theme.colors.primaryText}]}>
+                                      {building}
+                                    </Text>
+                                    <Text style={[styles.roomsText, {color: theme.colors.secondaryText}]}>
+                                      {rooms.join(' • ')}
+                                    </Text>
+                                  </View>
+                              ))
+                          )}
                         </View>
                     );
                   })
@@ -122,6 +132,9 @@ const EmptyClassrooms = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  searchBar: {
+    margin: 16,
   },
   dayContainer: {
     marginVertical: 6,
@@ -141,7 +154,7 @@ const styles = StyleSheet.create({
   },
   timeSlotContainer: {
     padding: 16,
-    borderBottomWidth: 1,
+    borderTopWidth: 1,
   },
   timeSlotText: {
     fontSize: 16,
@@ -163,9 +176,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 20,
   },
-  chevronIcon: {
-    transform: [{ rotate: '0deg' }],
-  }
+  noClassroomsText: {
+    fontSize: 14,
+    fontStyle: 'italic',
+  },
 });
 
 export default EmptyClassrooms;
