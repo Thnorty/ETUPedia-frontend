@@ -115,7 +115,6 @@ const Home = ({navigation, route}) => {
   }
 
   const showSettingsOptions = () => {
-    console.log("aaaaa");
     const options = [
       t("changeProfileColor"),
       t("changeTheme"),
