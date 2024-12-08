@@ -1,12 +1,11 @@
 import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
-import {Shadow} from "react-native-shadow-2";
 import {useTheme} from "../utils/Theme";
 import {getTextColor} from "../utils/ColorUtils";
 
 const ProfileIcon = ({ user, onPress, size, fontSize, style }) => {
   const theme = useTheme();
   const isDisabled = !onPress;
-  const backgroundColor = user.color || "white";
+  const backgroundColor = user.color;
   const textColor = getTextColor(backgroundColor);
 
   return (
