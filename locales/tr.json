@@ -95,5 +95,6 @@
   "okay": "Tamam",
   "emptyClassrooms": "Boş Sınıflar",
   "amphitheater": "Amfi",
-  "other": "Diğer"
+  "other": "Diğer",
+  "noEmptyClassroomsAvailable": "Boş sınıf bulunamadı."
 }

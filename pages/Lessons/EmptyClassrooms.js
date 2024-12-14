@@ -105,7 +105,7 @@ const EmptyClassrooms = () => {
                           </Text>
                           {classrooms.length === 0 ? (
                               <Text style={[styles.noClassroomsText, {color: theme.colors.secondaryText}]}>
-                                {t("No empty classrooms available")}
+                                {t("noEmptyClassroomsAvailable")}
                               </Text>
                           ) : (
                               Object.entries(rooms).map(([building, rooms]) => (
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   dayText: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '600',
     flex: 1,
   },

@@ -95,5 +95,6 @@
   "okay": "Okay",
   "emptyClassrooms": "Freie Klassenzimmer",
   "amphitheater": "Amphitheater",
-  "other": "Andere"
+  "other": "Andere",
+  "noEmptyClassroomsAvailable": "Keine freien Klassenzimmer verfügbar."
 }
