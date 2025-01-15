@@ -66,9 +66,9 @@ const CreatePostModal = ({ topics, isOpen, setIsOpen, handleRefresh, setLoading 
           buttonStyle={[styles.picker, {borderColor: theme.colors.border}]}
           placeholderStyle={{color: theme.colors.secondaryText}}
           options={topics.map(topic => t(topic.name))}
-          value={topics[selectedTopicOrder]?.name}
+          value={t(topics[selectedTopicOrder]?.name)}
           onChange={(selectedName) => {
-            const selectedTopic = topics.find(topic => topic.name === selectedName);
+            const selectedTopic = topics.find(topic => t(topic.name) === selectedName);
             setSelectedTopicOrder(selectedTopic ? selectedTopic.order : null);
           }}
           placeholder={t("topic")}
