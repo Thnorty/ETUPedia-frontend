@@ -64,7 +64,18 @@ const StudentList = ({navigation}) => {
       <FlashList
         contentContainerStyle={{paddingBottom: 100}}
         data={filteredStudentList}
-        renderItem={({ item }) => <StudentItem item={item} navigation={navigation} />}
+        renderItem={({ item, index }) =>
+          <>
+            {index === 0 && (
+              <View style={styles.countContainer}>
+                <View style={styles.line} />
+                <Text style={[styles.countText, {color: theme.colors.secondaryText}]}>{filteredStudentList.length}</Text>
+                <View style={styles.line} />
+              </View>
+            )}
+            <StudentItem item={item} navigation={navigation} />
+          </>
+        }
         estimatedItemSize={60}
       />
     </View>
@@ -84,7 +95,24 @@ const styles = StyleSheet.create({
   },
   profileIcon: {
     marginRight: 10,
-  }
+  },
+  countContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 10,
+    paddingVertical: 4,
+  },
+  countText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginHorizontal: 10,
+  },
+  line: {
+    flex: 1,
+    height: 1,
+    backgroundColor: 'gray',
+  },
 });
 
 export default StudentList;

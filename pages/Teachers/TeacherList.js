@@ -59,7 +59,18 @@ const TeacherList = ({navigation}) => {
       <FlashList
         contentContainerStyle={{paddingBottom: 100}}
         data={filteredTeacherList}
-        renderItem={({ item }) => <TeacherItem item={item} navigation={navigation} />}
+        renderItem={({ item, index }) =>
+          <>
+            {index === 0 && (
+                <View style={styles.countContainer}>
+                  <View style={styles.line} />
+                  <Text style={[styles.countText, {color: theme.colors.secondaryText}]}>{filteredTeacherList.length}</Text>
+                  <View style={styles.line} />
+                </View>
+            )}
+            <TeacherItem item={item} navigation={navigation} />
+          </>
+        }
         estimatedItemSize={40}
       />
     </View>
@@ -76,6 +87,23 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     borderRadius: 10,
     elevation: 5,
+  },
+  countContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 10,
+    paddingVertical: 4,
+  },
+  countText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginHorizontal: 10,
+  },
+  line: {
+    flex: 1,
+    height: 1,
+    backgroundColor: 'gray',
   },
 });
 
