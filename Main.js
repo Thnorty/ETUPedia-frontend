@@ -143,7 +143,7 @@ const Main = ({colorScheme, setColorScheme}) => {
         {initialRouteName?
           <Stack.Navigator initialRouteName={initialRouteName} screenOptions={{headerShown: false, ...screenOptions}}>
             <Stack.Screen name="LoginIndex">
-              {(props) => <LoginIndex {...props} getStudentInfo={getStudentInfo}/>}
+              {(props) => <LoginIndex {...props} getStudentInfo={getStudentInfo} />}
             </Stack.Screen>
             <Stack.Screen name="Home">
               {() => (

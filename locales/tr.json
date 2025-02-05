@@ -96,5 +96,14 @@
   "emptyClassrooms": "Boş Sınıflar",
   "amphitheater": "Amfi",
   "other": "Diğer",
-  "noEmptyClassroomsAvailable": "Boş sınıf bulunamadı."
+  "noEmptyClassroomsAvailable": "Boş sınıf bulunamadı.",
+  "couldntFindEmail": "E-posta adresinizi bulamadık.",
+  "inputStudentIDMessage": "Devam etmek için lütfen öğrenci numaranızı girin.",
+  "invalidStudentID": "Geçersiz öğrenci numarası!",
+  "invalidStudentIDMessage": "Lütfen geçerli bir öğrenci numarası girin ve tekrar deneyin.",
+  "inputFullEmailMessage": "Devam etmek için lütfen e-posta adresinizin tamamını girerek doğrulayın.",
+  "invalidStudentEmail": "Geçersiz e-posta adresi!",
+  "invalidStudentEmailMessage": "Lütfen girdiğiniz e-posta adresinin doğru olduğundan emin olun ve tekrar deneyin.",
+  "successStudentEmailCheck": "Doğrulama başarılı!",
+  "successStudentEmailCheckMessage": "Giriş sayfasına yönlendirileceksiniz. Artık e-postanız ve şifrenizle normal şekilde giriş yapabilirsiniz."
 }

@@ -169,7 +169,7 @@ const PostList = ({navigation}) => {
     <View style={[styles.container, {backgroundColor: theme.colors.background}]}>
       <FlashList
         data={filteredPostList}
-        renderItem={({ item }) => <PostItem item={item} navigation={navigation} />}
+        renderItem={({item}) => <PostItem item={item} navigation={navigation} />}
         keyExtractor={(item) => item.id.toString()}
         contentContainerStyle={{paddingBottom: 100}}
         estimatedItemSize={100}

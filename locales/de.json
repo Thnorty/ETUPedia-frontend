@@ -96,5 +96,14 @@
   "emptyClassrooms": "Freie Klassenzimmer",
   "amphitheater": "Amphitheater",
   "other": "Andere",
-  "noEmptyClassroomsAvailable": "Keine freien Klassenzimmer verfügbar."
+  "noEmptyClassroomsAvailable": "Keine freien Klassenzimmer verfügbar.",
+  "couldntFindEmail": "Wir konnten Ihre E-Mail-Adresse nicht finden.",
+  "inputStudentIDMessage": "Bitte geben Sie Ihre Studenten-ID ein, um fortzufahren.",
+  "invalidStudentID": "Ungültige Studenten-ID!",
+  "invalidStudentIDMessage": "Bitte geben Sie eine gültige Studenten-ID ein und versuchen Sie es erneut.",
+  "inputFullEmailMessage": "Um fortzufahren, bestätigen Sie bitte, indem Sie Ihre vollständige E-Mail-Adresse eingeben.",
+  "invalidStudentEmail": "Ungültige E-Mail-Adresse!",
+  "invalidStudentEmailMessage": "Bitte überprüfen Sie, ob die von Ihnen eingegebene E-Mail-Adresse korrekt ist, und versuchen Sie es erneut.",
+  "successStudentEmailCheck": "Überprüfung erfolgreich!",
+  "successStudentEmailCheckMessage": "Du wirst auf die Login-Seite weitergeleitet. Du kannst dich nun wie gewohnt mit deiner E-Mail und deinem Passwort anmelden."
 }

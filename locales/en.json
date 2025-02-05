@@ -96,5 +96,14 @@
   "emptyClassrooms": "Empty Classrooms",
   "amphitheater": "Amphitheater",
   "other": "Other",
-  "noEmptyClassroomsAvailable": "No empty classrooms available."
+  "noEmptyClassroomsAvailable": "No empty classrooms available.",
+  "couldntFindEmail": "We couldn't find your email address.",
+  "inputStudentIDMessage": "Please enter your student ID to continue.",
+  "invalidStudentID": "Invalid student ID!",
+  "invalidStudentIDMessage": "Please enter a valid student ID and try again.",
+  "inputFullEmailMessage": "To continue, please verify by entering your full email address.",
+  "invalidStudentEmail": "Invalid email address!",
+  "invalidStudentEmailMessage": "Please check if the email address you entered is correct and try again.",
+  "successStudentEmailCheck": "Verification successful!",
+  "successStudentEmailCheckMessage": "You will be redirected to the login page. You can now log in normally with your email and password."
 }
