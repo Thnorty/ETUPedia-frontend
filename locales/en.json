@@ -105,5 +105,6 @@
   "invalidStudentEmail": "Invalid email address!",
   "invalidStudentEmailMessage": "Please check if the email address you entered is correct and try again.",
   "successStudentEmailCheck": "Verification successful!",
-  "successStudentEmailCheckMessage": "You will be redirected to the login page. You can now log in normally with your email and password."
+  "successStudentEmailCheckMessage": "You will be redirected to the login page. You can now log in normally with your email and password.",
+  "notAvailable": "Not Available"
 }

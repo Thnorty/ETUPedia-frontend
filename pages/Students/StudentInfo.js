@@ -8,13 +8,15 @@ const StudentInfo = (props) => {
   const {t} = useTranslation();
   const theme = useTheme();
 
+  const getValue = (value) => value ? value : t("notAvailable");
+
   return (
     <View style={[styles.container, {backgroundColor: theme.colors.background}]}>
-      <InfoCard icon={faUser} label={t("name")} value={props.studentInfo.name + " " + props.studentInfo.surname} />
-      <InfoCard icon={faIdBadge} label={t("studentID")} value={props.studentInfo.id} />
-      <InfoCard icon={faBuilding} label={t("department")} value={props.studentInfo.department} />
-      <InfoCard icon={faEnvelope} label={t("email")} value={props.studentInfo.mail} />
-      <InfoCard icon={faGraduationCap} label={t("year")} value={props.studentInfo.year !== -1 ? props.studentInfo.year : t("graduated")} />
+      <InfoCard icon={faUser} label={t("name")} value={getValue(props.studentInfo.name + " " + props.studentInfo.surname)} />
+      <InfoCard icon={faIdBadge} label={t("studentID")} value={getValue(props.studentInfo.id)} />
+      <InfoCard icon={faBuilding} label={t("department")} value={getValue(props.studentInfo.department)} />
+      <InfoCard icon={faEnvelope} label={t("email")} value={getValue(props.studentInfo.mail)} />
+      <InfoCard icon={faGraduationCap} label={t("year")} value={getValue(props.studentInfo.year.toString()) !== "-1" ? props.studentInfo.year : t("graduated")} />
     </View>
   );
 }

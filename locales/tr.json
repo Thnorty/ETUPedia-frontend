@@ -105,5 +105,6 @@
   "invalidStudentEmail": "Geçersiz e-posta adresi!",
   "invalidStudentEmailMessage": "Lütfen girdiğiniz e-posta adresinin doğru olduğundan emin olun ve tekrar deneyin.",
   "successStudentEmailCheck": "Doğrulama başarılı!",
-  "successStudentEmailCheckMessage": "Giriş sayfasına yönlendirileceksiniz. Artık e-postanız ve şifrenizle normal şekilde giriş yapabilirsiniz."
+  "successStudentEmailCheckMessage": "Giriş sayfasına yönlendirileceksiniz. Artık e-postanız ve şifrenizle normal şekilde giriş yapabilirsiniz.",
+  "notAvailable": "Mevcut Değil"
 }
