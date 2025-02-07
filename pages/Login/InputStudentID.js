@@ -19,6 +19,7 @@ const InputStudentID = ({navigation, route}) => {
   const theme = useTheme();
   const [studentID, setStudentID] = useState("");
   const [isErrorAlertOpen, setIsErrorAlertOpen] = useState(false);
+  const [noValidEmailAlertOpen, setNoValidEmailAlertOpen] = useState(false);
 
   const handleSubmit = () => {
     const payload = {
@@ -28,8 +29,14 @@ const InputStudentID = ({navigation, route}) => {
       const maskedMail = response.data.masked_mail;
       navigation.navigate("FillEmail", {maskedMail, studentID, email: route.params.email});
     }).catch((error) => {
-      console.error(error);
-      setIsErrorAlertOpen(true);
+      if (error.response.data.error === "Student has no mail") {
+        console.error("Student not found");
+        setNoValidEmailAlertOpen(true);
+      }
+      else {
+        console.error(error);
+        setIsErrorAlertOpen(true);
+      }
     });
   }
 
@@ -41,6 +48,13 @@ const InputStudentID = ({navigation, route}) => {
             buttons={[{text: t("okay"), onPress: () => setIsErrorAlertOpen(false)}]}
             isOpen={isErrorAlertOpen}
             setIsOpen={setIsErrorAlertOpen}
+        />
+        <Alert
+            title={t("noValidEmail")}
+            message={t("noValidEmailMessage")}
+            buttons={[{text: t("okay"), onPress: () => setNoValidEmailAlertOpen(false)}]}
+            isOpen={noValidEmailAlertOpen}
+            setIsOpen={setNoValidEmailAlertOpen}
         />
         <Text style={[styles.text, {color: theme.colors.primaryText}]}>
           {t("couldntFindEmail")} {t("inputStudentIDMessage")}

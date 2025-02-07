@@ -1,21 +1,35 @@
 import backend from '../../utils/Backend';
 import {useTheme} from '../../utils/Theme';
-import {View, Text, StyleSheet, ScrollView, RefreshControl, TouchableOpacity} from 'react-native';
-import {useState, useEffect} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  RefreshControl,
+  TouchableOpacity,
+  Dimensions,
+} from 'react-native';
+import {useState, useEffect, useRef} from 'react';
 import {useTranslation} from 'react-i18next';
 import Loading from '../../components/Loading';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import SearchBar from '../../components/SearchBar';
+import {useNavigation} from '@react-navigation/native';
+import HeaderButton from '../../components/HeaderButton';
 
 const EmptyClassrooms = () => {
   const theme = useTheme();
   const {t} = useTranslation();
+  const navigation = useNavigation();
+  const scrollViewRef = useRef(null);
   const [emptyClassrooms, setEmptyClassrooms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [loadingError, setLoadingError] = useState(null);
   const [selectedDay, setSelectedDay] = useState(null);
   const [search, setSearch] = useState('');
+  const [yValues, setYValues] = useState(new Array(98).fill(0));
+  const [targetIndex, setTargetIndex] = useState(null);
 
   const days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"].map((day) => t(day));
   const timeSlots = [
@@ -51,6 +65,7 @@ const EmptyClassrooms = () => {
     return classrooms.reduce((acc, room) => {
         const building =
             room.includes('Amfi') ? t('amphitheater') :
+            room.startsWith('MTFS') ? t('facultyOfArchitectureAndDesignBuilding') :
             room.startsWith('TM') ? 'TM' :
             room.startsWith('ST') ? 'ST' :
             room.startsWith('Y') ? 'YDB' :
@@ -65,67 +80,103 @@ const EmptyClassrooms = () => {
       dayClassrooms.filter(room => room.toLowerCase().includes(search.toLowerCase()))
   );
 
+  const navigateToCurrentDayAndHour = () => {
+    const currentDayIndex = new Date().getDay() - 1;
+    const currentHour = new Date().getHours();
+    const currentTimeSlotIndex = timeSlots.findIndex(slot => {
+      const [startHour] = slot.split(' - ')[0].split(':');
+      return parseInt(startHour) <= currentHour && currentHour < parseInt(startHour) + 1;
+    });
+
+    setSelectedDay(currentDayIndex);
+    const index = currentDayIndex * timeSlots.length + currentTimeSlotIndex;
+    setTargetIndex(index);
+  };
+
+  useEffect(() => {
+    if (targetIndex !== null && yValues[targetIndex] !== 0) {
+      scrollViewRef.current.scrollTo({y: yValues[targetIndex], animated: true});
+      setTargetIndex(null);
+    }
+  }, [yValues, targetIndex]);
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <HeaderButton onPress={navigateToCurrentDayAndHour} text={t("Go to current time")} />
+      ),
+    });
+  }, [navigation, t, navigateToCurrentDayAndHour]);
+
   if (loading) return <Loading loadingError={loadingError} onRetry={load} />;
 
   return (
-      <ScrollView
-          style={[styles.container, {backgroundColor: theme.colors.background}]}
-          contentContainerStyle={{paddingBottom: 100}}
-          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}
-      >
-        <SearchBar
-            value={search}
-            onChangeText={setSearch}
-            placeholder={t("search...")}
-            style={styles.searchBar}
-        />
-        {days.map((day, dayIndex) => (
-            <View key={dayIndex} style={[styles.dayContainer, {backgroundColor: theme.colors.surface}]}>
-              <TouchableOpacity
-                  onPress={() => setSelectedDay(selectedDay === dayIndex ? null : dayIndex)}
-                  style={styles.dayHeader}
-              >
-                <Text style={[styles.dayText, {color: theme.colors.primaryText}]}>
-                  {day}
-                </Text>
-                <Icon
-                    name={selectedDay === dayIndex ? 'expand-less' : 'expand-more'}
-                    size={24}
-                    color={theme.colors.primary}
-                />
-              </TouchableOpacity>
-              {selectedDay === dayIndex &&
-                  timeSlots.map((timeSlot, timeIndex) => {
-                    const classrooms = filteredClassrooms[dayIndex * timeSlots.length + timeIndex] || [];
-                    const rooms = groupClassrooms(classrooms);
-                    return (
-                        <View key={timeIndex} style={[styles.timeSlotContainer, {borderTopColor: theme.colors.border}]}>
-                          <Text style={[styles.timeSlotText, {color: theme.colors.primaryText}]}>
-                            {timeSlot}
-                          </Text>
-                          {classrooms.length === 0 ? (
-                              <Text style={[styles.noClassroomsText, {color: theme.colors.secondaryText}]}>
-                                {t("noEmptyClassroomsAvailable")}
-                              </Text>
-                          ) : (
-                              Object.entries(rooms).map(([building, rooms]) => (
-                                  <View key={building} style={[styles.buildingSection, {backgroundColor: theme.colors.background}]}>
-                                    <Text style={[styles.buildingText, {color: theme.colors.primaryText}]}>
-                                      {building}
-                                    </Text>
-                                    <Text style={[styles.roomsText, {color: theme.colors.secondaryText}]}>
-                                      {rooms.join(' • ')}
-                                    </Text>
-                                  </View>
-                              ))
-                          )}
-                        </View>
-                    );
-                  })
-              }
-            </View>
-        ))}
-      </ScrollView>
+    <ScrollView
+        ref={scrollViewRef}
+        style={[styles.container, {backgroundColor: theme.colors.background}]}
+        contentContainerStyle={{paddingBottom: 100}}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}
+    >
+      <SearchBar
+          value={search}
+          onChangeText={setSearch}
+          placeholder={t("search...")}
+          style={styles.searchBar}
+      />
+      {days.map((day, dayIndex) => (
+        <View key={dayIndex} style={[styles.dayContainer, {backgroundColor: theme.colors.surface}]}>
+          <TouchableOpacity
+              onPress={() => setSelectedDay(selectedDay === dayIndex ? null : dayIndex)}
+              style={styles.dayHeader}
+          >
+            <Text style={[styles.dayText, {color: theme.colors.primaryText}]}>
+              {day}
+            </Text>
+            <Icon
+                name={selectedDay === dayIndex ? 'expand-less' : 'expand-more'}
+                size={24}
+                color={theme.colors.primary}
+            />
+          </TouchableOpacity>
+          {selectedDay === dayIndex &&
+            timeSlots.map((timeSlot, timeIndex) => {
+              const classrooms = filteredClassrooms[dayIndex * timeSlots.length + timeIndex] || [];
+              const rooms = groupClassrooms(classrooms);
+              return (
+                <View key={timeIndex} onLayout={(event) => {
+                  const layout = event.nativeEvent.layout;
+                  setYValues(prevYValues => {
+                    const newYValues = [...prevYValues];
+                    newYValues[dayIndex * timeSlots.length + timeIndex] = layout.y;
+                    return newYValues;
+                  });
+                }} style={[styles.timeSlotContainer, {borderTopColor: theme.colors.border}]}>
+                  <Text style={[styles.timeSlotText, {color: theme.colors.primaryText}]}>
+                    {timeSlot}
+                  </Text>
+                  {classrooms.length === 0 ? (
+                    <Text style={[styles.noClassroomsText, {color: theme.colors.secondaryText}]}>
+                      {t("noEmptyClassroomsAvailable")}
+                    </Text>
+                  ) : (
+                    Object.entries(rooms).map(([building, rooms]) => (
+                      <View key={building} style={[styles.buildingSection, {backgroundColor: theme.colors.background}]}>
+                        <Text style={[styles.buildingText, {color: theme.colors.primaryText}]}>
+                          {building}
+                        </Text>
+                        <Text style={[styles.roomsText, {color: theme.colors.secondaryText}]}>
+                          {rooms.join(' • ')}
+                        </Text>
+                      </View>
+                    ))
+                  )}
+                </View>
+              );
+            })
+          }
+        </View>
+      ))}
+    </ScrollView>
   );
 }
 

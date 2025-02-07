@@ -7,6 +7,10 @@ import StudentInfo from "./StudentInfo";
 import StudentLessonSections from "./StudentLessonSections";
 import StudentTimetable from "./StudentTimetable";
 import {resetStartToTargetScreen} from "../../utils/NavigationUtils";
+import HeaderButton from '../../components/HeaderButton';
+import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
+import {faStar as faStarSolid} from "@fortawesome/free-solid-svg-icons";
+import {faStar as faStarRegular} from "@fortawesome/free-regular-svg-icons";
 
 const StudentDetail = ({navigation, route}) => {
   const {t} = useTranslation();
@@ -28,6 +32,7 @@ const StudentDetail = ({navigation, route}) => {
         time: "",
       }],
     }],
+    is_favorite: false,
   });
   const [loadingError, setLoadingError] = useState(false);
 
@@ -46,7 +51,21 @@ const StudentDetail = ({navigation, route}) => {
   useEffect(() => {
     load();
     resetStartToTargetScreen(navigation, "StudentList");
-  }, [route.params]);
+    navigation.setOptions({
+      headerRight: () => (
+        <HeaderButton
+          onPress={toggleFavorite}
+          icon={
+            <FontAwesomeIcon
+              icon={studentInfo.is_favorite ? faStarSolid : faStarRegular}
+              size={24}
+              color={studentInfo.is_favorite ? "#FFD700" : "#808080"}
+            />
+          }
+        />
+      ),
+    });
+  }, [route.params, navigation, t, studentInfo.is_favorite]);
 
   const load = () => {
     setLoading(true);
@@ -66,6 +85,26 @@ const StudentDetail = ({navigation, route}) => {
         setLoadingError(true);
       });
   }
+
+  const toggleFavorite = () => {
+    const endpoint = studentInfo.is_favorite ? "api/remove-favorite-student/" : "api/favorite-student/";
+    const payload = {
+      student_id: route.params.studentId,
+    };
+
+    backend.post(endpoint, payload)
+      .then(() => {
+        setStudentInfo((prev) => {
+          return {
+            ...prev,
+            is_favorite: !prev.is_favorite,
+          };
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
   if (loading) return <Loading loadingError={loadingError} onRetry={load} />;
 

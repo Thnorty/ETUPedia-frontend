@@ -1,24 +1,23 @@
-import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useTheme} from '../utils/Theme';
 
-const HeaderButton = ({onPress, text}) => {
+const HeaderButton = ({onPress, text, icon}) => {
   const theme = useTheme();
 
   return (
-      <TouchableOpacity
-          onPress={onPress}
-          style={[
-            styles.button,
-            {
-              backgroundColor: theme.colors.surface,
-              borderColor: theme.colors.border,
-            },
-          ]}
-      >
-        <Text style={[styles.text, {color: theme.colors.primaryText}]}>
-          {text}
-        </Text>
-      </TouchableOpacity>
+    <TouchableOpacity
+      onPress={onPress}
+      style={[
+        styles.button,
+        {
+          backgroundColor: theme.colors.surface,
+          borderColor: theme.colors.border,
+        },
+      ]}
+    >
+      {icon && <View style={text ? {marginRight: 8} : {}}>{icon}</View>}
+      {text && <Text style={[styles.text, {color: theme.colors.primaryText}]}>{text}</Text>}
+    </TouchableOpacity>
   );
 };
 

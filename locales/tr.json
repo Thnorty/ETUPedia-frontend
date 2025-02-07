@@ -106,5 +106,8 @@
   "invalidStudentEmailMessage": "Lütfen girdiğiniz e-posta adresinin doğru olduğundan emin olun ve tekrar deneyin.",
   "successStudentEmailCheck": "Doğrulama başarılı!",
   "successStudentEmailCheckMessage": "Giriş sayfasına yönlendirileceksiniz. Artık e-postanız ve şifrenizle normal şekilde giriş yapabilirsiniz.",
-  "notAvailable": "Mevcut Değil"
+  "notAvailable": "Mevcut Değil",
+  "facultyOfArchitectureAndDesignBuilding": "Mimarlık ve Tasarım Fakültesi Binası",
+  "noValidEmail": "Geçerli e-posta adresi bulunamadı.",
+  "noValidEmailMessage": "Hesabınızda geçerli bir e-posta adresi bulamadık."
 }

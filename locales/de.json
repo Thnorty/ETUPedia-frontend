@@ -106,5 +106,8 @@
   "invalidStudentEmailMessage": "Bitte überprüfen Sie, ob die von Ihnen eingegebene E-Mail-Adresse korrekt ist, und versuchen Sie es erneut.",
   "successStudentEmailCheck": "Überprüfung erfolgreich!",
   "successStudentEmailCheckMessage": "Du wirst auf die Login-Seite weitergeleitet. Du kannst dich nun wie gewohnt mit deiner E-Mail und deinem Passwort anmelden.",
-  "notAvailable": "Nicht verfügbar"
+  "notAvailable": "Nicht verfügbar",
+  "facultyOfArchitectureAndDesignBuilding": "Gebäude der Fakultät für Architektur und Design",
+  "noValidEmail": "Keine gültige E-Mail-Adresse gefunden.",
+  "noValidEmailMessage": "Wir konnten in Ihrem Konto keine gültige E-Mail-Adresse finden."
 }
