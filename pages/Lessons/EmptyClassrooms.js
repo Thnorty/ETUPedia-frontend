@@ -7,7 +7,6 @@ import {
   ScrollView,
   RefreshControl,
   TouchableOpacity,
-  Dimensions,
 } from 'react-native';
 import {useState, useEffect, useRef} from 'react';
 import {useTranslation} from 'react-i18next';
@@ -81,12 +80,14 @@ const EmptyClassrooms = () => {
   );
 
   const navigateToCurrentDayAndHour = () => {
-    const currentDayIndex = new Date().getDay() - 1;
+    const day = new Date().getDay();
+    const currentDayIndex = day === 0 ? 6 : day - 1;
     const currentHour = new Date().getHours();
-    const currentTimeSlotIndex = timeSlots.findIndex(slot => {
+    let currentTimeSlotIndex = timeSlots.findIndex(slot => {
       const [startHour] = slot.split(' - ')[0].split(':');
       return parseInt(startHour) <= currentHour && currentHour < parseInt(startHour) + 1;
     });
+    currentTimeSlotIndex = currentTimeSlotIndex === -1 ? 0 : currentTimeSlotIndex;
 
     setSelectedDay(currentDayIndex);
     const index = currentDayIndex * timeSlots.length + currentTimeSlotIndex;
@@ -103,7 +104,7 @@ const EmptyClassrooms = () => {
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <HeaderButton onPress={navigateToCurrentDayAndHour} text={t("Go to current time")} />
+        <HeaderButton onPress={navigateToCurrentDayAndHour} text={t("goToCurrentTime")} />
       ),
     });
   }, [navigation, t, navigateToCurrentDayAndHour]);
@@ -145,11 +146,13 @@ const EmptyClassrooms = () => {
               return (
                 <View key={timeIndex} onLayout={(event) => {
                   const layout = event.nativeEvent.layout;
-                  setYValues(prevYValues => {
-                    const newYValues = [...prevYValues];
-                    newYValues[dayIndex * timeSlots.length + timeIndex] = layout.y;
-                    return newYValues;
-                  });
+                  if (yValues[dayIndex * timeSlots.length + timeIndex] === 0) {
+                    setYValues(prevYValues => {
+                      const newYValues = [...prevYValues];
+                      newYValues[dayIndex * timeSlots.length + timeIndex] = layout.y;
+                      return newYValues;
+                    });
+                  }
                 }} style={[styles.timeSlotContainer, {borderTopColor: theme.colors.border}]}>
                   <Text style={[styles.timeSlotText, {color: theme.colors.primaryText}]}>
                     {timeSlot}

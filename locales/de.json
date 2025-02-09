@@ -109,5 +109,6 @@
   "notAvailable": "Nicht verfügbar",
   "facultyOfArchitectureAndDesignBuilding": "Gebäude der Fakultät für Architektur und Design",
   "noValidEmail": "Keine gültige E-Mail-Adresse gefunden.",
-  "noValidEmailMessage": "Wir konnten in Ihrem Konto keine gültige E-Mail-Adresse finden."
+  "noValidEmailMessage": "Wir konnten in Ihrem Konto keine gültige E-Mail-Adresse finden.",
+  "goToCurrentTime": "Zur aktuellen Zeit gehen"
 }

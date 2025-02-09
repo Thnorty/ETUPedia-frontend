@@ -109,5 +109,6 @@
   "notAvailable": "Not Available",
   "facultyOfArchitectureAndDesignBuilding": "Faculty of Architecture and Design Building",
   "noValidEmail": "No valid email address found.",
-  "noValidEmailMessage": "We couldn't find a valid email address in your account."
+  "noValidEmailMessage": "We couldn't find a valid email address in your account.",
+  "goToCurrentTime": "Go to current time"
 }
