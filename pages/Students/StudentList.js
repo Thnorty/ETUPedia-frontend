@@ -16,6 +16,7 @@ import ProfileIcon from "../../components/ProfileIcon";
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faStar as faStarSolid} from "@fortawesome/free-solid-svg-icons";
 import {faStar as faStarRegular} from "@fortawesome/free-regular-svg-icons";
+import {customFilter} from '../../utils/SearchUtils';
 
 const StudentList = ({navigation}) => {
   const {t} = useTranslation();
@@ -50,7 +51,7 @@ const StudentList = ({navigation}) => {
   useEffect(() => {
     setFilteredStudentList(
       studentList.filter(student =>
-        `${student.name} ${student.surname} ${student.id}`.toLowerCase().includes(search.toLowerCase())
+        customFilter(`${student.name} ${student.surname} ${student.id}`, search)
       )
     );
   }, [theme, search, studentList]);
@@ -104,8 +105,8 @@ const StudentList = ({navigation}) => {
                 <View style={styles.emptyContainer}>
                   <Text style={[styles.emptyText, {color: theme.colors.secondaryText}]}>
                     {showOnlyFavorites
-                        ? t("No favorite students found")
-                        : t("No students found")}
+                        ? t("noFavoriteStudentsFound")
+                        : t("noStudentsFound")}
                   </Text>
                 </View>
               }

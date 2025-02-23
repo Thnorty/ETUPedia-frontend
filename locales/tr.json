@@ -110,5 +110,9 @@
   "facultyOfArchitectureAndDesignBuilding": "Mimarlık ve Tasarım Fakültesi Binası",
   "noValidEmail": "Geçerli e-posta adresi bulunamadı.",
   "noValidEmailMessage": "Hesabınızda geçerli bir e-posta adresi bulamadık.",
-  "goToCurrentTime": "Mevcut zamana git"
+  "goToCurrentTime": "Mevcut zamana git",
+  "noStudentsFound": "Öğrenci bulunamadı.",
+  "noFavoriteStudentsFound": "Favori öğrenci bulunamadı.",
+  "noTeachersFound": "Öğretmen bulunamadı.",
+  "noLessonsFound": "Ders bulunamadı."
 }

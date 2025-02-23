@@ -4,6 +4,7 @@ import {memo, useState, useEffect} from "react";
 import {FlashList} from "@shopify/flash-list";
 import {useTheme} from "../../utils/Theme";
 import SearchBar from "../../components/SearchBar";
+import {customFilter} from '../../utils/SearchUtils';
 
 const LessonSections = (props) => {
   const {t} = useTranslation();
@@ -14,10 +15,10 @@ const LessonSections = (props) => {
   useEffect(() => {
     setFilteredSectionList(
       props.lessonSections.filter(section =>
-        section.lesson_section_teacher.toLowerCase().includes(search.toLowerCase()) ||
-        section.lesson_section_number.toString().toLowerCase().includes(search.toLowerCase()) ||
-        props.lessonInfo.lesson_code.toLowerCase().includes(search.toLowerCase()) ||
-        props.lessonInfo.lesson_name.toLowerCase().includes(search.toLowerCase())
+        customFilter(section.lesson_section_teacher.toString(), search) ||
+        customFilter(section.lesson_section_number.toString(), search) ||
+        customFilter(props.lessonInfo.lesson_code.toString(), search) ||
+        customFilter(props.lessonInfo.lesson_name.toString(), search)
       )
     );
   }, [theme, search, props.students]);

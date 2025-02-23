@@ -14,6 +14,7 @@ import {faEllipsisVertical, faHeart, faPen} from "@fortawesome/free-solid-svg-ic
 import {faHeart as faHeartO, faComment} from "@fortawesome/free-regular-svg-icons";
 import {showPostOptions, EditPostModal, DeletePostAlert} from "./PostOptions";
 import Picker from "../../components/Picker";
+import {customFilter} from '../../utils/SearchUtils';
 
 const PostList = ({navigation}) => {
   const {t} = useTranslation();
@@ -52,8 +53,8 @@ const PostList = ({navigation}) => {
   useEffect(() => {
     setFilteredPostList(
       postList.filter(post =>
-        (post.title.toLowerCase().includes(search.toLowerCase()) ||
-        post.content.toLowerCase().includes(search.toLowerCase())) &&
+        (customFilter(post.title, search) ||
+        customFilter(post.content, search)) &&
         (selectedTopics.length === 0 || selectedTopics.includes(t(post.topic.name)))
       )
     );
@@ -194,7 +195,9 @@ const PostList = ({navigation}) => {
           </View>
         }
         ListEmptyComponent={
-          <Text style={[styles.noPosts, {color: theme.colors.secondaryText}]}>{t("noPosts")}</Text>
+          <View style={styles.emptyContainer}>
+            <Text style={[styles.emptyText, {color: theme.colors.secondaryText}]}>{t("noPosts")}</Text>
+          </View>
         }
       />
       <TouchableOpacity style={[styles.createPostButton, {backgroundColor: theme.colors.primary}]} onPress={() => setIsPostCreateModalOpen(true)}>
@@ -245,10 +248,15 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginBottom: 10,
   },
-  noPosts: {
+  emptyContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: 50,
+  },
+  emptyText: {
     fontSize: 16,
-    textAlign: "center",
-    marginTop: 20,
+    textAlign: 'center',
   },
   postTopic: {
     fontSize: 14,

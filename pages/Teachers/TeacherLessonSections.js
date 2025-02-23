@@ -14,9 +14,9 @@ const TeacherLessonSections = (props) => {
   useEffect(() => {
     setFilteredLessonList(
       props.lesson_sections.filter(lesson_section =>
-        lesson_section.lesson_code.toString().toLowerCase().includes(search.toLowerCase()) ||
-        lesson_section.lesson_name.toString().toLowerCase().includes(search.toLowerCase()) ||
-        lesson_section.lesson_section_number.toString().toLowerCase().includes(search.toLowerCase())
+        customFilter(lesson_section.lesson_code.toString(), search) ||
+        customFilter(lesson_section.lesson_name.toString(), search) ||
+        customFilter(lesson_section.lesson_section_number.toString(), search)
       )
     );
   }, [theme, search, props.lesson_sections]);

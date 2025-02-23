@@ -6,6 +6,7 @@ import Loading from "../../components/Loading";
 import {FlashList} from "@shopify/flash-list";
 import {useTheme} from "../../utils/Theme";
 import SearchBar from "../../components/SearchBar";
+import {customFilter} from '../../utils/SearchUtils';
 
 const TeacherList = ({navigation}) => {
   const {t} = useTranslation();
@@ -36,7 +37,7 @@ const TeacherList = ({navigation}) => {
   useEffect(() => {
     setFilteredTeacherList(
       teacherList.filter(teacher =>
-        `${teacher.name} ${teacher.surname}`.toLowerCase().includes(search.toLowerCase())
+        customFilter(`${teacher.name} ${teacher.surname}`, search)
       )
     );
   }, [theme, search, teacherList]);
@@ -59,6 +60,13 @@ const TeacherList = ({navigation}) => {
       <FlashList
         contentContainerStyle={{paddingBottom: 100}}
         data={filteredTeacherList}
+        ListEmptyComponent={
+          <View style={styles.emptyContainer}>
+            <Text style={[styles.emptyText, {color: theme.colors.secondaryText}]}>
+              {t('noTeachersFound')}
+            </Text>
+          </View>
+        }
         renderItem={({ item, index }) =>
           <>
             {index === 0 && (
@@ -80,6 +88,16 @@ const TeacherList = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  emptyContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: 50,
+  },
+  emptyText: {
+    fontSize: 16,
+    textAlign: 'center',
   },
   item: {
     padding: 16,

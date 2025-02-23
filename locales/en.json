@@ -110,5 +110,9 @@
   "facultyOfArchitectureAndDesignBuilding": "Faculty of Architecture and Design Building",
   "noValidEmail": "No valid email address found.",
   "noValidEmailMessage": "We couldn't find a valid email address in your account.",
-  "goToCurrentTime": "Go to current time"
+  "goToCurrentTime": "Go to current time",
+  "noStudentsFound": "No students found.",
+  "noFavoriteStudentsFound": "No favorite students found.",
+  "noTeachersFound": "No teachers found.",
+  "noLessonsFound": "No lessons found."
 }

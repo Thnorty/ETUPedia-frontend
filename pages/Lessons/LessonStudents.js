@@ -6,6 +6,7 @@ import {useTheme} from "../../utils/Theme";
 import SearchBar from "../../components/SearchBar";
 import ProfileIcon from "../../components/ProfileIcon";
 import MultiSelect from '../../components/MultiSelect';
+import {customFilter} from '../../utils/SearchUtils';
 
 const LessonStudents = (props) => {
   const {t} = useTranslation();
@@ -16,10 +17,9 @@ const LessonStudents = (props) => {
 
   useEffect(() => {
     setFilteredStudentList(props.students.filter(student =>
-        (selectedSections.length === 0 || selectedSections.includes(student.lesson_section_number)) &&
-        (`${student.name} ${student.surname}`.toLowerCase().includes(search.toLowerCase()) ||
-        student.id.toString().toLowerCase().includes(search.toLowerCase())))
-    );
+      (selectedSections.length === 0 || selectedSections.includes(student.lesson_section_number)) &&
+      (customFilter(`${student.name} ${student.surname} ${student.id}`, search))
+    ));
   }, [theme, search, selectedSections, props.students]);
 
   const StudentItem = memo(({ item, navigation }) => (

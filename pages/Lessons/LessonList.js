@@ -1,11 +1,12 @@
 import {useTranslation} from "react-i18next";
 import backend from "../../utils/Backend";
-import {memo, useEffect, useState} from "react";
+import React, {memo, useEffect, useState} from "react";
 import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import Loading from "../../components/Loading";
 import {FlashList} from "@shopify/flash-list";
 import {useTheme} from "../../utils/Theme";
 import SearchBar from "../../components/SearchBar";
+import {customFilter} from '../../utils/SearchUtils';
 
 const LessonList = ({navigation}) => {
   const {t} = useTranslation();
@@ -36,7 +37,7 @@ const LessonList = ({navigation}) => {
   useEffect(() => {
     setFilteredLessonList(
       lessonList.filter(lesson =>
-        `${lesson.name} ${lesson.lesson_code}`.toLowerCase().includes(search.toLowerCase())
+        customFilter(`${lesson.name} ${lesson.lesson_code}`, search)
       )
     );
   }, [theme, search, lessonList]);
@@ -60,6 +61,13 @@ const LessonList = ({navigation}) => {
       <FlashList
         contentContainerStyle={{paddingBottom: 100}}
         data={filteredLessonList}
+        ListEmptyComponent={
+          <View style={styles.emptyContainer}>
+            <Text style={[styles.emptyText, {color: theme.colors.secondaryText}]}>
+              {t('noLessonsFound')}
+            </Text>
+          </View>
+        }
         renderItem={({ item, index }) =>
           <>
             {index === 0 && (
@@ -81,6 +89,16 @@ const LessonList = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  emptyContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: 50,
+  },
+  emptyText: {
+    fontSize: 16,
+    textAlign: 'center',
   },
   item: {
     padding: 16,
