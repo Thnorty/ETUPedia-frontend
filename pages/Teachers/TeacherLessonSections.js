@@ -4,6 +4,7 @@ import {memo, useState, useEffect} from "react";
 import {FlashList} from "@shopify/flash-list";
 import {useTheme} from "../../utils/Theme";
 import SearchBar from "../../components/SearchBar";
+import {customFilter} from '../../utils/SearchUtils';
 
 const TeacherLessonSections = (props) => {
   const {t} = useTranslation();
