@@ -1,5 +1,5 @@
 import {useTranslation} from "react-i18next";
-import {StyleSheet, View, TextInput, Image} from "react-native";
+import {StyleSheet, View, TextInput, Image, Text} from 'react-native';
 import {useState, useRef} from "react";
 import Button from "../../components/Button";
 import backend, {setAxiosToken} from "../../utils/Backend";
@@ -67,6 +67,9 @@ const LoginPage = (props) => {
         setIsOpen={setIsErrorAlertOpen}
       />
       <Image source={etupediaIcon} style={{width: 140, height: 140, marginBottom: 40, borderRadius: 16}} />
+      <Text style={[styles.instructionText, {color: theme.colors.primaryText}]}>
+        {t("useYourETUMailAndPasswordToLogIn")}
+      </Text>
       <TextInput
         placeholder={t("email")}
         value={email}
@@ -107,6 +110,11 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     marginBottom: 12,
     padding: 10,
+  },
+  instructionText: {
+    marginBottom: 16,
+    textAlign: 'center',
+    width: 300,
   }
 });
 

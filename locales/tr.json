@@ -114,5 +114,6 @@
   "noStudentsFound": "Öğrenci bulunamadı.",
   "noFavoriteStudentsFound": "Favori öğrenci bulunamadı.",
   "noTeachersFound": "Öğretmen bulunamadı.",
-  "noLessonsFound": "Ders bulunamadı."
+  "noLessonsFound": "Ders bulunamadı.",
+  "useYourETUMailAndPasswordToLogIn": "Giriş yapmak için ETÜ e-postanızı ve şifrenizi kullanın."
 }
